@@ -42,8 +42,6 @@ type
     Label1: TLabel;
     ProgressBar1: TProgressBar;
     ListBox1: TListBox;
-    ListBoxItem1: TListBoxItem;
-    ProgressBar2: TProgressBar;
     Button2: TButton;
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
