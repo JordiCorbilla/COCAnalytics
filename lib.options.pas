@@ -25,66 +25,65 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-unit frmMain;
+unit lib.options;
 
 interface
 
 uses
-  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
-  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.StdCtrls,
-  FMX.Edit, FMX.Controls.Presentation, lib.coc.api.rest;
+  System.classes, SysUtils;
 
 type
-  TForm1 = class(TForm)
-    Button1: TButton;
-    Edit1: TEdit;
-    Label1: TLabel;
-    ProgressBar1: TProgressBar;
-    procedure Button1Click(Sender: TObject);
-  private
-    { Private declarations }
-  public
-    { Public declarations }
+  IOptions = interface
+    function Load() : IOptions;
+    procedure SetCOCToken(const Value: string);
+    function GetCOCToken() : string;
+    property COCToken : string read GetCOCToken write SetCOCToken;
   end;
 
-var
-  Form1: TForm1;
+  TOptions = class(TInterfacedObject, IOptions)
+  private
+    FCOCToken: string;
+    procedure SetCOCToken(const Value: string);
+    function GetCOCToken() : string;
+  public
+    property COCToken : string read GetCOCToken write SetCOCToken;
+    class function New(): IOptions;
+    function Load() : IOptions;
+  end;
 
 implementation
 
 uses
-  System.JSON, Data.DBXJSONCommon;
+  inifiles;
 
-{$R *.fmx}
+{ TOptions }
 
-procedure TForm1.Button1Click(Sender: TObject);
-var
-  jsonResponse : string;
-  json: TJSONObject;
-  achievements: TJSONArray;
-  troops: TJSONArray;
-  heroes: TJSONArray;
-  spells: TJSONArray;
-  versusBattleWinCount : TJSONString;
+function TOptions.GetCOCToken: string;
 begin
-  //Get the JSON value from COC API.
-  if edit1.Text = '' then
-  begin
-    showMessage('Please enter your COC User Hash tag -> #AAABBBCCC');
-    exit;
-  end;
-  jsonResponse := TCOCApiRest.New.GetUserInfo(edit1.Text);
-  //Parse the JSON and get the whole list of objects.
-  json := TJSONObject.ParseJSONValue(jsonResponse) as TJSONObject;
+  result := FCOCToken;
+end;
+
+function TOptions.Load : IOptions;
+var
+  inifile : Tinifile;
+begin
+  inifile := TInifile.Create(ExtractFilePath(ParamStr(0)) + 'COCAnalytics.ini');
   try
-    versusBattleWinCount := json.Get('versusBattleWinCount').JsonValue as TJSONString;
-    achievements := json.Get('achievements').JsonValue as TJSONArray;
-    troops := json.Get('troops').JsonValue as TJSONArray;
-    heroes := json.Get('heroes').JsonValue as TJSONArray;
-    spells := json.Get('spells').JsonValue as TJSONArray;
+    FCOCToken := inifile.ReadString('COC', 'token', '');
   finally
-    json.Free;
+    inifile.Free;
   end;
+  result := self;
+end;
+
+class function TOptions.New: IOptions;
+begin
+  result := Create;
+end;
+
+procedure TOptions.SetCOCToken(const Value: string);
+begin
+  FCOCToken := Value;
 end;
 
 end.

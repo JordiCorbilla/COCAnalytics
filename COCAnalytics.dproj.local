@@ -1,9 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <BorlandProject>
-  <Transactions>
-    <Transaction>2017/05/28 22:00:16.688,=C:\Users\thund\OneDrive\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
-    <Transaction>2017/05/28 22:00:52.862,C:\Users\thund\Source\Repos\COCAnalytics\frmMain.pas=C:\Users\thund\OneDrive\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
-    <Transaction>2017/05/28 22:00:52.862,C:\Users\thund\Source\Repos\COCAnalytics\frmMain.fmx=C:\Users\thund\OneDrive\Documents\Embarcadero\Studio\Projects\Unit1.fmx</Transaction>
-    <Transaction>2017/05/28 22:00:59.749,C:\Users\thund\Source\Repos\COCAnalytics\COCAnalytics.dproj=C:\Users\thund\OneDrive\Documents\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
+	<Transactions>
+    <Transaction>2017/05/28 22:00:16.000.688,=C:\Users\thund\OneDrive\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2017/05/28 22:00:52.000.862,C:\Users\thund\OneDrive\Documents\Embarcadero\Studio\Projects\Unit1.fmx=C:\Users\thund\Source\Repos\COCAnalytics\frmMain.fmx</Transaction>
+    <Transaction>2017/05/28 22:00:52.000.862,C:\Users\thund\OneDrive\Documents\Embarcadero\Studio\Projects\Unit1.pas=C:\Users\thund\Source\Repos\COCAnalytics\frmMain.pas</Transaction>
+    <Transaction>2017/05/28 22:00:59.000.749,C:\Users\thund\OneDrive\Documents\Embarcadero\Studio\Projects\Project1.dproj=C:\Users\thund\Source\Repos\COCAnalytics\COCAnalytics.dproj</Transaction>
+    <Transaction>2017/05/28 22:08:28.000.254,=C:\Users\thund\Source\Repos\COCAnalytics\lib.coc.api.rest.pas</Transaction>
+    <Transaction>2017/05/28 22:08:28.000.274,=C:\Users\thund\Source\Repos\COCAnalytics\lib.options.pas</Transaction>
   </Transactions>
 </BorlandProject>
