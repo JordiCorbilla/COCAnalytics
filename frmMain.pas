@@ -32,7 +32,8 @@ interface
 uses
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.StdCtrls,
-  FMX.Edit, FMX.Controls.Presentation, lib.coc.api.rest;
+  FMX.Edit, FMX.Controls.Presentation, lib.coc.api.rest, FMX.ListBox,
+  FMX.Layouts;
 
 type
   TForm1 = class(TForm)
@@ -40,7 +41,12 @@ type
     Edit1: TEdit;
     Label1: TLabel;
     ProgressBar1: TProgressBar;
+    ListBox1: TListBox;
+    ListBoxItem1: TListBoxItem;
+    ProgressBar2: TProgressBar;
+    Button2: TButton;
     procedure Button1Click(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -85,6 +91,19 @@ begin
   finally
     json.Free;
   end;
+end;
+
+procedure TForm1.Button2Click(Sender: TObject);
+var
+  l1: TListBoxItem;
+  p1: TProgressBar;
+begin
+  l1 := TListBoxItem.Create(ListBox1);
+  l1.Parent := ListBox1;
+  l1.Text := 'potato';
+  p1 := TProgressBar.Create(l1);
+  p1.Parent := l1;
+  p1.Align := TAlignLayout.Right;
 end;
 
 end.
