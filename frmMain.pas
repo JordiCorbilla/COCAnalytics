@@ -37,26 +37,40 @@ uses
   FireDAC.UI.Intf, FireDAC.Phys.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool,
   FireDAC.Stan.Async, FireDAC.Phys, FireDAC.Phys.MSSQL, FireDAC.Phys.MSSQLDef,
   FireDAC.FMXUI.Wait, FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf,
-  FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client;
+  FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
+  FMX.ScrollBox, FMX.Memo, FMX.ListView.Types, FMX.ListView.Appearances,
+  FMX.ListView.Adapters.Base, System.Rtti, FMX.Grid.Style, FMX.Grid,
+  FMX.ListView;
 
 type
   TForm1 = class(TForm)
     Button1: TButton;
     Edit1: TEdit;
     Label1: TLabel;
-    ProgressBar1: TProgressBar;
-    ListBox1: TListBox;
-    Button2: TButton;
+    ListHeroes: TListBox;
     FDConnection1: TFDConnection;
     FDQuery1: TFDQuery;
     Button3: TButton;
+    Button4: TButton;
+    Memo1: TMemo;
+    Grid1: TGrid;
+    Column1: TColumn;
+    Column2: TColumn;
+    Column3: TColumn;
+    StyleBook1: TStyleBook;
+    Label2: TLabel;
+    Label3: TLabel;
+    ListTroops: TListBox;
+    Label4: TLabel;
+    ListSpells: TListBox;
     procedure Button1Click(Sender: TObject);
-    procedure Button2Click(Sender: TObject);
     procedure Button3Click(Sender: TObject);
+    procedure Button4Click(Sender: TObject);
   private
     { Private declarations }
   public
     document : string;
+    procedure AddItem(list: TListBox; name : string; level : integer; maxLevel : integer);
   end;
 
 var
@@ -65,9 +79,24 @@ var
 implementation
 
 uses
-  System.JSON, Data.DBXJSONCommon;
+  System.JSON, Data.DBXJSONCommon, lib.coc.json.parse;
 
 {$R *.fmx}
+
+procedure TForm1.AddItem(list: TListBox; name: string; level, maxLevel: integer);
+var
+  l1: TListBoxItem;
+  p1: TProgressBar;
+begin
+  l1 := TListBoxItem.Create(list);
+  l1.Parent := list;
+  l1.Text := name;
+  p1 := TProgressBar.Create(l1);
+  p1.Parent := l1;
+  p1.Value := level;
+  p1.Max := maxLevel;
+  p1.Align := TAlignLayout.Right;
+end;
 
 procedure TForm1.Button1Click(Sender: TObject);
 var
@@ -100,26 +129,65 @@ begin
   end;
 end;
 
-procedure TForm1.Button2Click(Sender: TObject);
-var
-  l1: TListBoxItem;
-  p1: TProgressBar;
-begin
-  l1 := TListBoxItem.Create(ListBox1);
-  l1.Parent := ListBox1;
-  l1.Text := 'potato';
-  p1 := TProgressBar.Create(l1);
-  p1.Parent := l1;
-  p1.Align := TAlignLayout.Right;
-end;
+//procedure TForm1.Button2Click(Sender: TObject);
+//var
+//  l1: TListBoxItem;
+//  p1: TProgressBar;
+//begin
+//  l1 := TListBoxItem.Create(ListBox1);
+//  l1.Parent := ListBox1;
+//  l1.Text := 'potato';
+//  p1 := TProgressBar.Create(l1);
+//  p1.Parent := l1;
+//  p1.Align := TAlignLayout.Right;
+//end;
 
 procedure TForm1.Button3Click(Sender: TObject);
 begin
   FDConnection1.Open();
   FDQuery1.SQL.Text := 'INSERT INTO Analytics (Document) VALUES (:Document)';
   FDQuery1.ParamByName('Document').AsWideMemo := document;
-  // you will have to define parameters for each column
   FDQuery1.ExecSQL;
+  FDConnection1.Close();
+end;
+
+procedure TForm1.Button4Click(Sender: TObject);
+var
+  jsonDocument : string;
+  COC : TCOC;
+  i: Integer;
+begin
+  FDConnection1.Open();
+  //Get two items to compare.
+  FDQuery1.SQL.Text := 'select top 2 Document, Created from Analytics order by Created desc'; //Just get the latest
+  FDQuery1.Open;
+
+  while not FdQuery1.Eof do
+  begin
+    jsonDocument :=  FdQuery1.FieldByName('Document').AsString;
+    FdQuery1.Next;
+  end;
+
+  COC := TCOC.Create();
+  COC.Load(jsonDocument);
+
+  for i := 0 to COC.Heroes.count-1 do
+  begin
+    AddItem(ListHeroes, COC.Heroes[i].GetLabel(), COC.Heroes[i].Level, COC.Heroes[i].MaxLevel);
+  end;
+
+  for i := 0 to COC.Troops.count-1 do
+  begin
+    AddItem(ListTroops, COC.Troops[i].GetLabel(), COC.Troops[i].Level, COC.Troops[i].MaxLevel);
+  end;
+
+  for i := 0 to COC.Spells.count-1 do
+  begin
+    AddItem(ListSpells, COC.Spells[i].GetLabel(), COC.Spells[i].Level, COC.Spells[i].MaxLevel);
+  end;
+
+  memo1.Lines.Add(jsonDocument);
+  FDConnection1.Close();
 end;
 
 end.

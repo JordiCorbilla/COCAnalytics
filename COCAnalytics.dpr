@@ -32,7 +32,10 @@ uses
   FMX.Forms,
   frmMain in 'frmMain.pas' {Form1},
   lib.coc.api.rest in 'lib.coc.api.rest.pas',
-  lib.options in 'lib.options.pas';
+  lib.options in 'lib.options.pas',
+  lib.coc.json.parse in 'lib.coc.json.parse.pas',
+  lib.coc.detail in 'lib.coc.detail.pas',
+  lib.coc.achievement in 'lib.coc.achievement.pas';
 
 {$R *.res}
 
