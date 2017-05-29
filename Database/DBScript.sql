@@ -1,0 +1,9 @@
+IF NOT EXISTS (SELECT * FROM SYSOBJECTS WHERE ID = OBJECT_ID(N'dbo.Analytics'))
+Begin
+	Create table [dbo].Analytics (
+		Id INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+		Document NVARCHAR(MAX) NOT NULL,
+		[Timestamp] TIMESTAMP NOT NULL,
+		Created DATETIME NOT NULL CONSTRAINT DF_Analytics_Created DEFAULT GETUTCDATE()
+	)
+end

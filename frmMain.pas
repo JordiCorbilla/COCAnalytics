@@ -33,7 +33,11 @@ uses
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.StdCtrls,
   FMX.Edit, FMX.Controls.Presentation, lib.coc.api.rest, FMX.ListBox,
-  FMX.Layouts;
+  FMX.Layouts, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Error,
+  FireDAC.UI.Intf, FireDAC.Phys.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool,
+  FireDAC.Stan.Async, FireDAC.Phys, FireDAC.Phys.MSSQL, FireDAC.Phys.MSSQLDef,
+  FireDAC.FMXUI.Wait, FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf,
+  FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client;
 
 type
   TForm1 = class(TForm)
@@ -43,12 +47,16 @@ type
     ProgressBar1: TProgressBar;
     ListBox1: TListBox;
     Button2: TButton;
+    FDConnection1: TFDConnection;
+    FDQuery1: TFDQuery;
+    Button3: TButton;
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
+    procedure Button3Click(Sender: TObject);
   private
     { Private declarations }
   public
-    { Public declarations }
+    document : string;
   end;
 
 var
@@ -78,6 +86,7 @@ begin
     exit;
   end;
   jsonResponse := TCOCApiRest.New.GetUserInfo(edit1.Text);
+  document := jsonResponse;
   //Parse the JSON and get the whole list of objects.
   json := TJSONObject.ParseJSONValue(jsonResponse) as TJSONObject;
   try
@@ -102,6 +111,15 @@ begin
   p1 := TProgressBar.Create(l1);
   p1.Parent := l1;
   p1.Align := TAlignLayout.Right;
+end;
+
+procedure TForm1.Button3Click(Sender: TObject);
+begin
+  FDConnection1.Open();
+  FDQuery1.SQL.Text := 'INSERT INTO Analytics (Document) VALUES (:Document)';
+  FDQuery1.ParamByName('Document').AsWideMemo := document;
+  // you will have to define parameters for each column
+  FDQuery1.ExecSQL;
 end;
 
 end.

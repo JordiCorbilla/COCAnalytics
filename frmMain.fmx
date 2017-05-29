@@ -56,4 +56,33 @@ object Form1: TForm1
     Text = 'Button2'
     OnClick = Button2Click
   end
+  object Button3: TButton
+    Position.X = 296.000000000000000000
+    Position.Y = 120.000000000000000000
+    TabOrder = 10
+    Text = 'Button3'
+    OnClick = Button3Click
+  end
+  object FDConnection1: TFDConnection
+    Params.Strings = (
+      'Database=COCAnalytics'
+      'User_Name=webuser'
+      'Password=password'
+      'Server=localhost'
+      'DriverID=MSSQL')
+    Left = 592
+    Top = 144
+  end
+  object FDQuery1: TFDQuery
+    Connection = FDConnection1
+    SQL.Strings = (
+      'INSERT INTO Analytics (Document) VALUES (:f1)')
+    Left = 568
+    Top = 232
+    ParamData = <
+      item
+        Name = 'F1'
+        ParamType = ptInput
+      end>
+  end
 end
