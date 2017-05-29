@@ -25,23 +25,31 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-program COCAnalytics;
+unit lib.coc.comparer;
+
+interface
 
 uses
-  System.StartUpCopy,
-  FMX.Forms,
-  frmMain in 'frmMain.pas' {Form1},
-  lib.coc.api.rest in 'lib.coc.api.rest.pas',
-  lib.options in 'lib.options.pas',
-  lib.coc.json.parse in 'lib.coc.json.parse.pas',
-  lib.coc.detail in 'lib.coc.detail.pas',
-  lib.coc.achievement in 'lib.coc.achievement.pas',
-  lib.coc.comparer in 'lib.coc.comparer.pas';
+  Contnrs, Generics.Collections, Generics.defaults, lib.coc.detail;
 
-{$R *.res}
+type
+  TIDetailComparer = class(TComparer<IDetail>)
+  public
+    function Compare(const Left, Right: IDetail): Integer; override;
+  end;
 
+implementation
+
+{ TIDetailComparer }
+
+function TIDetailComparer.Compare(const Left, Right: IDetail): Integer;
+var
+  calcLeft : double;
+  calcRight : double;
 begin
-  Application.Initialize;
-  Application.CreateForm(TForm1, Form1);
-  Application.Run;
+  calcLeft := (Left.Level*100) / Left.MaxLevel;
+  calcRight := (Right.Level*100) / Right.MaxLevel;
+  Result := Round(calcRight) - Round(calcLeft);
+end;
+
 end.

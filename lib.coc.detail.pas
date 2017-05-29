@@ -100,8 +100,7 @@ var
 begin
   calc := (FLevel*100) / FMaxLevel;
   str(calc:10:2, calcRes);
-
-  result := FName + ' (' + trim(calcRes) + '%)';
+  result := FName + '. Level ' + Flevel.ToString() + ' out of '+FMaxLevel.ToString()+' (' + trim(calcRes) + '%)';
 end;
 
 function TDetail.GetLevel: integer;

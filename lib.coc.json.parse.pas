@@ -30,7 +30,8 @@ unit lib.coc.json.parse;
 interface
 
 uses
-  System.classes, SysUtils, lib.coc.detail, lib.coc.achievement, generics.collections, System.JSON, Data.DBXJSONCommon;
+  System.classes, SysUtils, lib.coc.detail, lib.coc.achievement, generics.collections, System.JSON, Data.DBXJSONCommon,
+  lib.coc.comparer;
 
 type
   TCOC = Class(TObject)
@@ -38,6 +39,7 @@ type
     FSpells: TList<IDetail>;
     FTroops: TList<IDetail>;
     FHeroes: TList<IDetail>;
+    IDetailComparer : TIDetailComparer;
     FAchievements: TList<IAchievement>;
     procedure SetAchievements(const Value: TList<IAchievement>);
     procedure SetHeroes(const Value: TList<IDetail>);
@@ -61,9 +63,10 @@ implementation
 
 constructor TCOC.Create;
 begin
-  FSpells := TList<IDetail>.Create();
-  FTroops := TList<IDetail>.Create();
-  FHeroes := TList<IDetail>.Create();
+  IDetailComparer := TIDetailComparer.Create;
+  FSpells := TList<IDetail>.Create(IDetailComparer);
+  FTroops := TList<IDetail>.Create(IDetailComparer);
+  FHeroes := TList<IDetail>.Create(IDetailComparer);
   FAchievements := TList<IAchievement>.Create();
 end;
 
@@ -116,12 +119,15 @@ begin
 
     troops := stream.Get('troops').JsonValue as TJSONArray;
     LoadDetail(FTroops, troops);
+    FTroops.Sort;
 
     heroes := stream.Get('heroes').JsonValue as TJSONArray;
     LoadDetail(FHeroes, heroes);
+    FHeroes.Sort;
 
     spells := stream.Get('spells').JsonValue as TJSONArray;
     LoadDetail(FSpells, spells);
+    FSpells.Sort;
 
   finally
     stream.Free;
