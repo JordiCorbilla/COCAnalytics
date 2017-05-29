@@ -63,9 +63,11 @@ type
     ListTroops: TListBox;
     Label4: TLabel;
     ListSpells: TListBox;
+    Button2: TButton;
     procedure Button1Click(Sender: TObject);
     procedure Button3Click(Sender: TObject);
     procedure Button4Click(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -79,7 +81,7 @@ var
 implementation
 
 uses
-  System.JSON, Data.DBXJSONCommon, lib.coc.json.parse;
+  System.JSON, Data.DBXJSONCommon, lib.coc.json.parse, lib.coc.basic;
 
 {$R *.fmx}
 
@@ -127,6 +129,23 @@ begin
   finally
     json.Free;
   end;
+end;
+
+procedure TForm1.Button2Click(Sender: TObject);
+var
+  rttiContext: TRttiContext;
+  rttiType: TRttiType;
+  rttiFields: TArray<TRttiField>;
+  myvar : integer;
+  basic : TBasic;
+begin
+  basic := Tbasic.Create();
+  basic.LoadValues(basic);
+//  rttiContext := TRttiContext.Create;
+//  rttiType := rttiContext.GetType(myvar);
+//  memo1.Lines.Add(rttitype.ToString);
+//  rttiType := rttiContext.GetType(document^);
+//  memo1.Lines.Add(rttitype.ToString);
 end;
 
 //procedure TForm1.Button2Click(Sender: TObject);

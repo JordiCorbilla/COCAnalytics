@@ -36,7 +36,8 @@ uses
   lib.coc.json.parse in 'lib.coc.json.parse.pas',
   lib.coc.detail in 'lib.coc.detail.pas',
   lib.coc.achievement in 'lib.coc.achievement.pas',
-  lib.coc.comparer in 'lib.coc.comparer.pas';
+  lib.coc.comparer in 'lib.coc.comparer.pas',
+  lib.coc.basic in 'lib.coc.basic.pas';
 
 {$R *.res}
 

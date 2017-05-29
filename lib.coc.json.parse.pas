@@ -86,7 +86,6 @@ var
   troops: TJSONArray;
   heroes: TJSONArray;
   spells: TJSONArray;
-  versusBattleWinCount : TJSONString;
   size : integer;
   i : integer;
   temp: TJSONObject;
@@ -99,7 +98,7 @@ begin
 
   stream := TJSONObject.ParseJSONValue(json) as TJSONObject;
   try
-    //versusBattleWinCount := json.Get('versusBattleWinCount').JsonValue as TJSONString;
+    //VersusBattleWinCount := (stream.Get('versusBattleWinCount').JsonValue as TJSONNumber).AsInt;
     achievements := stream.Get('achievements').JsonValue as TJSONArray;
     size := achievements.Count;
     for i := 0 to size - 1 do
