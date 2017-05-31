@@ -173,6 +173,7 @@
         <DCCReference Include="lib.coc.achievement.pas"/>
         <DCCReference Include="lib.coc.comparer.pas"/>
         <DCCReference Include="lib.coc.basic.pas"/>
+        <DCCReference Include="lib.coc.json.mapper.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

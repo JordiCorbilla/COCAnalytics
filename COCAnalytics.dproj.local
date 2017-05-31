@@ -17,5 +17,7 @@
     <Transaction>2017/05/29 21:48:39.914,C:\Users\thund\Source\Repos\COCAnalytics\lib.coc.comparer.pas=C:\Users\thund\Source\Repos\COCAnalytics\Unit1.pas</Transaction>
     <Transaction>2017/05/29 23:17:24.468,=C:\Users\thund\Source\Repos\COCAnalytics\Unit1.pas</Transaction>
     <Transaction>2017/05/29 23:17:33.806,C:\Users\thund\Source\Repos\COCAnalytics\lib.coc.basic.pas=C:\Users\thund\Source\Repos\COCAnalytics\Unit1.pas</Transaction>
+    <Transaction>2017/05/31 23:33:28.694,=C:\Users\thund\Source\Repos\COCAnalytics\Unit1.pas</Transaction>
+    <Transaction>2017/05/31 23:33:38.236,C:\Users\thund\Source\Repos\COCAnalytics\lib.coc.json.mapper.pas=C:\Users\thund\Source\Repos\COCAnalytics\Unit1.pas</Transaction>
   </Transactions>
 </BorlandProject>

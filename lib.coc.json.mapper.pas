@@ -25,25 +25,23 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-program COCAnalytics;
+unit lib.coc.json.mapper;
+
+interface
 
 uses
-  System.StartUpCopy,
-  FMX.Forms,
-  frmMain in 'frmMain.pas' {Form1},
-  lib.coc.api.rest in 'lib.coc.api.rest.pas',
-  lib.options in 'lib.options.pas',
-  lib.coc.json.parse in 'lib.coc.json.parse.pas',
-  lib.coc.detail in 'lib.coc.detail.pas',
-  lib.coc.achievement in 'lib.coc.achievement.pas',
-  lib.coc.comparer in 'lib.coc.comparer.pas',
-  lib.coc.basic in 'lib.coc.basic.pas',
-  lib.coc.json.mapper in 'lib.coc.json.mapper.pas';
+  System.JSON, Data.DBXJSONCommon;
 
-{$R *.res}
+type
+  IJsonMapper = interface
 
-begin
-  Application.Initialize;
-  Application.CreateForm(TForm1, Form1);
-  Application.Run;
+  end;
+
+  TJsonMapper = class(TObject)
+    procedure Map(AObject : TObject; json: TJSONObject);
+    class function New() : ICOCApiRest;
+  end;
+
+implementation
+
 end.
