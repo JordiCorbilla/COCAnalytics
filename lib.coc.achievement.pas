@@ -78,7 +78,7 @@ type
     function GetTarget() : int64;
     function GetValue() : int64;
     function GetVillage() : string;
-  public
+  published
     property Name : string read GetName write SetName;
     property Stars : integer read GetStars write SetStars;
     property Value : int64 read GetValue write SetValue;

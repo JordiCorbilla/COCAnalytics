@@ -34,14 +34,99 @@ uses
 
 type
   IJsonMapper = interface
-
+    procedure Map(AObject : TObject; json: TJSONObject);
   end;
 
-  TJsonMapper = class(TObject)
+  TJsonMapper = class(TInterfacedObject, IJsonMapper)
     procedure Map(AObject : TObject; json: TJSONObject);
-    class function New() : ICOCApiRest;
+    class function New() : IJsonMapper;
+    function GetPropertyName(value : string) : string;
   end;
 
 implementation
+
+uses
+  typInfo, system.strUtils, system.SysUtils;
+
+{ TJsonMapper }
+
+function TJsonMapper.GetPropertyName(value: string): string;
+var
+  lowerText : string;
+  restText : string;
+begin
+  if length(value) > 0 then
+  begin
+    lowerText := AnsiLeftStr(value, 1);
+    lowerText := AnsiLowerCase(lowerText);
+    restText := AnsiRightStr(value, length(value)-1);
+    result := lowerText + restText;
+  end
+  else
+    result := value;
+end;
+
+procedure TJsonMapper.Map(AObject: TObject; json: TJSONObject);
+var
+  propertyIndex: Integer;
+  propertyCount: Integer;
+  propertyList: PPropList;
+  propertyInfo: PPropInfo;
+  value : string;
+  valueInt : integer;
+  valueInt64 : int64;
+const
+  TypeKinds: TTypeKinds = [tkEnumeration, tkString, tkLString, tkWString, tkUString, tkInteger, tkInt64];
+begin
+  propertyCount := GetPropList(AObject.ClassInfo, TypeKinds, nil);
+  GetMem(propertyList, propertyCount * SizeOf(PPropInfo));
+  try
+    GetPropList(AObject.ClassInfo, TypeKinds, propertyList);
+    for propertyIndex := 0 to propertyCount - 1 do
+    begin
+      propertyInfo := propertyList^[propertyIndex];
+      if Assigned(propertyInfo^.SetProc) then
+      case propertyInfo^.PropType^.Kind of
+        tkString, tkLString, tkUString, tkWString:
+          begin
+            value := GetPropertyName(propertyInfo.Name);
+            if (json.Get(value) <> nil) then
+            begin
+              value := (json.Get(value).JsonValue as TJSONString).Value;
+              SetStrProp(AObject, propertyInfo, value);
+            end;
+          end;
+        tkInteger:
+        begin
+          value := GetPropertyName(propertyInfo.Name);
+          if (json.Get(value) <> nil) then
+          begin
+            valueInt := (json.Get(value).JsonValue as TJSONNumber).AsInt;
+            SetOrdProp(AObject, propertyInfo, valueInt);
+          end;
+        end;
+        tkInt64:
+        begin
+          value := GetPropertyName(propertyInfo.Name);
+          if (json.Get(value) <> nil) then
+          begin
+            valueInt64 := (json.Get(value).JsonValue as TJSONNumber).AsInt64;
+            SetInt64Prop(AObject, propertyInfo, valueInt);
+          end;
+        end;
+        tkEnumeration:
+          if GetTypeData(propertyInfo^.PropType^)^.BaseType^ = TypeInfo(Boolean) then
+            SetOrdProp(AObject, propertyInfo, 0);
+      end;
+    end;
+  finally
+    FreeMem(propertyList);
+  end;
+end;
+
+class function TJsonMapper.New: IJsonMapper;
+begin
+  result := Create;
+end;
 
 end.

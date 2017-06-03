@@ -59,6 +59,9 @@ type
 
 implementation
 
+uses
+  lib.coc.json.mapper;
+
 { TCOC }
 
 constructor TCOC.Create;
@@ -89,7 +92,8 @@ var
   size : integer;
   i : integer;
   temp: TJSONObject;
-  AchievementDetail : IAchievement;
+  AchievementDetail : TAchievement;
+  jsonMapper : IJSONMapper;
 begin
   FSpells.Clear;
   FTroops.Clear;
@@ -104,15 +108,20 @@ begin
     for i := 0 to size - 1 do
     begin
       temp := achievements.Items[i] as TJSONObject;
-      AchievementDetail := TAchievement.New();
-      AchievementDetail.Name := (temp.Get('name').JsonValue as TJSONString).Value;
-      AchievementDetail.Stars := (temp.Get('stars').JsonValue as TJSONNumber).AsInt;
-      AchievementDetail.Value := (temp.Get('value').JsonValue as TJSONNumber).AsInt64;
-      AchievementDetail.Target := (temp.Get('target').JsonValue as TJSONNumber).AsInt64;
-      AchievementDetail.Info := (temp.Get('info').JsonValue as TJSONString).Value;
-      if (temp.Get('completionInfo') <> nil) then
-        AchievementDetail.CompletionInfo := (temp.Get('completionInfo').JsonValue as TJSONString).Value;
-      AchievementDetail.Village := (temp.Get('village').JsonValue as TJSONString).Value;
+      AchievementDetail := TAchievement.Create();
+
+      //Use new JSON Mapper
+      jsonMapper := TJsonMapper.New();
+      jsonMapper.Map(AchievementDetail, temp);
+
+//      AchievementDetail.Name := (temp.Get('name').JsonValue as TJSONString).Value;
+//      AchievementDetail.Stars := (temp.Get('stars').JsonValue as TJSONNumber).AsInt;
+//      AchievementDetail.Value := (temp.Get('value').JsonValue as TJSONNumber).AsInt64;
+//      AchievementDetail.Target := (temp.Get('target').JsonValue as TJSONNumber).AsInt64;
+//      AchievementDetail.Info := (temp.Get('info').JsonValue as TJSONString).Value;
+//      if (temp.Get('completionInfo') <> nil) then
+//        AchievementDetail.CompletionInfo := (temp.Get('completionInfo').JsonValue as TJSONString).Value;
+//      AchievementDetail.Village := (temp.Get('village').JsonValue as TJSONString).Value;
       FAchievements.Add(AchievementDetail);
     end;
 
