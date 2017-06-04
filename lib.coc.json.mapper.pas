@@ -111,7 +111,7 @@ begin
           if (json.Get(value) <> nil) then
           begin
             valueInt64 := (json.Get(value).JsonValue as TJSONNumber).AsInt64;
-            SetInt64Prop(AObject, propertyInfo, valueInt);
+            SetInt64Prop(AObject, propertyInfo, valueInt64);
           end;
         end;
         tkEnumeration:

@@ -53,6 +53,7 @@ type
     property CompletionInfo : string read GetCompletionInfo write SetCompletionInfo;
     property Village : string read GetVillage write SetVillage;
     function Add(Name : string; Stars : integer; Value : int64; Target : int64; Info : string; CompletionInfo : string; Village : string) : IAchievement;
+    function GetLabel() : string;
   end;
 
   TAchievement = class(TInterfacedObject, IAchievement)
@@ -78,6 +79,8 @@ type
     function GetTarget() : int64;
     function GetValue() : int64;
     function GetVillage() : string;
+  public
+    function GetLabel() : string;
   published
     property Name : string read GetName write SetName;
     property Stars : integer read GetStars write SetStars;
@@ -92,6 +95,9 @@ type
   end;
 
 implementation
+
+uses
+  System.SysUtils;
 
 { TAchievement }
 
@@ -120,6 +126,16 @@ end;
 function TAchievement.GetInfo: string;
 begin
   result := FInfo;
+end;
+
+function TAchievement.GetLabel: string;
+var
+  calc : double;
+  calcRes : string;
+begin
+  calc := (FValue*100) / FTarget;
+  str(calc:10:2, calcRes);
+  result := FName + '. Value ' + FValue.ToString() + ' out of '+FTarget.ToString()+' (' + trim(calcRes) + '%)';
 end;
 
 function TAchievement.GetName: string;

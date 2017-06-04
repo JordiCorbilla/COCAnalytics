@@ -40,6 +40,7 @@ type
     FTroops: TList<IDetail>;
     FHeroes: TList<IDetail>;
     IDetailComparer : TIDetailComparer;
+    IAchievementComparer : TIAchievementComparer;
     FAchievements: TList<IAchievement>;
     procedure SetAchievements(const Value: TList<IAchievement>);
     procedure SetHeroes(const Value: TList<IDetail>);
@@ -67,10 +68,11 @@ uses
 constructor TCOC.Create;
 begin
   IDetailComparer := TIDetailComparer.Create;
+  IAchievementComparer := TIAchievementComparer.Create;
   FSpells := TList<IDetail>.Create(IDetailComparer);
   FTroops := TList<IDetail>.Create(IDetailComparer);
   FHeroes := TList<IDetail>.Create(IDetailComparer);
-  FAchievements := TList<IAchievement>.Create();
+  FAchievements := TList<IAchievement>.Create(IAchievementComparer);
 end;
 
 destructor TCOC.Destroy;
@@ -124,6 +126,7 @@ begin
 //      AchievementDetail.Village := (temp.Get('village').JsonValue as TJSONString).Value;
       FAchievements.Add(AchievementDetail);
     end;
+    FAchievements.Sort;
 
     troops := stream.Get('troops').JsonValue as TJSONArray;
     LoadDetail(FTroops, troops);

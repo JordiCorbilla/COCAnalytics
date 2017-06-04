@@ -40,14 +40,13 @@ uses
   FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client,
   FMX.ScrollBox, FMX.Memo, FMX.ListView.Types, FMX.ListView.Appearances,
   FMX.ListView.Adapters.Base, System.Rtti, FMX.Grid.Style, FMX.Grid,
-  FMX.ListView;
+  FMX.ListView, FMX.TabControl;
 
 type
   TForm1 = class(TForm)
     Button1: TButton;
     Edit1: TEdit;
     Label1: TLabel;
-    ListHeroes: TListBox;
     FDConnection1: TFDConnection;
     FDQuery1: TFDQuery;
     Button3: TButton;
@@ -58,20 +57,28 @@ type
     Column2: TColumn;
     Column3: TColumn;
     StyleBook1: TStyleBook;
+    Button2: TButton;
+    TabControl1: TTabControl;
+    TabItem1: TTabItem;
+    TabItem2: TTabItem;
     Label2: TLabel;
+    ListHeroes: TListBox;
     Label3: TLabel;
     ListTroops: TListBox;
     Label4: TLabel;
     ListSpells: TListBox;
-    Button2: TButton;
+    ListAchievements: TListBox;
     procedure Button1Click(Sender: TObject);
     procedure Button3Click(Sender: TObject);
     procedure Button4Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
+    procedure Grid1GetValue(Sender: TObject; const ACol, ARow: Integer; var Value: TValue);
+    procedure Grid1SetValue(Sender: TObject; const ACol, ARow: Integer; const Value: TValue);
   private
     { Private declarations }
   public
     document : string;
+    items : array of array of TValue;
     procedure AddItem(list: TListBox; name : string; level : integer; maxLevel : integer);
   end;
 
@@ -95,8 +102,16 @@ begin
   l1.Text := name;
   p1 := TProgressBar.Create(l1);
   p1.Parent := l1;
-  p1.Value := level;
-  p1.Max := maxLevel;
+  if (level > maxlevel) then
+  begin
+    p1.Max := level;
+    p1.Value := level;
+  end
+  else
+  begin
+    p1.Max := maxLevel;
+    p1.Value := level;
+  end;
   p1.Align := TAlignLayout.Right;
 end;
 
@@ -205,8 +220,26 @@ begin
     AddItem(ListSpells, COC.Spells[i].GetLabel(), COC.Spells[i].Level, COC.Spells[i].MaxLevel);
   end;
 
+  //setlength(items, 3, 10);
+
+  for i := 0 to COC.Achievements.count-1 do
+  begin
+    AddItem(ListAchievements, COC.Achievements[i].GetLabel(), COC.Achievements[i].Value, COC.Achievements[i].Target);
+  end;
+
+
   memo1.Lines.Add(jsonDocument);
   FDConnection1.Close();
+end;
+
+procedure TForm1.Grid1GetValue(Sender: TObject; const ACol, ARow: Integer; var Value: TValue);
+begin
+  //Get the value
+end;
+
+procedure TForm1.Grid1SetValue(Sender: TObject; const ACol, ARow: Integer; const Value: TValue);
+begin
+  //Set the value
 end;
 
 end.

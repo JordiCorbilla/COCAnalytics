@@ -30,12 +30,17 @@ unit lib.coc.comparer;
 interface
 
 uses
-  Contnrs, Generics.Collections, Generics.defaults, lib.coc.detail;
+  Contnrs, Generics.Collections, Generics.defaults, lib.coc.detail, lib.coc.achievement;
 
 type
   TIDetailComparer = class(TComparer<IDetail>)
   public
     function Compare(const Left, Right: IDetail): Integer; override;
+  end;
+
+  TIAchievementComparer = class(TComparer<IAchievement>)
+  public
+    function Compare(const Left, Right: IAchievement): Integer; override;
   end;
 
 implementation
@@ -49,6 +54,18 @@ var
 begin
   calcLeft := (Left.Level*100) / Left.MaxLevel;
   calcRight := (Right.Level*100) / Right.MaxLevel;
+  Result := Round(calcRight) - Round(calcLeft);
+end;
+
+{ TIAchievementComparer }
+
+function TIAchievementComparer.Compare(const Left, Right: IAchievement): Integer;
+var
+  calcLeft : double;
+  calcRight : double;
+begin
+  calcLeft := (Left.Value*100) / Left.Target;
+  calcRight := (Right.Value*100) / Right.Target;
   Result := Round(calcRight) - Round(calcLeft);
 end;
 
