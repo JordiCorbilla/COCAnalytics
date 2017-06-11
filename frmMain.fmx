@@ -13,15 +13,21 @@ object Form1: TForm1
   object Button1: TButton
     Position.X = 16.000000000000000000
     Position.Y = 16.000000000000000000
+    Size.Width = 113.000000000000000000
+    Size.Height = 22.000000000000000000
+    Size.PlatformDefault = False
     TabOrder = 1
-    Text = 'Get Details'
+    Text = 'Load User Details'
     OnClick = Button1Click
   end
   object Edit1: TEdit
     Touch.InteractiveGestures = [LongTap, DoubleTap]
     TabOrder = 2
     Position.X = 200.000000000000000000
-    Position.Y = 16.000000000000000000
+    Position.Y = 15.000000000000000000
+    Size.Width = 121.000000000000000000
+    Size.Height = 22.000000000000000000
+    Size.PlatformDefault = False
   end
   object Label1: TLabel
     Position.X = 152.000000000000000000
@@ -29,14 +35,14 @@ object Form1: TForm1
     Size.Width = 41.000000000000000000
     Size.Height = 17.000000000000000000
     Size.PlatformDefault = False
-    Text = 'User:'
+    Text = '#User:'
     TabOrder = 3
   end
   object Button3: TButton
     Position.X = 576.000000000000000000
     Position.Y = 8.000000000000000000
     TabOrder = 7
-    Text = 'Button3'
+    Text = 'Save DB'
     OnClick = Button3Click
   end
   object Button4: TButton
@@ -49,18 +55,6 @@ object Form1: TForm1
     Text = 'Load Items DB'
     OnClick = Button4Click
   end
-  object Memo1: TMemo
-    Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
-    DataDetectorTypes = []
-    Position.X = 952.000000000000000000
-    Position.Y = 8.000000000000000000
-    Size.Width = 145.000000000000000000
-    Size.Height = 73.000000000000000000
-    Size.PlatformDefault = False
-    TabOrder = 9
-    Viewport.Width = 139.000000000000000000
-    Viewport.Height = 67.000000000000000000
-  end
   object Grid1: TGrid
     CanFocus = True
     ClipChildren = True
@@ -69,7 +63,7 @@ object Form1: TForm1
     Size.Width = 1073.000000000000000000
     Size.Height = 137.000000000000000000
     Size.PlatformDefault = False
-    TabOrder = 10
+    TabOrder = 9
     OnGetValue = Grid1GetValue
     OnSetValue = Grid1SetValue
     Viewport.Width = 1053.000000000000000000
@@ -90,9 +84,8 @@ object Form1: TForm1
   object Button2: TButton
     Position.X = 864.000000000000000000
     Position.Y = 8.000000000000000000
-    TabOrder = 12
+    TabOrder = 11
     Text = 'Button2'
-    OnClick = Button2Click
   end
   object TabControl1: TTabControl
     Position.X = 16.000000000000000000
@@ -101,7 +94,7 @@ object Form1: TForm1
     Size.Height = 721.000000000000000000
     Size.PlatformDefault = False
     TabIndex = 0
-    TabOrder = 13
+    TabOrder = 12
     TabPosition = PlatformDefault
     Sizes = (
       1105s
@@ -119,6 +112,8 @@ object Form1: TForm1
       StyleLookup = ''
       TabOrder = 0
       Text = 'Home Village'
+      ExplicitSize.cx = 92.000000000000000000
+      ExplicitSize.cy = 26.000000000000000000
       object Label2: TLabel
         Position.X = 16.000000000000000000
         Position.Y = 16.000000000000000000
@@ -205,29 +200,9 @@ object Form1: TForm1
       StyleLookup = ''
       TabOrder = 0
       Text = 'Builder Base Village'
+      ExplicitSize.cx = 124.000000000000000000
+      ExplicitSize.cy = 26.000000000000000000
     end
-  end
-  object FDConnection1: TFDConnection
-    Params.Strings = (
-      'Database=COCAnalytics'
-      'User_Name=webuser'
-      'Password=password'
-      'Server=localhost'
-      'DriverID=MSSQL')
-    Left = 440
-    Top = 8
-  end
-  object FDQuery1: TFDQuery
-    Connection = FDConnection1
-    SQL.Strings = (
-      'INSERT INTO Analytics (Document) VALUES (:f1)')
-    Left = 384
-    Top = 8
-    ParamData = <
-      item
-        Name = 'F1'
-        ParamType = ptInput
-      end>
   end
   object StyleBook1: TStyleBook
     UseStyleManager = True
@@ -13598,5 +13573,27 @@ object Form1: TForm1
       end>
     Left = 504
     Top = 8
+  end
+  object FDConnection1: TFDConnection
+    Params.Strings = (
+      'Database=COCAnalytics'
+      'User_Name=webuser'
+      'Password=password'
+      'Server=localhost'
+      'DriverID=MSSQL')
+    Left = 440
+    Top = 8
+  end
+  object FDQuery1: TFDQuery
+    Connection = FDConnection1
+    SQL.Strings = (
+      'INSERT INTO Analytics (Document) VALUES (:f1)')
+    Left = 384
+    Top = 8
+    ParamData = <
+      item
+        Name = 'F1'
+        ParamType = ptInput
+      end>
   end
 end

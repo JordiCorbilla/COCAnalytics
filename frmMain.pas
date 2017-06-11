@@ -51,7 +51,6 @@ type
     FDQuery1: TFDQuery;
     Button3: TButton;
     Button4: TButton;
-    Memo1: TMemo;
     Grid1: TGrid;
     Column1: TColumn;
     Column2: TColumn;
@@ -71,7 +70,6 @@ type
     procedure Button1Click(Sender: TObject);
     procedure Button3Click(Sender: TObject);
     procedure Button4Click(Sender: TObject);
-    procedure Button2Click(Sender: TObject);
     procedure Grid1GetValue(Sender: TObject; const ACol, ARow: Integer; var Value: TValue);
     procedure Grid1SetValue(Sender: TObject; const ACol, ARow: Integer; const Value: TValue);
   private
@@ -146,36 +144,6 @@ begin
   end;
 end;
 
-procedure TForm1.Button2Click(Sender: TObject);
-var
-  rttiContext: TRttiContext;
-  rttiType: TRttiType;
-  rttiFields: TArray<TRttiField>;
-  myvar : integer;
-  basic : TBasic;
-begin
-  basic := Tbasic.Create();
-  basic.LoadValues(basic);
-//  rttiContext := TRttiContext.Create;
-//  rttiType := rttiContext.GetType(myvar);
-//  memo1.Lines.Add(rttitype.ToString);
-//  rttiType := rttiContext.GetType(document^);
-//  memo1.Lines.Add(rttitype.ToString);
-end;
-
-//procedure TForm1.Button2Click(Sender: TObject);
-//var
-//  l1: TListBoxItem;
-//  p1: TProgressBar;
-//begin
-//  l1 := TListBoxItem.Create(ListBox1);
-//  l1.Parent := ListBox1;
-//  l1.Text := 'potato';
-//  p1 := TProgressBar.Create(l1);
-//  p1.Parent := l1;
-//  p1.Align := TAlignLayout.Right;
-//end;
-
 procedure TForm1.Button3Click(Sender: TObject);
 begin
   FDConnection1.Open();
@@ -207,28 +175,28 @@ begin
 
   for i := 0 to COC.Heroes.count-1 do
   begin
-    AddItem(ListHeroes, COC.Heroes[i].GetLabel(), COC.Heroes[i].Level, COC.Heroes[i].MaxLevel);
+    if COC.Heroes[i].Village='home' then
+      AddItem(ListHeroes, COC.Heroes[i].GetLabel(), COC.Heroes[i].Level, COC.Heroes[i].MaxLevel);
   end;
 
   for i := 0 to COC.Troops.count-1 do
   begin
-    AddItem(ListTroops, COC.Troops[i].GetLabel(), COC.Troops[i].Level, COC.Troops[i].MaxLevel);
+    if COC.Troops[i].Village='home' then
+      AddItem(ListTroops, COC.Troops[i].GetLabel(), COC.Troops[i].Level, COC.Troops[i].MaxLevel);
   end;
 
   for i := 0 to COC.Spells.count-1 do
   begin
-    AddItem(ListSpells, COC.Spells[i].GetLabel(), COC.Spells[i].Level, COC.Spells[i].MaxLevel);
+    if COC.Spells[i].Village='home' then
+      AddItem(ListSpells, COC.Spells[i].GetLabel(), COC.Spells[i].Level, COC.Spells[i].MaxLevel);
   end;
-
-  //setlength(items, 3, 10);
 
   for i := 0 to COC.Achievements.count-1 do
   begin
-    AddItem(ListAchievements, COC.Achievements[i].GetLabel(), COC.Achievements[i].Value, COC.Achievements[i].Target);
+    if COC.Achievements[i].Village='home' then
+      AddItem(ListAchievements, COC.Achievements[i].GetLabel(), COC.Achievements[i].Value, COC.Achievements[i].Target);
   end;
 
-
-  memo1.Lines.Add(jsonDocument);
   FDConnection1.Close();
 end;
 
