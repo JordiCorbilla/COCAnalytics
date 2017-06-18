@@ -72,11 +72,11 @@ type
     property Trophies : integer read FTrophies write SetTrophies;
     property BestTrophies : Integer read FBestTrophies write SetBestTrophies;
     property WarStars : integer read FWarStars write SetWarStars;
-    property AttacksWin : integer read FAttacksWin write SetAttacksWin;
-    property DefenseWin : integer read FDefenseWin write SetDefenseWin;
+    property AttackWins : integer read FAttacksWin write SetAttacksWin;
+    property DefenseWins : integer read FDefenseWin write SetDefenseWin;
     property BuilderHallLevel :integer read FBuilderHallLevel write SetBuilderHallLevel;
     property VersusTrophies : integer read FVersusTrophies write SetVersusTrophies;
-    property BesVersusTrophies : integer read FBesVersusTrophies write SetBesVersusTrophies;
+    property BestVersusTrophies : integer read FBesVersusTrophies write SetBesVersusTrophies;
     property Role : string read FRole write SetRole;
     property Donations: integer read FDonations write SetDonations;
     property DonationsReceived: integer read FDonationsReceived write SetDonationsReceived;

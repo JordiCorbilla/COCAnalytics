@@ -31,7 +31,7 @@ interface
 
 uses
   System.classes, SysUtils, lib.coc.detail, lib.coc.achievement, generics.collections, System.JSON, Data.DBXJSONCommon,
-  lib.coc.comparer;
+  lib.coc.comparer, lib.coc.basic;
 
 type
   TCOC = Class(TObject)
@@ -42,15 +42,18 @@ type
     IDetailComparer : TIDetailComparer;
     IAchievementComparer : TIAchievementComparer;
     FAchievements: TList<IAchievement>;
+    FBasic: TBasic;
     procedure SetAchievements(const Value: TList<IAchievement>);
     procedure SetHeroes(const Value: TList<IDetail>);
     procedure SetSpells(const Value: TList<IDetail>);
     procedure SetTroops(const Value: TList<IDetail>);
+    procedure SetBasic(const Value: TBasic);
   public
     property Achievements : TList<IAchievement> read FAchievements write SetAchievements;
     property Troops : TList<IDetail> read FTroops write SetTroops;
     property Heroes : TList<IDetail> read FHeroes write SetHeroes;
     property Spells : TList<IDetail> read FSpells write SetSpells;
+    property Basic : TBasic read FBasic write SetBasic;
     Constructor Create();
     Destructor Destroy(); override;
     procedure Load(json : string);
@@ -77,6 +80,7 @@ begin
   FTroops := TList<IDetail>.Create(IDetailComparer);
   FHeroes := TList<IDetail>.Create(IDetailComparer);
   FAchievements := TList<IAchievement>.Create(IAchievementComparer);
+  FBasic := TBasic.Create;
 end;
 
 destructor TCOC.Destroy;
@@ -176,7 +180,9 @@ begin
 
   stream := TJSONObject.ParseJSONValue(json) as TJSONObject;
   try
-    //VersusBattleWinCount := (stream.Get('versusBattleWinCount').JsonValue as TJSONNumber).AsInt;
+    jsonMapper := TJsonMapper.New();
+    jsonMapper.Map(FBasic, stream);
+
     achievements := stream.Get('achievements').JsonValue as TJSONArray;
     size := achievements.Count;
     for i := 0 to size - 1 do
@@ -184,18 +190,8 @@ begin
       temp := achievements.Items[i] as TJSONObject;
       AchievementDetail := TAchievement.Create();
 
-      //Use new JSON Mapper
       jsonMapper := TJsonMapper.New();
       jsonMapper.Map(AchievementDetail, temp);
-
-//      AchievementDetail.Name := (temp.Get('name').JsonValue as TJSONString).Value;
-//      AchievementDetail.Stars := (temp.Get('stars').JsonValue as TJSONNumber).AsInt;
-//      AchievementDetail.Value := (temp.Get('value').JsonValue as TJSONNumber).AsInt64;
-//      AchievementDetail.Target := (temp.Get('target').JsonValue as TJSONNumber).AsInt64;
-//      AchievementDetail.Info := (temp.Get('info').JsonValue as TJSONString).Value;
-//      if (temp.Get('completionInfo') <> nil) then
-//        AchievementDetail.CompletionInfo := (temp.Get('completionInfo').JsonValue as TJSONString).Value;
-//      AchievementDetail.Village := (temp.Get('village').JsonValue as TJSONString).Value;
       FAchievements.Add(AchievementDetail);
     end;
     FAchievements.Sort;
@@ -240,6 +236,11 @@ end;
 procedure TCOC.SetAchievements(const Value: TList<IAchievement>);
 begin
   FAchievements := Value;
+end;
+
+procedure TCOC.SetBasic(const Value: TBasic);
+begin
+  FBasic := Value;
 end;
 
 procedure TCOC.SetHeroes(const Value: TList<IDetail>);

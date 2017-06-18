@@ -300,6 +300,7 @@ begin
   jsonResponse2 := TCOCApiRest.New.GetUserInfo(edtuser2.Text);
 
   ListBoxUser1.Clear;
+  ListBoxBuilder.Clear;
   LoadDocument(jsonResponse1, jsonResponse2, ListBoxUser1, ListBoxBuilder);
 end;
 
