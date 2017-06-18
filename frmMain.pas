@@ -72,13 +72,17 @@ type
     edtuser1: TEdit;
     Label7: TLabel;
     edtUser2: TEdit;
-    ListBoxUser1: TListBox;
     Panel2: TPanel;
     Button7: TButton;
     Label8: TLabel;
     edtUser: TEdit;
     Button4: TButton;
     Button3: TButton;
+    TabControl3: TTabControl;
+    TabItem5: TTabItem;
+    TabItem6: TTabItem;
+    ListBoxUser1: TListBox;
+    ListBoxBuilder: TListBox;
     procedure Button1Click(Sender: TObject);
     procedure Button3Click(Sender: TObject);
     procedure Button4Click(Sender: TObject);
@@ -86,12 +90,10 @@ type
     procedure Grid1SetValue(Sender: TObject; const ACol, ARow: Integer; const Value: TValue);
     procedure Button5Click(Sender: TObject);
     procedure Button6Click(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
-    procedure LoadDocument(jsonDocument1 : string; jsonDocument2 : string; list: TListBox);
-    procedure AddSideBySide(list: TListBox; mainLabel,
-      achievementValue1: string; level1, maxLevel1: integer;
-      achievementValue2: string; level2, maxLevel2: integer);
-    { Private declarations }
+    procedure LoadDocument(jsonDocument1 : string; jsonDocument2 : string; list: TListBox; list2 : TListBox);
+    procedure AddSideBySide(list: TListBox; mainLabel, achievementValue1: string; level1, maxLevel1: integer; achievementValue2: string; level2, maxLevel2: integer);
   public
     document : string;
     items : array of array of TValue;
@@ -298,10 +300,15 @@ begin
   jsonResponse2 := TCOCApiRest.New.GetUserInfo(edtuser2.Text);
 
   ListBoxUser1.Clear;
-  LoadDocument(jsonResponse1, jsonResponse2, ListBoxUser1);
+  LoadDocument(jsonResponse1, jsonResponse2, ListBoxUser1, ListBoxBuilder);
 end;
 
-procedure TForm1.LoadDocument(jsonDocument1 : string; jsonDocument2 : string; list: TListBox);
+procedure TForm1.FormCreate(Sender: TObject);
+begin
+  TabItem5.IsSelected := true;
+end;
+
+procedure TForm1.LoadDocument(jsonDocument1 : string; jsonDocument2 : string; list: TListBox; list2 : TListBox);
 var
   COC1, COC2 : TCOC;
   i: Integer;
@@ -322,7 +329,16 @@ begin
       if (achievement2 <> nil) then
         AddSideBySide(list, achievement1.Name, achievement1.GetAchievementValue, achievement1.Value, achievement1.Target, achievement2.GetAchievementValue, achievement2.Value, achievement2.Target)
       else
-        AddSideBySide(list, achievement1.Name, achievement1.GetAchievementValue, achievement1.Value, achievement1.Target, '', 0, 0);
+        AddSideBySide(list, achievement1.Name, achievement1.GetAchievementValue, achievement1.Value, achievement1.Target, '', 0, 1);
+    end
+    else
+    begin
+      achievement1 := COC1.Achievements[i];
+      achievement2 := COC2.LookUpAchievement(achievement1.Name);
+      if (achievement2 <> nil) then
+        AddSideBySide(list2, achievement1.Name, achievement1.GetAchievementValue, achievement1.Value, achievement1.Target, achievement2.GetAchievementValue, achievement2.Value, achievement2.Target)
+      else
+        AddSideBySide(list2, achievement1.Name, achievement1.GetAchievementValue, achievement1.Value, achievement1.Target, '', 0, 1);
     end;
   end;
 
@@ -335,21 +351,62 @@ begin
       if (detail2 <> nil) then
         AddSideBySide(list, detail1.Name, detail1.GetAchievementValue, detail1.Level, detail1.MaxLevel, detail2.GetAchievementValue, detail2.Level, detail2.MaxLevel)
       else
-        AddSideBySide(list, detail1.Name, detail1.GetAchievementValue, detail1.Level, detail1.MaxLevel, '', 0, 0);
+        AddSideBySide(list, detail1.Name, detail1.GetAchievementValue, detail1.Level, detail1.MaxLevel, '', 0, 1);
+    end
+    else
+    begin
+      detail1 := COC1.Troops[i];
+      detail2 := COC2.LookUpTroop(detail1.Name);
+      if (detail2 <> nil) then
+        AddSideBySide(list2, detail1.Name, detail1.GetAchievementValue, detail1.Level, detail1.MaxLevel, detail2.GetAchievementValue, detail2.Level, detail2.MaxLevel)
+      else
+        AddSideBySide(list2, detail1.Name, detail1.GetAchievementValue, detail1.Level, detail1.MaxLevel, '', 0, 1);
     end;
   end;
-//
-//  for i := 0 to COC1.Spells.count-1 do
-//  begin
-//    if COC1.Spells[i].Village='home' then
-//      AddSideBySide(list, COC1.Spells[i].GetLabel(), COC1.Spells[i].Level, COC1.Spells[i].MaxLevel);
-//  end;
-//
-//  for i := 0 to COC1.Heroes.count-1 do
-//  begin
-//    if COC1.Heroes[i].Village='home' then
-//      AddSideBySide(list, COC1.Heroes[i].GetLabel(), COC1.Heroes[i].Level, COC1.Heroes[i].MaxLevel);
-//  end;
+
+  for i := 0 to COC1.Spells.count-1 do
+  begin
+    if COC1.Spells[i].Village='home' then
+    begin
+      detail1 := COC1.Spells[i];
+      detail2 := COC2.LookUpSpell(detail1.Name);
+      if (detail2 <> nil) then
+        AddSideBySide(list, detail1.Name, detail1.GetAchievementValue, detail1.Level, detail1.MaxLevel, detail2.GetAchievementValue, detail2.Level, detail2.MaxLevel)
+      else
+        AddSideBySide(list, detail1.Name, detail1.GetAchievementValue, detail1.Level, detail1.MaxLevel, '', 0, 1);
+    end
+    else
+    begin
+      detail1 := COC1.Spells[i];
+      detail2 := COC2.LookUpSpell(detail1.Name);
+      if (detail2 <> nil) then
+        AddSideBySide(list2, detail1.Name, detail1.GetAchievementValue, detail1.Level, detail1.MaxLevel, detail2.GetAchievementValue, detail2.Level, detail2.MaxLevel)
+      else
+        AddSideBySide(list2, detail1.Name, detail1.GetAchievementValue, detail1.Level, detail1.MaxLevel, '', 0, 1);
+    end;
+  end;
+
+  for i := 0 to COC1.Heroes.count-1 do
+  begin
+    if COC1.Heroes[i].Village='home' then
+    begin
+      detail1 := COC1.Heroes[i];
+      detail2 := COC2.LookUpHeroe(detail1.Name);
+      if (detail2 <> nil) then
+        AddSideBySide(list, detail1.Name, detail1.GetAchievementValue, detail1.Level, detail1.MaxLevel, detail2.GetAchievementValue, detail2.Level, detail2.MaxLevel)
+      else
+        AddSideBySide(list, detail1.Name, detail1.GetAchievementValue, detail1.Level, detail1.MaxLevel, '', 0, 1);
+    end
+    else
+    begin
+      detail1 := COC1.Heroes[i];
+      detail2 := COC2.LookUpHeroe(detail1.Name);
+      if (detail2 <> nil) then
+        AddSideBySide(list2, detail1.Name, detail1.GetAchievementValue, detail1.Level, detail1.MaxLevel, detail2.GetAchievementValue, detail2.Level, detail2.MaxLevel)
+      else
+        AddSideBySide(list2, detail1.Name, detail1.GetAchievementValue, detail1.Level, detail1.MaxLevel, '', 0, 1);
+    end;
+  end;
 end;
 
 procedure TForm1.AddSideBySide(list: TListBox; mainLabel : string; achievementValue1: string; level1, maxLevel1: integer; achievementValue2: string; level2, maxLevel2: integer);

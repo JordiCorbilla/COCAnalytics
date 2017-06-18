@@ -9,6 +9,7 @@ object Form1: TForm1
   FormFactor.Width = 320
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
+  OnCreate = FormCreate
   DesignerMasterStyle = 0
   object StyleBook1: TStyleBook
     UseStyleManager = True
@@ -13397,8 +13398,8 @@ object Form1: TForm1
           67676572060E4973507265737365643D7472756507456E61626C656408000000
           00}
       end>
-    Left = 504
-    Top = 8
+    Left = 984
+    Top = 40
   end
   object TabControl2: TTabControl
     Align = Client
@@ -13432,7 +13433,7 @@ object Form1: TForm1
         Size.Width = 1105.000000000000000000
         Size.Height = 631.000000000000000000
         Size.PlatformDefault = False
-        TabIndex = 0
+        TabIndex = 1
         TabOrder = 12
         TabPosition = PlatformDefault
         Sizes = (
@@ -13444,7 +13445,7 @@ object Form1: TForm1
           CustomIcon = <
             item
             end>
-          IsSelected = True
+          IsSelected = False
           Size.Width = 92.000000000000000000
           Size.Height = 26.000000000000000000
           Size.PlatformDefault = False
@@ -13532,7 +13533,7 @@ object Form1: TForm1
           CustomIcon = <
             item
             end>
-          IsSelected = False
+          IsSelected = True
           Size.Width = 124.000000000000000000
           Size.Height = 26.000000000000000000
           Size.PlatformDefault = False
@@ -13703,18 +13704,69 @@ object Form1: TForm1
           Size.PlatformDefault = False
         end
       end
-      object ListBoxUser1: TListBox
+      object TabControl3: TTabControl
         Align = Client
         Size.Width = 1734.000000000000000000
         Size.Height = 865.000000000000000000
         Size.PlatformDefault = False
+        TabIndex = 0
         TabOrder = 14
-        DisableFocusEffect = True
-        DefaultItemStyles.ItemStyle = ''
-        DefaultItemStyles.GroupHeaderStyle = ''
-        DefaultItemStyles.GroupFooterStyle = ''
-        Viewport.Width = 1730.000000000000000000
-        Viewport.Height = 861.000000000000000000
+        TabPosition = PlatformDefault
+        Sizes = (
+          1734s
+          839s
+          1734s
+          839s)
+        object TabItem5: TTabItem
+          CustomIcon = <
+            item
+            end>
+          IsSelected = True
+          Size.Width = 92.000000000000000000
+          Size.Height = 26.000000000000000000
+          Size.PlatformDefault = False
+          StyleLookup = ''
+          TabOrder = 0
+          Text = 'Home Village'
+          object ListBoxUser1: TListBox
+            Align = Client
+            Size.Width = 1734.000000000000000000
+            Size.Height = 839.000000000000000000
+            Size.PlatformDefault = False
+            TabOrder = 14
+            DisableFocusEffect = True
+            DefaultItemStyles.ItemStyle = ''
+            DefaultItemStyles.GroupHeaderStyle = ''
+            DefaultItemStyles.GroupFooterStyle = ''
+            Viewport.Width = 1730.000000000000000000
+            Viewport.Height = 835.000000000000000000
+          end
+        end
+        object TabItem6: TTabItem
+          CustomIcon = <
+            item
+            end>
+          IsSelected = False
+          Size.Width = 124.000000000000000000
+          Size.Height = 26.000000000000000000
+          Size.PlatformDefault = False
+          StyleLookup = ''
+          TabOrder = 0
+          Text = 'Builder Base Village'
+          object ListBoxBuilder: TListBox
+            Align = Client
+            Size.Width = 1734.000000000000000000
+            Size.Height = 839.000000000000000000
+            Size.PlatformDefault = False
+            TabOrder = 14
+            DisableFocusEffect = True
+            DefaultItemStyles.ItemStyle = ''
+            DefaultItemStyles.GroupHeaderStyle = ''
+            DefaultItemStyles.GroupFooterStyle = ''
+            Viewport.Width = 1730.000000000000000000
+            Viewport.Height = 835.000000000000000000
+          end
+        end
       end
     end
   end
@@ -13725,15 +13777,15 @@ object Form1: TForm1
       'Password=password'
       'Server=localhost'
       'DriverID=MSSQL')
-    Left = 440
-    Top = 8
+    Left = 896
+    Top = 40
   end
   object FDQuery1: TFDQuery
     Connection = FDConnection1
     SQL.Strings = (
       'INSERT INTO Analytics (Document) VALUES (:f1)')
-    Left = 384
-    Top = 8
+    Left = 816
+    Top = 40
     ParamData = <
       item
         Name = 'F1'
