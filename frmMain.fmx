@@ -10,57 +10,6 @@ object Form1: TForm1
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
   DesignerMasterStyle = 0
-  object Button1: TButton
-    Position.X = 16.000000000000000000
-    Position.Y = 16.000000000000000000
-    Size.Width = 113.000000000000000000
-    Size.Height = 22.000000000000000000
-    Size.PlatformDefault = False
-    TabOrder = 1
-    Text = 'Load User Details'
-    OnClick = Button1Click
-  end
-  object Edit1: TEdit
-    Touch.InteractiveGestures = [LongTap, DoubleTap]
-    TabOrder = 2
-    Position.X = 200.000000000000000000
-    Position.Y = 15.000000000000000000
-    Size.Width = 121.000000000000000000
-    Size.Height = 22.000000000000000000
-    Size.PlatformDefault = False
-  end
-  object Label1: TLabel
-    Position.X = 152.000000000000000000
-    Position.Y = 19.000000000000000000
-    Size.Width = 41.000000000000000000
-    Size.Height = 17.000000000000000000
-    Size.PlatformDefault = False
-    Text = '#User:'
-    TabOrder = 3
-  end
-  object Button3: TButton
-    Position.X = 576.000000000000000000
-    Position.Y = 8.000000000000000000
-    TabOrder = 7
-    Text = 'Save DB'
-    OnClick = Button3Click
-  end
-  object Button4: TButton
-    Position.X = 696.000000000000000000
-    Position.Y = 8.000000000000000000
-    Size.Width = 153.000000000000000000
-    Size.Height = 22.000000000000000000
-    Size.PlatformDefault = False
-    TabOrder = 8
-    Text = 'Load Items DB'
-    OnClick = Button4Click
-  end
-  object Button2: TButton
-    Position.X = 864.000000000000000000
-    Position.Y = 8.000000000000000000
-    TabOrder = 10
-    Text = 'Button2'
-  end
   object StyleBook1: TStyleBook
     UseStyleManager = True
     Styles = <
@@ -13452,19 +13401,18 @@ object Form1: TForm1
     Top = 8
   end
   object TabControl2: TTabControl
-    Position.X = 8.000000000000000000
-    Position.Y = 48.000000000000000000
-    Size.Width = 1697.000000000000000000
-    Size.Height = 897.000000000000000000
+    Align = Client
+    Size.Width = 1734.000000000000000000
+    Size.Height = 956.000000000000000000
     Size.PlatformDefault = False
     TabIndex = 1
-    TabOrder = 14
+    TabOrder = 8
     TabPosition = PlatformDefault
     Sizes = (
-      1697s
-      871s
-      1697s
-      871s)
+      1734s
+      930s
+      1734s
+      930s)
     object TabItem3: TTabItem
       CustomIcon = <
         item
@@ -13480,18 +13428,18 @@ object Form1: TForm1
       ExplicitSize.cy = 26.000000000000000000
       object TabControl1: TTabControl
         Position.X = 8.000000000000000000
-        Position.Y = 14.000000000000000000
+        Position.Y = 104.000000000000000000
         Size.Width = 1105.000000000000000000
-        Size.Height = 721.000000000000000000
+        Size.Height = 631.000000000000000000
         Size.PlatformDefault = False
         TabIndex = 0
         TabOrder = 12
         TabPosition = PlatformDefault
         Sizes = (
           1105s
-          695s
+          605s
           1105s
-          695s)
+          605s)
         object TabItem1: TTabItem
           CustomIcon = <
             item
@@ -13622,25 +13570,11 @@ object Form1: TForm1
         end
       end
       object Button5: TButton
-        Position.X = 1192.000000000000000000
-        Position.Y = 38.000000000000000000
+        Position.X = 1536.000000000000000000
+        Position.Y = 462.000000000000000000
         TabOrder = 13
         Text = 'Button5'
         OnClick = Button5Click
-      end
-      object ListBox1: TListBox
-        Position.X = 912.000000000000000000
-        Position.Y = 70.000000000000000000
-        Size.Width = 753.000000000000000000
-        Size.Height = 331.000000000000000000
-        Size.PlatformDefault = False
-        TabOrder = 14
-        DisableFocusEffect = True
-        DefaultItemStyles.ItemStyle = ''
-        DefaultItemStyles.GroupHeaderStyle = ''
-        DefaultItemStyles.GroupFooterStyle = ''
-        Viewport.Width = 749.000000000000000000
-        Viewport.Height = 327.000000000000000000
       end
       object Label5: TLabel
         StyledSettings = [Family, Size, Style]
@@ -13648,7 +13582,59 @@ object Form1: TForm1
         Position.Y = 430.000000000000000000
         TextSettings.FontColor = claLawngreen
         Text = 'Label5'
-        TabOrder = 15
+        TabOrder = 14
+      end
+      object Panel2: TPanel
+        Align = Top
+        Size.Width = 1734.000000000000000000
+        Size.Height = 65.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 0
+        object Button7: TButton
+          Position.X = 16.000000000000000000
+          Position.Y = 24.000000000000000000
+          Size.Width = 129.000000000000000000
+          Size.Height = 22.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 1
+          Text = 'Fetch user details'
+          OnClick = Button1Click
+        end
+        object Label8: TLabel
+          Position.X = 160.000000000000000000
+          Position.Y = 26.000000000000000000
+          Size.Width = 41.000000000000000000
+          Size.Height = 17.000000000000000000
+          Size.PlatformDefault = False
+          Text = '#User:'
+          TabOrder = 3
+        end
+        object edtUser: TEdit
+          Touch.InteractiveGestures = [LongTap, DoubleTap]
+          TabOrder = 2
+          Position.X = 208.000000000000000000
+          Position.Y = 23.000000000000000000
+          Size.Width = 121.000000000000000000
+          Size.Height = 22.000000000000000000
+          Size.PlatformDefault = False
+        end
+        object Button4: TButton
+          Position.X = 352.000000000000000000
+          Position.Y = 24.000000000000000000
+          Size.Width = 153.000000000000000000
+          Size.Height = 22.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 7
+          Text = 'Load latest Analytics'
+          OnClick = Button4Click
+        end
+        object Button3: TButton
+          Position.X = 512.000000000000000000
+          Position.Y = 24.000000000000000000
+          TabOrder = 4
+          Text = 'Save DB'
+          OnClick = Button3Click
+        end
       end
     end
     object TabItem4: TTabItem
@@ -13664,14 +13650,97 @@ object Form1: TForm1
       Text = 'User Comparison'
       ExplicitSize.cx = 69.000000000000000000
       ExplicitSize.cy = 26.000000000000000000
+      object Panel1: TPanel
+        Align = Top
+        Size.Width = 1734.000000000000000000
+        Size.Height = 65.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 0
+        object Button6: TButton
+          Position.X = 16.000000000000000000
+          Position.Y = 24.000000000000000000
+          Size.Width = 129.000000000000000000
+          Size.Height = 22.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 0
+          Text = 'Load User Details'
+          OnClick = Button6Click
+        end
+        object Label6: TLabel
+          Position.X = 160.000000000000000000
+          Position.Y = 26.000000000000000000
+          Size.Width = 41.000000000000000000
+          Size.Height = 17.000000000000000000
+          Size.PlatformDefault = False
+          Text = '#User1:'
+          TabOrder = 4
+        end
+        object edtuser1: TEdit
+          Touch.InteractiveGestures = [LongTap, DoubleTap]
+          TabOrder = 2
+          Position.X = 208.000000000000000000
+          Position.Y = 23.000000000000000000
+          Size.Width = 121.000000000000000000
+          Size.Height = 22.000000000000000000
+          Size.PlatformDefault = False
+        end
+        object Label7: TLabel
+          Position.X = 344.000000000000000000
+          Position.Y = 26.000000000000000000
+          Size.Width = 41.000000000000000000
+          Size.Height = 17.000000000000000000
+          Size.PlatformDefault = False
+          Text = '#User2:'
+          TabOrder = 3
+        end
+        object edtUser2: TEdit
+          Touch.InteractiveGestures = [LongTap, DoubleTap]
+          TabOrder = 1
+          Position.X = 392.000000000000000000
+          Position.Y = 23.000000000000000000
+          Size.Width = 121.000000000000000000
+          Size.Height = 22.000000000000000000
+          Size.PlatformDefault = False
+        end
+      end
+      object ListBoxUser1: TListBox
+        Align = Left
+        Position.Y = 65.000000000000000000
+        Size.Width = 825.000000000000000000
+        Size.Height = 865.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 15
+        DisableFocusEffect = True
+        DefaultItemStyles.ItemStyle = ''
+        DefaultItemStyles.GroupHeaderStyle = ''
+        DefaultItemStyles.GroupFooterStyle = ''
+        Viewport.Width = 821.000000000000000000
+        Viewport.Height = 861.000000000000000000
+      end
+      object Splitter1: TSplitter
+        Align = Left
+        Cursor = crHSplit
+        MinSize = 20.000000000000000000
+        Position.X = 825.000000000000000000
+        Position.Y = 65.000000000000000000
+        Size.Width = 8.000000000000000000
+        Size.Height = 865.000000000000000000
+        Size.PlatformDefault = False
+      end
+      object ListBoxuser2: TListBox
+        Align = Client
+        Size.Width = 901.000000000000000000
+        Size.Height = 865.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 14
+        DisableFocusEffect = True
+        DefaultItemStyles.ItemStyle = ''
+        DefaultItemStyles.GroupHeaderStyle = ''
+        DefaultItemStyles.GroupFooterStyle = ''
+        Viewport.Width = 897.000000000000000000
+        Viewport.Height = 861.000000000000000000
+      end
     end
-  end
-  object StyleBook2: TStyleBook
-    Styles = <
-      item
-      end>
-    Left = 1120
-    Top = 24
   end
   object FDConnection1: TFDConnection
     Params.Strings = (

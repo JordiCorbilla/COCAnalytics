@@ -44,15 +44,9 @@ uses
 
 type
   TForm1 = class(TForm)
-    Button1: TButton;
-    Edit1: TEdit;
-    Label1: TLabel;
     FDConnection1: TFDConnection;
     FDQuery1: TFDQuery;
-    Button3: TButton;
-    Button4: TButton;
     StyleBook1: TStyleBook;
-    Button2: TButton;
     TabControl2: TTabControl;
     TabItem3: TTabItem;
     TabItem4: TTabItem;
@@ -66,21 +60,36 @@ type
     ListSpells: TListBox;
     ListAchievements: TListBox;
     TabItem2: TTabItem;
-    StyleBook2: TStyleBook;
     Grid1: TGrid;
     Column1: TColumn;
     Column2: TColumn;
     Column3: TColumn;
     Button5: TButton;
-    ListBox1: TListBox;
     Label5: TLabel;
+    Panel1: TPanel;
+    Button6: TButton;
+    Label6: TLabel;
+    edtuser1: TEdit;
+    Label7: TLabel;
+    edtUser2: TEdit;
+    ListBoxUser1: TListBox;
+    Splitter1: TSplitter;
+    ListBoxuser2: TListBox;
+    Panel2: TPanel;
+    Button7: TButton;
+    Label8: TLabel;
+    edtUser: TEdit;
+    Button4: TButton;
+    Button3: TButton;
     procedure Button1Click(Sender: TObject);
     procedure Button3Click(Sender: TObject);
     procedure Button4Click(Sender: TObject);
     procedure Grid1GetValue(Sender: TObject; const ACol, ARow: Integer; var Value: TValue);
     procedure Grid1SetValue(Sender: TObject; const ACol, ARow: Integer; const Value: TValue);
     procedure Button5Click(Sender: TObject);
+    procedure Button6Click(Sender: TObject);
   private
+    procedure LoadDocument(jsonDocument: string; list: TListBox);
     { Private declarations }
   public
     document : string;
@@ -119,19 +128,19 @@ begin
     p1.Value := level;
   end;
   p1.Align := TAlignLayout.Right;
-  p1 := TProgressBar.Create(l1);
-  p1.Parent := l1;
-  if (level > maxlevel) then
-  begin
-    p1.Max := level;
-    p1.Value := level;
-  end
-  else
-  begin
-    p1.Max := maxLevel;
-    p1.Value := level;
-  end;
-  p1.Align := TAlignLayout.Right;
+//  p1 := TProgressBar.Create(l1);
+//  p1.Parent := l1;
+//  if (level > maxlevel) then
+//  begin
+//    p1.Max := level;
+//    p1.Value := level;
+//  end
+//  else
+//  begin
+//    p1.Max := maxLevel;
+//    p1.Value := level;
+//  end;
+//  p1.Align := TAlignLayout.Right;
 end;
 
 procedure TForm1.Button1Click(Sender: TObject);
@@ -145,12 +154,12 @@ var
   versusBattleWinCount : TJSONString;
 begin
   //Get the JSON value from COC API.
-  if edit1.Text = '' then
+  if edtuser.Text = '' then
   begin
     showMessage('Please enter your COC User Hash tag -> #AAABBBCCC');
     exit;
   end;
-  jsonResponse := TCOCApiRest.New.GetUserInfo(edit1.Text);
+  jsonResponse := TCOCApiRest.New.GetUserInfo(edtuser.Text);
   document := jsonResponse;
   //Parse the JSON and get the whole list of objects.
   json := TJSONObject.ParseJSONValue(jsonResponse) as TJSONObject;
@@ -227,51 +236,103 @@ var
   p1: TProgressBar;
   lab1 : TLabel;
 begin
-  l1 := TListBoxItem.Create(listbox1);
-  l1.Parent := listbox1;
+//  l1 := TListBoxItem.Create(listbox1);
+//  l1.Parent := listbox1;
+//
+//  lab1 := TLabel.Create(l1);
+//  lab1.StyledSettings := [TStyledSetting.Family, TStyledSetting.Size, TStyledSetting.Style];
+//  lab1.TextSettings.FontColor := claLawngreen;
+//  lab1.Parent := l1;
+//  lab1.Width := 200;
+//  lab1.TextSettings.FontColor := claLawngreen;
+//  lab1.Text := 'this is a long text';
+//  lab1.Align := TAlignLayout.Left;
+//
+////  l1.Text := name;
+//  p1 := TProgressBar.Create(l1);
+//  p1.Parent := l1;
+//  p1.Max := 100;
+//  p1.Value := 50;
+//  p1.Align := TAlignLayout.Right;
+//
+//  lab1 := TLabel.Create(l1);
+//  lab1.StyledSettings := [TStyledSetting.Family, TStyledSetting.Size, TStyledSetting.Style];
+//  lab1.TextSettings.FontColor := claLawngreen;
+//  lab1.Parent := l1;
+//  lab1.Width := 200;
+//  lab1.TextSettings.FontColor := claRed;
+//  lab1.Text := 'this is a long text2';
+//  lab1.Align := TAlignLayout.Right;
+//
+//  p1 := TProgressBar.Create(l1);
+//  p1.Parent := l1;
+//  p1.Max := 100;
+//  p1.Value := 50;
+//  p1.Align := TAlignLayout.Right;
+//
+//
+//  lab1 := TLabel.Create(l1);
+//  lab1.StyledSettings := [TStyledSetting.Family, TStyledSetting.Size, TStyledSetting.Style];
+//  lab1.TextSettings.FontColor := claLawngreen;
+//  lab1.Parent := l1;
+//  lab1.Width := 200;
+//  lab1.TextSettings.FontColor := claRed;
+//  lab1.Text := 'this is a long text2';
+//  lab1.Align := TAlignLayout.Right;
 
-  lab1 := TLabel.Create(l1);
-  lab1.StyledSettings := [TStyledSetting.Family, TStyledSetting.Size, TStyledSetting.Style];
-  lab1.TextSettings.FontColor := claLawngreen;
-  lab1.Parent := l1;
-  lab1.Width := 200;
-  lab1.TextSettings.FontColor := claLawngreen;
-  lab1.Text := 'this is a long text';
-  lab1.Align := TAlignLayout.Left;
 
-//  l1.Text := name;
-  p1 := TProgressBar.Create(l1);
-  p1.Parent := l1;
-  p1.Max := 100;
-  p1.Value := 50;
-  p1.Align := TAlignLayout.Right;
+end;
 
-  lab1 := TLabel.Create(l1);
-  lab1.StyledSettings := [TStyledSetting.Family, TStyledSetting.Size, TStyledSetting.Style];
-  lab1.TextSettings.FontColor := claLawngreen;
-  lab1.Parent := l1;
-  lab1.Width := 200;
-  lab1.TextSettings.FontColor := claRed;
-  lab1.Text := 'this is a long text2';
-  lab1.Align := TAlignLayout.Right;
+procedure TForm1.Button6Click(Sender: TObject);
+var
+  jsonResponse1, jsonResponse2 : string;
+begin
+  //Get the JSON value from COC API.
+  if (edtuser1.Text = '') or (edtUser2.Text = '') then
+  begin
+    showMessage('Please enter your COC User Hash tag -> #AAABBBCCC');
+    exit;
+  end;
+  jsonResponse1 := TCOCApiRest.New.GetUserInfo(edtuser1.Text);
+  jsonResponse2 := TCOCApiRest.New.GetUserInfo(edtuser2.Text);
 
-  p1 := TProgressBar.Create(l1);
-  p1.Parent := l1;
-  p1.Max := 100;
-  p1.Value := 50;
-  p1.Align := TAlignLayout.Right;
+  ListBoxUser1.Clear;
+  ListBoxUser2.Clear;
+  LoadDocument(jsonResponse1, ListBoxUser1);
+  LoadDocument(jsonResponse2, ListBoxUser2);
+end;
 
+procedure TForm1.LoadDocument(jsonDocument : string; list: TListBox);
+var
+  COC : TCOC;
+  i: Integer;
+begin
+  COC := TCOC.Create();
+  COC.Load(jsonDocument);
 
-  lab1 := TLabel.Create(l1);
-  lab1.StyledSettings := [TStyledSetting.Family, TStyledSetting.Size, TStyledSetting.Style];
-  lab1.TextSettings.FontColor := claLawngreen;
-  lab1.Parent := l1;
-  lab1.Width := 200;
-  lab1.TextSettings.FontColor := claRed;
-  lab1.Text := 'this is a long text2';
-  lab1.Align := TAlignLayout.Right;
+  for i := 0 to COC.Achievements.count-1 do
+  begin
+    if COC.Achievements[i].Village='home' then
+      AddItem(list, COC.Achievements[i].GetLabel(), COC.Achievements[i].Value, COC.Achievements[i].Target);
+  end;
 
+  for i := 0 to COC.Troops.count-1 do
+  begin
+    if COC.Troops[i].Village='home' then
+      AddItem(list, COC.Troops[i].GetLabel(), COC.Troops[i].Level, COC.Troops[i].MaxLevel);
+  end;
 
+  for i := 0 to COC.Spells.count-1 do
+  begin
+    if COC.Spells[i].Village='home' then
+      AddItem(list, COC.Spells[i].GetLabel(), COC.Spells[i].Level, COC.Spells[i].MaxLevel);
+  end;
+
+  for i := 0 to COC.Heroes.count-1 do
+  begin
+    if COC.Heroes[i].Village='home' then
+      AddItem(list, COC.Heroes[i].GetLabel(), COC.Heroes[i].Level, COC.Heroes[i].MaxLevel);
+  end;
 end;
 
 procedure TForm1.Grid1GetValue(Sender: TObject; const ACol, ARow: Integer; var Value: TValue);
