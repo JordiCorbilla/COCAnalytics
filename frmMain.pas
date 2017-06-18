@@ -73,8 +73,6 @@ type
     Label7: TLabel;
     edtUser2: TEdit;
     ListBoxUser1: TListBox;
-    Splitter1: TSplitter;
-    ListBoxuser2: TListBox;
     Panel2: TPanel;
     Button7: TButton;
     Label8: TLabel;
@@ -89,7 +87,10 @@ type
     procedure Button5Click(Sender: TObject);
     procedure Button6Click(Sender: TObject);
   private
-    procedure LoadDocument(jsonDocument: string; list: TListBox);
+    procedure LoadDocument(jsonDocument1 : string; jsonDocument2 : string; list: TListBox);
+    procedure AddSideBySide(list: TListBox; mainLabel,
+      achievementValue1: string; level1, maxLevel1: integer;
+      achievementValue2: string; level2, maxLevel2: integer);
     { Private declarations }
   public
     document : string;
@@ -103,7 +104,7 @@ var
 implementation
 
 uses
-  System.JSON, Data.DBXJSONCommon, lib.coc.json.parse, lib.coc.basic, System.UIConsts;
+  System.JSON, Data.DBXJSONCommon, lib.coc.json.parse, lib.coc.basic, System.UIConsts, lib.coc.achievement, lib.coc.detail;
 
 {$R *.fmx}
 
@@ -297,42 +298,125 @@ begin
   jsonResponse2 := TCOCApiRest.New.GetUserInfo(edtuser2.Text);
 
   ListBoxUser1.Clear;
-  ListBoxUser2.Clear;
-  LoadDocument(jsonResponse1, ListBoxUser1);
-  LoadDocument(jsonResponse2, ListBoxUser2);
+  LoadDocument(jsonResponse1, jsonResponse2, ListBoxUser1);
 end;
 
-procedure TForm1.LoadDocument(jsonDocument : string; list: TListBox);
+procedure TForm1.LoadDocument(jsonDocument1 : string; jsonDocument2 : string; list: TListBox);
 var
-  COC : TCOC;
+  COC1, COC2 : TCOC;
   i: Integer;
+  achievement1, achievement2 : IAchievement;
+  detail1, detail2 : IDetail;
 begin
-  COC := TCOC.Create();
-  COC.Load(jsonDocument);
+  COC1 := TCOC.Create();
+  COC2 := TCOC.Create();
+  COC1.Load(jsonDocument1);
+  COC2.Load(jsonDocument2);
 
-  for i := 0 to COC.Achievements.count-1 do
+  for i := 0 to COC1.Achievements.count-1 do
   begin
-    if COC.Achievements[i].Village='home' then
-      AddItem(list, COC.Achievements[i].GetLabel(), COC.Achievements[i].Value, COC.Achievements[i].Target);
+    if COC1.Achievements[i].Village='home' then
+    begin
+      achievement1 := COC1.Achievements[i];
+      achievement2 := COC2.LookUpAchievement(achievement1.Name);
+      if (achievement2 <> nil) then
+        AddSideBySide(list, achievement1.Name, achievement1.GetAchievementValue, achievement1.Value, achievement1.Target, achievement2.GetAchievementValue, achievement2.Value, achievement2.Target)
+      else
+        AddSideBySide(list, achievement1.Name, achievement1.GetAchievementValue, achievement1.Value, achievement1.Target, '', 0, 0);
+    end;
   end;
 
-  for i := 0 to COC.Troops.count-1 do
+  for i := 0 to COC1.Troops.count-1 do
   begin
-    if COC.Troops[i].Village='home' then
-      AddItem(list, COC.Troops[i].GetLabel(), COC.Troops[i].Level, COC.Troops[i].MaxLevel);
+    if COC1.Troops[i].Village='home' then
+    begin
+      detail1 := COC1.Troops[i];
+      detail2 := COC2.LookUpTroop(detail1.Name);
+      if (detail2 <> nil) then
+        AddSideBySide(list, detail1.Name, detail1.GetAchievementValue, detail1.Level, detail1.MaxLevel, detail2.GetAchievementValue, detail2.Level, detail2.MaxLevel)
+      else
+        AddSideBySide(list, detail1.Name, detail1.GetAchievementValue, detail1.Level, detail1.MaxLevel, '', 0, 0);
+    end;
   end;
+//
+//  for i := 0 to COC1.Spells.count-1 do
+//  begin
+//    if COC1.Spells[i].Village='home' then
+//      AddSideBySide(list, COC1.Spells[i].GetLabel(), COC1.Spells[i].Level, COC1.Spells[i].MaxLevel);
+//  end;
+//
+//  for i := 0 to COC1.Heroes.count-1 do
+//  begin
+//    if COC1.Heroes[i].Village='home' then
+//      AddSideBySide(list, COC1.Heroes[i].GetLabel(), COC1.Heroes[i].Level, COC1.Heroes[i].MaxLevel);
+//  end;
+end;
 
-  for i := 0 to COC.Spells.count-1 do
-  begin
-    if COC.Spells[i].Village='home' then
-      AddItem(list, COC.Spells[i].GetLabel(), COC.Spells[i].Level, COC.Spells[i].MaxLevel);
-  end;
+procedure TForm1.AddSideBySide(list: TListBox; mainLabel : string; achievementValue1: string; level1, maxLevel1: integer; achievementValue2: string; level2, maxLevel2: integer);
+var
+  l1: TListBoxItem;
+  p1: TProgressBar;
+  lab1 : TLabel;
+begin
+  l1 := TListBoxItem.Create(list);
+  l1.Parent := list;
 
-  for i := 0 to COC.Heroes.count-1 do
+  lab1 := TLabel.Create(l1);
+  lab1.StyledSettings := [TStyledSetting.Family, TStyledSetting.Size, TStyledSetting.Style];
+  lab1.TextSettings.FontColor := claWhite;
+  lab1.Parent := l1;
+  lab1.Width := 400;
+  //lab1.TextSettings.FontColor := claLawngreen;
+  lab1.Text := mainLabel;
+  lab1.Align := TAlignLayout.Left;
+
+  p1 := TProgressBar.Create(l1);
+  p1.Parent := l1;
+  p1.Width := 300;
+  if (level2 > maxlevel2) then
   begin
-    if COC.Heroes[i].Village='home' then
-      AddItem(list, COC.Heroes[i].GetLabel(), COC.Heroes[i].Level, COC.Heroes[i].MaxLevel);
+    p1.Max := level2;
+    p1.Value := level2;
+  end
+  else
+  begin
+    p1.Max := maxLevel2;
+    p1.Value := level2;
   end;
+  p1.Align := TAlignLayout.Right;
+
+  lab1 := TLabel.Create(l1);
+  lab1.StyledSettings := [TStyledSetting.Family, TStyledSetting.Size, TStyledSetting.Style];
+  lab1.TextSettings.FontColor := claWhite;
+  lab1.Parent := l1;
+  lab1.Width := 300;
+//  lab1.TextSettings.FontColor := claRed;
+  lab1.Text := '   ' + achievementValue2;
+  lab1.Align := TAlignLayout.Right;
+
+  p1 := TProgressBar.Create(l1);
+  p1.Parent := l1;
+  p1.Width := 300;
+  if (level1 > maxlevel1) then
+  begin
+    p1.Max := level1;
+    p1.Value := level1;
+  end
+  else
+  begin
+    p1.Max := maxLevel1;
+    p1.Value := level1;
+  end;
+  p1.Align := TAlignLayout.Right;
+
+  lab1 := TLabel.Create(l1);
+  lab1.StyledSettings := [TStyledSetting.Family, TStyledSetting.Size, TStyledSetting.Style];
+  lab1.TextSettings.FontColor := claWhite;
+  lab1.Parent := l1;
+  lab1.Width := 300;
+  //lab1.TextSettings.FontColor := claRed;
+  lab1.Text := '   ' + achievementValue1;
+  lab1.Align := TAlignLayout.Right;
 end;
 
 procedure TForm1.Grid1GetValue(Sender: TObject; const ACol, ARow: Integer; var Value: TValue);

@@ -55,6 +55,10 @@ type
     Destructor Destroy(); override;
     procedure Load(json : string);
     procedure LoadDetail(list : TList<IDetail>; json: TJSONArray);
+    function LookUpAchievement(name : string) : IAchievement;
+    function LookUpTroop(name : string) : IDetail;
+    function LookUpHeroe(name : string) : IDetail;
+    function LookUpSpell(name : string) : IDetail;
   End;
 
 
@@ -82,6 +86,74 @@ begin
   FHeroes.Free;
   FAchievements.Free;
   inherited;
+end;
+
+function TCOC.LookUpAchievement(name: string): IAchievement;
+var
+  i: Integer;
+  pointer : IAChievement;
+begin
+  pointer := nil;
+  for i := 0 to FAchievements.count-1 do
+  begin
+    if (FAchievements[i].Name = name) then
+    begin
+      pointer := FAchievements[i];
+      break;
+    end;
+  end;
+  result := pointer;
+end;
+
+function TCOC.LookUpHeroe(name: string): IDetail;
+var
+  i: Integer;
+  pointer : IDetail;
+begin
+  pointer := nil;
+  for i := 0 to FHeroes.count-1 do
+  begin
+    if (FHeroes[i].Name = name) then
+    begin
+      pointer := FHeroes[i];
+      break;
+    end;
+  end;
+  result := pointer;
+end;
+
+function TCOC.LookUpSpell(name: string): IDetail;
+var
+  i: Integer;
+  pointer : IDetail;
+begin
+  pointer := nil;
+  for i := 0 to FSpells.count-1 do
+  begin
+    if (FSpells[i].Name = name) then
+    begin
+      pointer := FSpells[i];
+      break;
+    end;
+  end;
+  result := pointer;
+end;
+
+function TCOC.LookUpTroop(name: string): IDetail;
+var
+  i: Integer;
+  pointer : IDetail;
+begin
+  pointer := nil;
+  for i := 0 to FTroops.count-1 do
+  begin
+    if (FTroops[i].Name = name) then
+    begin
+      pointer := FTroops[i];
+      break;
+    end;
+  end;
+  result := pointer;
 end;
 
 procedure TCOC.Load(json: string);

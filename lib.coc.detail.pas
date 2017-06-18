@@ -45,6 +45,7 @@ type
     property Village : string read GetVillage write SetVillage;
     function Add(Name : string; Level: integer; MaxLevel : integer; Village : string) : IDetail;
     function GetLabel() : string;
+    function GetAchievementValue() : string;
   end;
 
   TDetail = class(TInterfacedObject, IDetail)
@@ -70,6 +71,7 @@ type
     class function New() : IDetail;
     function Add(Name : string; Level: integer; MaxLevel : integer; Village : string) : IDetail;
     function GetLabel() : string;
+    function GetAchievementValue() : string;
   end;
 
 implementation
@@ -91,6 +93,16 @@ end;
 constructor TDetail.Create;
 begin
 
+end;
+
+function TDetail.GetAchievementValue: string;
+var
+  calc : double;
+  calcRes : string;
+begin
+  calc := (FLevel*100) / FMaxLevel;
+  str(calc:10:2, calcRes);
+  result := Flevel.ToString() + ' out of '+FMaxLevel.ToString()+' (' + trim(calcRes) + '%)';
 end;
 
 function TDetail.GetLabel: string;

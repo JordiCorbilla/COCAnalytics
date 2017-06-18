@@ -13704,32 +13704,8 @@ object Form1: TForm1
         end
       end
       object ListBoxUser1: TListBox
-        Align = Left
-        Position.Y = 65.000000000000000000
-        Size.Width = 825.000000000000000000
-        Size.Height = 865.000000000000000000
-        Size.PlatformDefault = False
-        TabOrder = 15
-        DisableFocusEffect = True
-        DefaultItemStyles.ItemStyle = ''
-        DefaultItemStyles.GroupHeaderStyle = ''
-        DefaultItemStyles.GroupFooterStyle = ''
-        Viewport.Width = 821.000000000000000000
-        Viewport.Height = 861.000000000000000000
-      end
-      object Splitter1: TSplitter
-        Align = Left
-        Cursor = crHSplit
-        MinSize = 20.000000000000000000
-        Position.X = 825.000000000000000000
-        Position.Y = 65.000000000000000000
-        Size.Width = 8.000000000000000000
-        Size.Height = 865.000000000000000000
-        Size.PlatformDefault = False
-      end
-      object ListBoxuser2: TListBox
         Align = Client
-        Size.Width = 901.000000000000000000
+        Size.Width = 1734.000000000000000000
         Size.Height = 865.000000000000000000
         Size.PlatformDefault = False
         TabOrder = 14
@@ -13737,7 +13713,7 @@ object Form1: TForm1
         DefaultItemStyles.ItemStyle = ''
         DefaultItemStyles.GroupHeaderStyle = ''
         DefaultItemStyles.GroupFooterStyle = ''
-        Viewport.Width = 897.000000000000000000
+        Viewport.Width = 1730.000000000000000000
         Viewport.Height = 861.000000000000000000
       end
     end

@@ -54,6 +54,7 @@ type
     property Village : string read GetVillage write SetVillage;
     function Add(Name : string; Stars : integer; Value : int64; Target : int64; Info : string; CompletionInfo : string; Village : string) : IAchievement;
     function GetLabel() : string;
+    function GetAchievementValue() : string;
   end;
 
   TAchievement = class(TInterfacedObject, IAchievement)
@@ -92,6 +93,7 @@ type
     constructor Create();
     class function New() : IAchievement;
     function Add(Name : string; Stars : integer; Value : int64; Target : int64; Info : string; CompletionInfo : string; Village : string) : IAchievement;
+    function GetAchievementValue() : string;
   end;
 
 implementation
@@ -116,6 +118,16 @@ end;
 constructor TAchievement.Create;
 begin
 
+end;
+
+function TAchievement.GetAchievementValue: string;
+var
+  calc : double;
+  calcRes : string;
+begin
+  calc := (FValue*100) / FTarget;
+  str(calc:10:2, calcRes);
+  result := FValue.ToString() + ' out of '+FTarget.ToString()+' (' + trim(calcRes) + '%)';
 end;
 
 function TAchievement.GetCompletionInfo: string;
