@@ -51,15 +51,13 @@ type
     FDQuery1: TFDQuery;
     Button3: TButton;
     Button4: TButton;
-    Grid1: TGrid;
-    Column1: TColumn;
-    Column2: TColumn;
-    Column3: TColumn;
     StyleBook1: TStyleBook;
     Button2: TButton;
+    TabControl2: TTabControl;
+    TabItem3: TTabItem;
+    TabItem4: TTabItem;
     TabControl1: TTabControl;
     TabItem1: TTabItem;
-    TabItem2: TTabItem;
     Label2: TLabel;
     ListHeroes: TListBox;
     Label3: TLabel;
@@ -67,11 +65,21 @@ type
     Label4: TLabel;
     ListSpells: TListBox;
     ListAchievements: TListBox;
+    TabItem2: TTabItem;
+    StyleBook2: TStyleBook;
+    Grid1: TGrid;
+    Column1: TColumn;
+    Column2: TColumn;
+    Column3: TColumn;
+    Button5: TButton;
+    ListBox1: TListBox;
+    Label5: TLabel;
     procedure Button1Click(Sender: TObject);
     procedure Button3Click(Sender: TObject);
     procedure Button4Click(Sender: TObject);
     procedure Grid1GetValue(Sender: TObject; const ACol, ARow: Integer; var Value: TValue);
     procedure Grid1SetValue(Sender: TObject; const ACol, ARow: Integer; const Value: TValue);
+    procedure Button5Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -86,7 +94,7 @@ var
 implementation
 
 uses
-  System.JSON, Data.DBXJSONCommon, lib.coc.json.parse, lib.coc.basic;
+  System.JSON, Data.DBXJSONCommon, lib.coc.json.parse, lib.coc.basic, System.UIConsts;
 
 {$R *.fmx}
 
@@ -98,6 +106,19 @@ begin
   l1 := TListBoxItem.Create(list);
   l1.Parent := list;
   l1.Text := name;
+  p1 := TProgressBar.Create(l1);
+  p1.Parent := l1;
+  if (level > maxlevel) then
+  begin
+    p1.Max := level;
+    p1.Value := level;
+  end
+  else
+  begin
+    p1.Max := maxLevel;
+    p1.Value := level;
+  end;
+  p1.Align := TAlignLayout.Right;
   p1 := TProgressBar.Create(l1);
   p1.Parent := l1;
   if (level > maxlevel) then
@@ -198,6 +219,59 @@ begin
   end;
 
   FDConnection1.Close();
+end;
+
+procedure TForm1.Button5Click(Sender: TObject);
+var
+  l1: TListBoxItem;
+  p1: TProgressBar;
+  lab1 : TLabel;
+begin
+  l1 := TListBoxItem.Create(listbox1);
+  l1.Parent := listbox1;
+
+  lab1 := TLabel.Create(l1);
+  lab1.StyledSettings := [TStyledSetting.Family, TStyledSetting.Size, TStyledSetting.Style];
+  lab1.TextSettings.FontColor := claLawngreen;
+  lab1.Parent := l1;
+  lab1.Width := 200;
+  lab1.TextSettings.FontColor := claLawngreen;
+  lab1.Text := 'this is a long text';
+  lab1.Align := TAlignLayout.Left;
+
+//  l1.Text := name;
+  p1 := TProgressBar.Create(l1);
+  p1.Parent := l1;
+  p1.Max := 100;
+  p1.Value := 50;
+  p1.Align := TAlignLayout.Right;
+
+  lab1 := TLabel.Create(l1);
+  lab1.StyledSettings := [TStyledSetting.Family, TStyledSetting.Size, TStyledSetting.Style];
+  lab1.TextSettings.FontColor := claLawngreen;
+  lab1.Parent := l1;
+  lab1.Width := 200;
+  lab1.TextSettings.FontColor := claRed;
+  lab1.Text := 'this is a long text2';
+  lab1.Align := TAlignLayout.Right;
+
+  p1 := TProgressBar.Create(l1);
+  p1.Parent := l1;
+  p1.Max := 100;
+  p1.Value := 50;
+  p1.Align := TAlignLayout.Right;
+
+
+  lab1 := TLabel.Create(l1);
+  lab1.StyledSettings := [TStyledSetting.Family, TStyledSetting.Size, TStyledSetting.Style];
+  lab1.TextSettings.FontColor := claLawngreen;
+  lab1.Parent := l1;
+  lab1.Width := 200;
+  lab1.TextSettings.FontColor := claRed;
+  lab1.Text := 'this is a long text2';
+  lab1.Align := TAlignLayout.Right;
+
+
 end;
 
 procedure TForm1.Grid1GetValue(Sender: TObject; const ACol, ARow: Integer; var Value: TValue);
