@@ -93,7 +93,10 @@ type
     procedure FormCreate(Sender: TObject);
   private
     procedure LoadDocument(jsonDocument1 : string; jsonDocument2 : string; list: TListBox; list2 : TListBox);
-    procedure AddSideBySide(list: TListBox; mainLabel, achievementValue1: string; level1, maxLevel1: integer; achievementValue2: string; level2, maxLevel2: integer);
+    procedure AddSideBySide(list: TListBox; mainLabel : string; textLeft: string; valueLeft, maxLeft: integer; textRight: string; valueRight, maxRight: integer);
+    procedure AddProgressBar(list: TListBoxItem; value, limit1, limit2: integer);
+    procedure AddLeftLabel(list : TListBoxItem; text : string; valueLeft, valueRight : integer; maxLeft, maxRight : integer);
+    procedure AddRightLabel(list : TListBoxItem; text : string; valueLeft, valueRight : integer; maxLeft, maxRight : integer);
   public
     document : string;
     items : array of array of TValue;
@@ -315,35 +318,63 @@ var
   i: Integer;
   achievement1, achievement2 : IAchievement;
   detail1, detail2 : IDetail;
+  view : TView;
 begin
   COC1 := TCOC.Create();
   COC2 := TCOC.Create();
   COC1.Load(jsonDocument1);
   COC2.Load(jsonDocument2);
 
-  //Check if left side has more than right side
+  AddSideBySide(list, 'Tag', COC1.Basic.Tag, 0, 1, COC2.Basic.Tag, 0, 1);
+  AddSideBySide(list, 'Name', COC1.Basic.Name, 0, 1, COC2.Basic.Name, 0, 1);
+  AddSideBySide(list, 'TownHallLevel', COC1.Basic.TownHallLevel.ToString, 0, 1, COC2.Basic.TownHallLevel.ToString, 0, 1);
+  AddSideBySide(list, 'ExpLevel', COC1.Basic.ExpLevel.ToString, 0, 1, COC2.Basic.ExpLevel.ToString, 0, 1);
+  AddSideBySide(list, 'Trophies', COC1.Basic.Trophies.ToString, 0, 1, COC2.Basic.Trophies.ToString, 0, 1);
+  AddSideBySide(list, 'BestTrophies', COC1.Basic.BestTrophies.ToString, COC1.Basic.Trophies, COC1.Basic.BestTrophies, COC2.Basic.BestTrophies.ToString, COC2.Basic.Trophies, COC2.Basic.BestTrophies);
+  AddSideBySide(list, 'WarStars', COC1.Basic.WarStars.ToString, COC1.Basic.WarStars, COC1.Basic.WarStars, COC2.Basic.WarStars.ToString, COC2.Basic.WarStars, COC2.Basic.WarStars);
+  AddSideBySide(list, 'AttackWins', COC1.Basic.AttackWins.ToString, COC1.Basic.AttackWins, COC1.Basic.AttackWins, COC2.Basic.AttackWins.ToString, COC2.Basic.AttackWins, COC2.Basic.AttackWins);
+  AddSideBySide(list, 'DefenseWins', COC1.Basic.DefenseWins.ToString, COC1.Basic.DefenseWins, COC1.Basic.DefenseWins, COC2.Basic.DefenseWins.ToString, COC2.Basic.DefenseWins, COC2.Basic.DefenseWins);
+  AddSideBySide(list, 'BuilderHallLevel', COC1.Basic.BuilderHallLevel.ToString, COC1.Basic.BuilderHallLevel, COC1.Basic.BuilderHallLevel, COC2.Basic.BuilderHallLevel.ToString, COC1.Basic.BuilderHallLevel, COC1.Basic.BuilderHallLevel);
+  AddSideBySide(list, 'VersusTrophies', COC1.Basic.VersusTrophies.ToString, COC1.Basic.VersusTrophies, COC1.Basic.VersusTrophies, COC2.Basic.VersusTrophies.ToString, COC2.Basic.VersusTrophies, COC2.Basic.VersusTrophies);
+  AddSideBySide(list, 'BestVersusTrophies', COC1.Basic.BestVersusTrophies.ToString, COC1.Basic.BestVersusTrophies, COC1.Basic.BestVersusTrophies, COC2.Basic.BestVersusTrophies.ToString, COC2.Basic.BestVersusTrophies, COC2.Basic.BestVersusTrophies);
+  AddSideBySide(list, 'Role', COC1.Basic.Role, 0, 1, COC2.Basic.Role, 0, 1);
+  AddSideBySide(list, 'Donations', COC1.Basic.Donations.ToString, COC1.Basic.Donations, COC1.Basic.Donations, COC2.Basic.Donations.ToString, COC2.Basic.Donations, COC2.Basic.Donations);
+  AddSideBySide(list, 'DonationsReceived', COC1.Basic.DonationsReceived.ToString, COC1.Basic.DonationsReceived, COC1.Basic.DonationsReceived, COC2.Basic.DonationsReceived.ToString, COC2.Basic.DonationsReceived, COC2.Basic.DonationsReceived);
+  AddSideBySide(list, 'VersusBattleWinCount', COC1.Basic.VersusBattleWinCount.ToString, COC1.Basic.VersusBattleWinCount, COC1.Basic.VersusBattleWinCount, COC2.Basic.VersusBattleWinCount.ToString, COC1.Basic.VersusBattleWinCount, COC1.Basic.VersusBattleWinCount);
 
-  for i := 0 to COC1.Achievements.count-1 do
-  begin
-    if COC1.Achievements[i].Village='home' then
+  //Check if left side has more than right side
+  view := TView.Create(list, list2);
+  view.DisplayAchievements('home', COC1, COC2,
+    procedure (list: TListBox; leftPlayer: IAchievement; rightPlayer : IAchievement)
     begin
-      achievement1 := COC1.Achievements[i];
-      achievement2 := COC2.LookUpAchievement(achievement1.Name);
-      if (achievement2 <> nil) then
-        AddSideBySide(list, achievement1.Name, achievement1.GetAchievementValue, achievement1.Value, achievement1.Target, achievement2.GetAchievementValue, achievement2.Value, achievement2.Target)
-      else
-        AddSideBySide(list, achievement1.Name, achievement1.GetAchievementValue, achievement1.Value, achievement1.Target, '', 0, 1);
-    end
-    else
-    begin
-      achievement1 := COC1.Achievements[i];
-      achievement2 := COC2.LookUpAchievement(achievement1.Name);
-      if (achievement2 <> nil) then
-        AddSideBySide(list2, achievement1.Name, achievement1.GetAchievementValue, achievement1.Value, achievement1.Target, achievement2.GetAchievementValue, achievement2.Value, achievement2.Target)
-      else
-        AddSideBySide(list2, achievement1.Name, achievement1.GetAchievementValue, achievement1.Value, achievement1.Target, '', 0, 1);
-    end;
-  end;
+        if (rightPlayer <> nil) then
+          AddSideBySide(list, leftPlayer.Name, leftPlayer.GetAchievementValue, leftPlayer.Value, leftPlayer.Target, rightPlayer.GetAchievementValue, rightPlayer.Value, rightPlayer.Target)
+        else
+          AddSideBySide(list, leftPlayer.Name, leftPlayer.GetAchievementValue, leftPlayer.Value, leftPlayer.Target, '', 0, 1);
+    end);
+
+
+//  for i := 0 to COC1.Achievements.count-1 do
+//  begin
+//    if COC1.Achievements[i].Village='home' then
+//    begin
+//      achievement1 := COC1.Achievements[i];
+//      achievement2 := COC2.LookUpAchievement(achievement1.Name);
+//      if (achievement2 <> nil) then
+//        AddSideBySide(list, achievement1.Name, achievement1.GetAchievementValue, achievement1.Value, achievement1.Target, achievement2.GetAchievementValue, achievement2.Value, achievement2.Target)
+//      else
+//        AddSideBySide(list, achievement1.Name, achievement1.GetAchievementValue, achievement1.Value, achievement1.Target, '', 0, 1);
+//    end
+//    else
+//    begin
+//      achievement1 := COC1.Achievements[i];
+//      achievement2 := COC2.LookUpAchievement(achievement1.Name);
+//      if (achievement2 <> nil) then
+//        AddSideBySide(list2, achievement1.Name, achievement1.GetAchievementValue, achievement1.Value, achievement1.Target, achievement2.GetAchievementValue, achievement2.Value, achievement2.Target)
+//      else
+//        AddSideBySide(list2, achievement1.Name, achievement1.GetAchievementValue, achievement1.Value, achievement1.Target, '', 0, 1);
+//    end;
+//  end;
 
   for i := 0 to COC1.Troops.count-1 do
   begin
@@ -412,7 +443,82 @@ begin
   end;
 end;
 
-procedure TForm1.AddSideBySide(list: TListBox; mainLabel : string; achievementValue1: string; level1, maxLevel1: integer; achievementValue2: string; level2, maxLevel2: integer);
+procedure TForm1.AddProgressBar(list : TListBoxItem; value : integer; limit1, limit2 : integer);
+var
+  p1: TProgressBar;
+  maxValue : integer;
+begin
+  maxValue := limit1;
+  if limit2 > maxValue then
+    maxValue := limit2;
+
+  p1 := TProgressBar.Create(list);
+  p1.Parent := list;
+  p1.Width := 300;
+  if (value > maxValue) then
+  begin
+    p1.Max := value;
+    p1.Value := value;
+  end
+  else
+  begin
+    p1.Max := maxValue;
+    p1.Value := value;
+  end;
+  p1.Align := TAlignLayout.Right;
+end;
+
+procedure TForm1.AddRightLabel(list: TListBoxItem; text: string; valueLeft, valueRight, maxLeft, maxRight: integer);
+var
+  lab1 : TLabel;
+  maxValue : integer;
+  calcLeft : double;
+  calcRight : double;
+begin
+  maxValue := maxLeft;
+  if maxRight > maxValue then
+    maxValue := maxRight;
+
+  lab1 := TLabel.Create(list);
+  lab1.StyledSettings := [TStyledSetting.Family, TStyledSetting.Size, TStyledSetting.Style];
+  lab1.TextSettings.FontColor := claWhite;
+  lab1.Parent := list;
+  lab1.Width := 400;
+
+  calcLeft := (valueLeft*100) / maxValue;
+  calcRight := (valueRight*100) / maxValue;
+  if calcLeft > calcRight then
+    lab1.TextSettings.FontColor := claLawngreen;
+  lab1.Text := text;
+  lab1.Align := TAlignLayout.Right;
+end;
+
+procedure TForm1.AddLeftLabel(list : TListBoxItem; text : string; valueLeft, valueRight : integer; maxLeft, maxRight : integer);
+var
+  lab1 : TLabel;
+  maxValue : integer;
+  calcLeft : double;
+  calcRight : double;
+begin
+  maxValue := maxLeft;
+  if maxRight > maxValue then
+    maxValue := maxRight;
+
+  lab1 := TLabel.Create(list);
+  lab1.StyledSettings := [TStyledSetting.Family, TStyledSetting.Size, TStyledSetting.Style];
+  lab1.TextSettings.FontColor := claWhite;
+  lab1.Parent := list;
+  lab1.Width := 400;
+
+  calcLeft := (valueLeft*100) / maxValue;
+  calcRight := (valueRight*100) / maxValue;
+  if calcLeft < calcRight then
+    lab1.TextSettings.FontColor := claLawngreen;
+  lab1.Text := text;
+  lab1.Align := TAlignLayout.Right;
+end;
+
+procedure TForm1.AddSideBySide(list: TListBox; mainLabel : string; textLeft: string; valueLeft, maxLeft: integer; textRight: string; valueRight, maxRight: integer);
 var
   l1: TListBoxItem;
   p1: TProgressBar;
@@ -426,57 +532,14 @@ begin
   lab1.TextSettings.FontColor := claWhite;
   lab1.Parent := l1;
   lab1.Width := 400;
-  //lab1.TextSettings.FontColor := claLawngreen;
   lab1.Text := mainLabel;
   lab1.Align := TAlignLayout.Left;
 
-  p1 := TProgressBar.Create(l1);
-  p1.Parent := l1;
-  p1.Width := 300;
-  if (level2 > maxlevel2) then
-  begin
-    p1.Max := level2;
-    p1.Value := level2;
-  end
-  else
-  begin
-    p1.Max := maxLevel2;
-    p1.Value := level2;
-  end;
-  p1.Align := TAlignLayout.Right;
+  AddProgressBar(l1, valueRight, maxLeft, maxRight);
+  AddRightLabel(l1, '   ' + textRight, valueRight, maxRight, valueLeft, maxLeft);
 
-  lab1 := TLabel.Create(l1);
-  lab1.StyledSettings := [TStyledSetting.Family, TStyledSetting.Size, TStyledSetting.Style];
-  lab1.TextSettings.FontColor := claWhite;
-  lab1.Parent := l1;
-  lab1.Width := 300;
-//  lab1.TextSettings.FontColor := claRed;
-  lab1.Text := '   ' + achievementValue2;
-  lab1.Align := TAlignLayout.Right;
-
-  p1 := TProgressBar.Create(l1);
-  p1.Parent := l1;
-  p1.Width := 300;
-  if (level1 > maxlevel1) then
-  begin
-    p1.Max := level1;
-    p1.Value := level1;
-  end
-  else
-  begin
-    p1.Max := maxLevel1;
-    p1.Value := level1;
-  end;
-  p1.Align := TAlignLayout.Right;
-
-  lab1 := TLabel.Create(l1);
-  lab1.StyledSettings := [TStyledSetting.Family, TStyledSetting.Size, TStyledSetting.Style];
-  lab1.TextSettings.FontColor := claWhite;
-  lab1.Parent := l1;
-  lab1.Width := 300;
-  //lab1.TextSettings.FontColor := claRed;
-  lab1.Text := '   ' + achievementValue1;
-  lab1.Align := TAlignLayout.Right;
+  AddProgressBar(l1, valueLeft, maxLeft, maxRight);
+  AddLeftLabel(l1, '   ' + textLeft, valueLeft, maxLeft, valueRight, maxRight);
 end;
 
 procedure TForm1.Grid1GetValue(Sender: TObject; const ACol, ARow: Integer; var Value: TValue);
