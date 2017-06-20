@@ -25,26 +25,65 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-program COCAnalytics;
+unit lib.coc.view;
+
+interface
 
 uses
-  System.StartUpCopy,
-  FMX.Forms,
-  frmMain in 'frmMain.pas' {Form1},
-  lib.coc.api.rest in 'lib.coc.api.rest.pas',
-  lib.options in 'lib.options.pas',
-  lib.coc.json.parse in 'lib.coc.json.parse.pas',
-  lib.coc.detail in 'lib.coc.detail.pas',
-  lib.coc.achievement in 'lib.coc.achievement.pas',
-  lib.coc.comparer in 'lib.coc.comparer.pas',
-  lib.coc.basic in 'lib.coc.basic.pas',
-  lib.coc.json.mapper in 'lib.coc.json.mapper.pas',
-  lib.coc.view in 'lib.coc.view.pas';
+  FMX.ListBox, lib.coc.achievement, lib.coc.json.parse;
 
-{$R *.res}
+type
+  TDisplayAchievement = reference to procedure(list: TListBox; leftPlayer: IAchievement; rightPlayer : IAchievement);
 
+  TView = class(TObject)
+  private
+    FLeft : TListBox;
+    FRight : TListBox;
+  public
+    procedure DisplayAchievements(village : string; leftPlayer : TCOC; rightPlayer : TCOC; display : TDisplayAchievement);
+    Constructor Create(left : TListBox; right : TListBox);
+  end;
+
+implementation
+
+{ TView }
+
+constructor TView.Create(left, right: TListBox);
 begin
-  Application.Initialize;
-  Application.CreateForm(TForm1, Form1);
-  Application.Run;
+  FLeft := left;
+  FRight := right;
+end;
+
+procedure TView.DisplayAchievements(village : string; leftPlayer, rightPlayer: TCOC; display: TDisplayAchievement);
+var
+  left : TCOC;
+  right : TCOC;
+  i : integer;
+  achievementLeft : IAchievement;
+  achievementRight : IAchievement;
+begin
+  //Show on the left the player with more achievements
+  //this will ensure that the left side has always more items to display
+  if leftPlayer.Achievements.Count >= rightPlayer.Achievements.count then
+  begin
+    left := leftPlayer;
+    right := rightPlayer;
+  end
+  else
+  begin
+    left := rightPlayer;
+    right := leftPlayer;
+  end;
+
+  for i := 0 to left.Achievements.count-1 do
+  begin
+    if left.Achievements[i].Village = village then
+    begin
+      achievementLeft := left.Achievements[i];
+      achievementRight := right.LookUpAchievement(achievementLeft.Name);
+      display(FLeft, achievementLeft, achievementRight);
+    end;
+  end;
+end;
+
 end.

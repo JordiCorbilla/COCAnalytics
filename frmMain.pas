@@ -106,7 +106,7 @@ var
 implementation
 
 uses
-  System.JSON, Data.DBXJSONCommon, lib.coc.json.parse, lib.coc.basic, System.UIConsts, lib.coc.achievement, lib.coc.detail;
+  System.JSON, Data.DBXJSONCommon, lib.coc.json.parse, lib.coc.basic, System.UIConsts, lib.coc.achievement, lib.coc.detail, lib.coc.view;
 
 {$R *.fmx}
 
@@ -320,6 +320,8 @@ begin
   COC2 := TCOC.Create();
   COC1.Load(jsonDocument1);
   COC2.Load(jsonDocument2);
+
+  //Check if left side has more than right side
 
   for i := 0 to COC1.Achievements.count-1 do
   begin
