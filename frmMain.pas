@@ -327,9 +327,9 @@ begin
 
   AddSideBySide(list, 'Tag', COC1.Basic.Tag, 0, 1, COC2.Basic.Tag, 0, 1);
   AddSideBySide(list, 'Name', COC1.Basic.Name, 0, 1, COC2.Basic.Name, 0, 1);
-  AddSideBySide(list, 'TownHallLevel', COC1.Basic.TownHallLevel.ToString, 0, 1, COC2.Basic.TownHallLevel.ToString, 0, 1);
-  AddSideBySide(list, 'ExpLevel', COC1.Basic.ExpLevel.ToString, 0, 1, COC2.Basic.ExpLevel.ToString, 0, 1);
-  AddSideBySide(list, 'Trophies', COC1.Basic.Trophies.ToString, 0, 1, COC2.Basic.Trophies.ToString, 0, 1);
+  AddSideBySide(list, 'TownHallLevel', COC1.Basic.TownHallLevel.ToString, COC1.Basic.TownHallLevel, COC1.Basic.TownHallLevel, COC2.Basic.TownHallLevel.ToString, COC2.Basic.TownHallLevel, COC2.Basic.TownHallLevel);
+  AddSideBySide(list, 'ExpLevel', COC1.Basic.ExpLevel.ToString, COC1.Basic.ExpLevel, COC1.Basic.ExpLevel, COC2.Basic.ExpLevel.ToString, COC2.Basic.ExpLevel, COC2.Basic.ExpLevel);
+  AddSideBySide(list, 'Trophies', COC1.Basic.Trophies.ToString, COC1.Basic.Trophies, COC1.Basic.Trophies, COC2.Basic.Trophies.ToString, COC2.Basic.Trophies, COC2.Basic.Trophies);
   AddSideBySide(list, 'BestTrophies', COC1.Basic.BestTrophies.ToString, COC1.Basic.Trophies, COC1.Basic.BestTrophies, COC2.Basic.BestTrophies.ToString, COC2.Basic.Trophies, COC2.Basic.BestTrophies);
   AddSideBySide(list, 'WarStars', COC1.Basic.WarStars.ToString, COC1.Basic.WarStars, COC1.Basic.WarStars, COC2.Basic.WarStars.ToString, COC2.Basic.WarStars, COC2.Basic.WarStars);
   AddSideBySide(list, 'AttackWins', COC1.Basic.AttackWins.ToString, COC1.Basic.AttackWins, COC1.Basic.AttackWins, COC2.Basic.AttackWins.ToString, COC2.Basic.AttackWins, COC2.Basic.AttackWins);
@@ -452,6 +452,9 @@ begin
   if limit2 > maxValue then
     maxValue := limit2;
 
+  if maxValue = 0 then
+    maxValue := 1;
+
   p1 := TProgressBar.Create(list);
   p1.Parent := list;
   p1.Width := 300;
@@ -487,7 +490,7 @@ begin
 
   calcLeft := (valueLeft*100) / maxValue;
   calcRight := (valueRight*100) / maxValue;
-  if calcLeft > calcRight then
+  if (calcLeft < calcRight) and (calcLeft > 0) and (calcRight > 0) then
     lab1.TextSettings.FontColor := claLawngreen;
   lab1.Text := text;
   lab1.Align := TAlignLayout.Right;
@@ -512,7 +515,7 @@ begin
 
   calcLeft := (valueLeft*100) / maxValue;
   calcRight := (valueRight*100) / maxValue;
-  if calcLeft < calcRight then
+  if (calcLeft > calcRight)  and (calcLeft > 0) and (calcRight > 0) then
     lab1.TextSettings.FontColor := claLawngreen;
   lab1.Text := text;
   lab1.Align := TAlignLayout.Right;
@@ -536,10 +539,10 @@ begin
   lab1.Align := TAlignLayout.Left;
 
   AddProgressBar(l1, valueRight, maxLeft, maxRight);
-  AddRightLabel(l1, '   ' + textRight, valueRight, maxRight, valueLeft, maxLeft);
+  AddRightLabel(l1, '   ' + textRight, valueLeft, valueRight, maxRight, maxLeft);
 
   AddProgressBar(l1, valueLeft, maxLeft, maxRight);
-  AddLeftLabel(l1, '   ' + textLeft, valueLeft, maxLeft, valueRight, maxRight);
+  AddLeftLabel(l1, '   ' + textLeft, valueLeft, valueRight, maxLeft, maxRight);
 end;
 
 procedure TForm1.Grid1GetValue(Sender: TObject; const ACol, ARow: Integer; var Value: TValue);
