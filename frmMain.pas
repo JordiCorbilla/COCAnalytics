@@ -60,12 +60,7 @@ type
     ListSpells: TListBox;
     ListAchievements: TListBox;
     TabItem2: TTabItem;
-    Grid1: TGrid;
-    Column1: TColumn;
-    Column2: TColumn;
-    Column3: TColumn;
     Button5: TButton;
-    Label5: TLabel;
     Panel1: TPanel;
     Button6: TButton;
     Label6: TLabel;
@@ -86,9 +81,6 @@ type
     procedure Button1Click(Sender: TObject);
     procedure Button3Click(Sender: TObject);
     procedure Button4Click(Sender: TObject);
-    procedure Grid1GetValue(Sender: TObject; const ACol, ARow: Integer; var Value: TValue);
-    procedure Grid1SetValue(Sender: TObject; const ACol, ARow: Integer; const Value: TValue);
-    procedure Button5Click(Sender: TObject);
     procedure Button6Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
   private
@@ -134,19 +126,6 @@ begin
     p1.Value := level;
   end;
   p1.Align := TAlignLayout.Right;
-//  p1 := TProgressBar.Create(l1);
-//  p1.Parent := l1;
-//  if (level > maxlevel) then
-//  begin
-//    p1.Max := level;
-//    p1.Value := level;
-//  end
-//  else
-//  begin
-//    p1.Max := maxLevel;
-//    p1.Value := level;
-//  end;
-//  p1.Align := TAlignLayout.Right;
 end;
 
 procedure TForm1.Button1Click(Sender: TObject);
@@ -170,7 +149,6 @@ begin
   //Parse the JSON and get the whole list of objects.
   json := TJSONObject.ParseJSONValue(jsonResponse) as TJSONObject;
   try
-    versusBattleWinCount := json.Get('versusBattleWinCount').JsonValue as TJSONString;
     achievements := json.Get('achievements').JsonValue as TJSONArray;
     troops := json.Get('troops').JsonValue as TJSONArray;
     heroes := json.Get('heroes').JsonValue as TJSONArray;
@@ -236,59 +214,6 @@ begin
   FDConnection1.Close();
 end;
 
-procedure TForm1.Button5Click(Sender: TObject);
-var
-  l1: TListBoxItem;
-  p1: TProgressBar;
-  lab1 : TLabel;
-begin
-//  l1 := TListBoxItem.Create(listbox1);
-//  l1.Parent := listbox1;
-//
-//  lab1 := TLabel.Create(l1);
-//  lab1.StyledSettings := [TStyledSetting.Family, TStyledSetting.Size, TStyledSetting.Style];
-//  lab1.TextSettings.FontColor := claLawngreen;
-//  lab1.Parent := l1;
-//  lab1.Width := 200;
-//  lab1.TextSettings.FontColor := claLawngreen;
-//  lab1.Text := 'this is a long text';
-//  lab1.Align := TAlignLayout.Left;
-//
-////  l1.Text := name;
-//  p1 := TProgressBar.Create(l1);
-//  p1.Parent := l1;
-//  p1.Max := 100;
-//  p1.Value := 50;
-//  p1.Align := TAlignLayout.Right;
-//
-//  lab1 := TLabel.Create(l1);
-//  lab1.StyledSettings := [TStyledSetting.Family, TStyledSetting.Size, TStyledSetting.Style];
-//  lab1.TextSettings.FontColor := claLawngreen;
-//  lab1.Parent := l1;
-//  lab1.Width := 200;
-//  lab1.TextSettings.FontColor := claRed;
-//  lab1.Text := 'this is a long text2';
-//  lab1.Align := TAlignLayout.Right;
-//
-//  p1 := TProgressBar.Create(l1);
-//  p1.Parent := l1;
-//  p1.Max := 100;
-//  p1.Value := 50;
-//  p1.Align := TAlignLayout.Right;
-//
-//
-//  lab1 := TLabel.Create(l1);
-//  lab1.StyledSettings := [TStyledSetting.Family, TStyledSetting.Size, TStyledSetting.Style];
-//  lab1.TextSettings.FontColor := claLawngreen;
-//  lab1.Parent := l1;
-//  lab1.Width := 200;
-//  lab1.TextSettings.FontColor := claRed;
-//  lab1.Text := 'this is a long text2';
-//  lab1.Align := TAlignLayout.Right;
-
-
-end;
-
 procedure TForm1.Button6Click(Sender: TObject);
 var
   jsonResponse1, jsonResponse2 : string;
@@ -316,7 +241,6 @@ procedure TForm1.LoadDocument(jsonDocument1 : string; jsonDocument2 : string; li
 var
   COC1, COC2 : TCOC;
   i: Integer;
-  achievement1, achievement2 : IAchievement;
   detail1, detail2 : IDetail;
   view : TView;
 begin
@@ -353,28 +277,6 @@ begin
           AddSideBySide(list, leftPlayer.Name, leftPlayer.GetAchievementValue, leftPlayer.Value, leftPlayer.Target, '', 0, 1);
     end);
 
-
-//  for i := 0 to COC1.Achievements.count-1 do
-//  begin
-//    if COC1.Achievements[i].Village='home' then
-//    begin
-//      achievement1 := COC1.Achievements[i];
-//      achievement2 := COC2.LookUpAchievement(achievement1.Name);
-//      if (achievement2 <> nil) then
-//        AddSideBySide(list, achievement1.Name, achievement1.GetAchievementValue, achievement1.Value, achievement1.Target, achievement2.GetAchievementValue, achievement2.Value, achievement2.Target)
-//      else
-//        AddSideBySide(list, achievement1.Name, achievement1.GetAchievementValue, achievement1.Value, achievement1.Target, '', 0, 1);
-//    end
-//    else
-//    begin
-//      achievement1 := COC1.Achievements[i];
-//      achievement2 := COC2.LookUpAchievement(achievement1.Name);
-//      if (achievement2 <> nil) then
-//        AddSideBySide(list2, achievement1.Name, achievement1.GetAchievementValue, achievement1.Value, achievement1.Target, achievement2.GetAchievementValue, achievement2.Value, achievement2.Target)
-//      else
-//        AddSideBySide(list2, achievement1.Name, achievement1.GetAchievementValue, achievement1.Value, achievement1.Target, '', 0, 1);
-//    end;
-//  end;
 
   for i := 0 to COC1.Troops.count-1 do
   begin
@@ -524,7 +426,6 @@ end;
 procedure TForm1.AddSideBySide(list: TListBox; mainLabel : string; textLeft: string; valueLeft, maxLeft: integer; textRight: string; valueRight, maxRight: integer);
 var
   l1: TListBoxItem;
-  p1: TProgressBar;
   lab1 : TLabel;
 begin
   l1 := TListBoxItem.Create(list);
@@ -543,16 +444,6 @@ begin
 
   AddProgressBar(l1, valueLeft, maxLeft, maxRight);
   AddLeftLabel(l1, '   ' + textLeft, valueLeft, valueRight, maxLeft, maxRight);
-end;
-
-procedure TForm1.Grid1GetValue(Sender: TObject; const ACol, ARow: Integer; var Value: TValue);
-begin
-  //Get the value
-end;
-
-procedure TForm1.Grid1SetValue(Sender: TObject; const ACol, ARow: Integer; const Value: TValue);
-begin
-  //Set the value
 end;
 
 end.

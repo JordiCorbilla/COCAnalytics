@@ -13406,7 +13406,7 @@ object Form1: TForm1
     Size.Width = 1734.000000000000000000
     Size.Height = 956.000000000000000000
     Size.PlatformDefault = False
-    TabIndex = 1
+    TabIndex = 0
     TabOrder = 8
     TabPosition = PlatformDefault
     Sizes = (
@@ -13418,7 +13418,7 @@ object Form1: TForm1
       CustomIcon = <
         item
         end>
-      IsSelected = False
+      IsSelected = True
       Size.Width = 67.000000000000000000
       Size.Height = 26.000000000000000000
       Size.PlatformDefault = False
@@ -13434,7 +13434,7 @@ object Form1: TForm1
         Size.Height = 631.000000000000000000
         Size.PlatformDefault = False
         TabIndex = 1
-        TabOrder = 12
+        TabOrder = 11
         TabPosition = PlatformDefault
         Sizes = (
           1105s
@@ -13544,46 +13544,11 @@ object Form1: TForm1
           ExplicitSize.cy = 26.000000000000000000
         end
       end
-      object Grid1: TGrid
-        CanFocus = True
-        ClipChildren = True
-        Position.X = 760.000000000000000000
-        Position.Y = 542.000000000000000000
-        Size.Width = 881.000000000000000000
-        Size.Height = 267.000000000000000000
-        Size.PlatformDefault = False
-        TabOrder = 9
-        OnGetValue = Grid1GetValue
-        OnSetValue = Grid1SetValue
-        Viewport.Width = 861.000000000000000000
-        Viewport.Height = 242.000000000000000000
-        object Column1: TColumn
-          Header = 'Item'
-          Size.Width = 353.000000000000000000
-        end
-        object Column2: TColumn
-          Header = 'Value Yesterday'
-          Size.Width = 255.000000000000000000
-        end
-        object Column3: TColumn
-          Header = 'Value Today'
-          Size.Width = 234.000000000000000000
-        end
-      end
       object Button5: TButton
-        Position.X = 1536.000000000000000000
-        Position.Y = 462.000000000000000000
-        TabOrder = 13
+        Position.X = 880.000000000000000000
+        Position.Y = 94.000000000000000000
+        TabOrder = 12
         Text = 'Button5'
-        OnClick = Button5Click
-      end
-      object Label5: TLabel
-        StyledSettings = [Family, Size, Style]
-        Position.X = 1152.000000000000000000
-        Position.Y = 430.000000000000000000
-        TextSettings.FontColor = claLawngreen
-        Text = 'Label5'
-        TabOrder = 14
       end
       object Panel2: TPanel
         Align = Top
@@ -13642,7 +13607,7 @@ object Form1: TForm1
       CustomIcon = <
         item
         end>
-      IsSelected = True
+      IsSelected = False
       Size.Width = 112.000000000000000000
       Size.Height = 26.000000000000000000
       Size.PlatformDefault = False
