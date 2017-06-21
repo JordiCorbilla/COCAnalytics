@@ -30,57 +30,113 @@ unit lib.coc.view;
 interface
 
 uses
-  FMX.ListBox, lib.coc.achievement, lib.coc.json.parse;
+  FMX.ListBox, lib.coc.achievement, lib.coc.json.parse, lib.coc.detail;
 
 type
   TDisplayAchievement = reference to procedure(list: TListBox; leftPlayer: IAchievement; rightPlayer : IAchievement);
+  TDisplayDetail = reference to procedure(list: TListBox; leftPlayer: IDetail; rightPlayer : IDetail);
 
   TView = class(TObject)
   private
     FLeft : TListBox;
     FRight : TListBox;
+    FLeftPlayer : TCOC;
+    FRightPlayer : TCOC;
   public
-    procedure DisplayAchievements(village : string; leftPlayer : TCOC; rightPlayer : TCOC; display : TDisplayAchievement);
-    Constructor Create(left : TListBox; right : TListBox);
+    procedure DisplayAchievements(village : string; display: TDisplayAchievement);
+    procedure DisplayTroops(village : string; display: TDisplayDetail);
+    procedure DisplayHeroes(village : string; display: TDisplayDetail);
+    procedure DisplaySpells(village : string; display: TDisplayDetail);
+    Constructor Create(left, right: TListBox; leftPlayer, rightPlayer: TCOC);
   end;
 
 implementation
 
 { TView }
 
-constructor TView.Create(left, right: TListBox);
+constructor TView.Create(left, right: TListBox; leftPlayer, rightPlayer: TCOC);
 begin
   FLeft := left;
   FRight := right;
+
+  //Show on the left the player with more achievements
+  //this will ensure that the left side has always more items to display
+  if (leftPlayer.Achievements.Count+leftPlayer.Troops.Count+leftPlayer.Heroes.Count+leftPlayer.Spells.Count) >=
+    (rightPlayer.Achievements.count+rightPlayer.Troops.Count+rightPlayer.Heroes.Count+rightPlayer.Spells.Count) then
+  begin
+    FLeftPlayer := leftPlayer;
+    FRightPlayer := rightPlayer;
+  end
+  else
+  begin
+    FLeftPlayer := rightPlayer;
+    FRightPlayer := leftPlayer;
+  end;
 end;
 
-procedure TView.DisplayAchievements(village : string; leftPlayer, rightPlayer: TCOC; display: TDisplayAchievement);
+procedure TView.DisplayAchievements(village : string; display: TDisplayAchievement);
 var
-  left : TCOC;
-  right : TCOC;
   i : integer;
   achievementLeft : IAchievement;
   achievementRight : IAchievement;
 begin
-  //Show on the left the player with more achievements
-  //this will ensure that the left side has always more items to display
-  if leftPlayer.Achievements.Count >= rightPlayer.Achievements.count then
+  for i := 0 to FLeftPlayer.Achievements.count-1 do
   begin
-    left := leftPlayer;
-    right := rightPlayer;
-  end
-  else
-  begin
-    left := rightPlayer;
-    right := leftPlayer;
-  end;
-
-  for i := 0 to left.Achievements.count-1 do
-  begin
-    if left.Achievements[i].Village = village then
+    if FLeftPlayer.Achievements[i].Village = village then
     begin
-      achievementLeft := left.Achievements[i];
-      achievementRight := right.LookUpAchievement(achievementLeft.Name);
+      achievementLeft := FLeftPlayer.Achievements[i];
+      achievementRight := FRightPlayer.LookUpAchievement(achievementLeft.Name);
+      display(FLeft, achievementLeft, achievementRight);
+    end;
+  end;
+end;
+
+procedure TView.DisplayHeroes(village: string; display: TDisplayDetail);
+var
+  i : integer;
+  achievementLeft : IDetail;
+  achievementRight : IDetail;
+begin
+  for i := 0 to FLeftPlayer.Heroes.count-1 do
+  begin
+    if FLeftPlayer.Heroes[i].Village = village then
+    begin
+      achievementLeft := FLeftPlayer.Heroes[i];
+      achievementRight := FRightPlayer.LookUpHeroe(achievementLeft.Name);
+      display(FLeft, achievementLeft, achievementRight);
+    end;
+  end;
+end;
+
+procedure TView.DisplaySpells(village: string; display: TDisplayDetail);
+var
+  i : integer;
+  achievementLeft : IDetail;
+  achievementRight : IDetail;
+begin
+  for i := 0 to FLeftPlayer.Spells.count-1 do
+  begin
+    if FLeftPlayer.Spells[i].Village = village then
+    begin
+      achievementLeft := FLeftPlayer.Spells[i];
+      achievementRight := FRightPlayer.LookUpSpell(achievementLeft.Name);
+      display(FLeft, achievementLeft, achievementRight);
+    end;
+  end;
+end;
+
+procedure TView.DisplayTroops(village: string; display: TDisplayDetail);
+var
+  i : integer;
+  achievementLeft : IDetail;
+  achievementRight : IDetail;
+begin
+  for i := 0 to FLeftPlayer.Troops.count-1 do
+  begin
+    if FLeftPlayer.Troops[i].Village = village then
+    begin
+      achievementLeft := FLeftPlayer.Troops[i];
+      achievementRight := FRightPlayer.LookUpTroop(achievementLeft.Name);
       display(FLeft, achievementLeft, achievementRight);
     end;
   end;

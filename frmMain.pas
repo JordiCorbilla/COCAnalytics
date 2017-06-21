@@ -136,7 +136,6 @@ var
   troops: TJSONArray;
   heroes: TJSONArray;
   spells: TJSONArray;
-  versusBattleWinCount : TJSONString;
 begin
   //Get the JSON value from COC API.
   if edtuser.Text = '' then
@@ -267,8 +266,8 @@ begin
   AddSideBySide(list, 'VersusBattleWinCount', COC1.Basic.VersusBattleWinCount.ToString, COC1.Basic.VersusBattleWinCount, COC1.Basic.VersusBattleWinCount, COC2.Basic.VersusBattleWinCount.ToString, COC1.Basic.VersusBattleWinCount, COC1.Basic.VersusBattleWinCount);
 
   //Check if left side has more than right side
-  view := TView.Create(list, list2);
-  view.DisplayAchievements('home', COC1, COC2,
+  view := TView.Create(list, list2, COC1, COC2);
+  view.DisplayAchievements('home',
     procedure (list: TListBox; leftPlayer: IAchievement; rightPlayer : IAchievement)
     begin
         if (rightPlayer <> nil) then
@@ -277,28 +276,14 @@ begin
           AddSideBySide(list, leftPlayer.Name, leftPlayer.GetAchievementValue, leftPlayer.Value, leftPlayer.Target, '', 0, 1);
     end);
 
-
-  for i := 0 to COC1.Troops.count-1 do
-  begin
-    if COC1.Troops[i].Village='home' then
+  view.DisplayTroops('home',
+    procedure (list: TListBox; leftPlayer: IDetail; rightPlayer : IDetail)
     begin
-      detail1 := COC1.Troops[i];
-      detail2 := COC2.LookUpTroop(detail1.Name);
-      if (detail2 <> nil) then
-        AddSideBySide(list, detail1.Name, detail1.GetAchievementValue, detail1.Level, detail1.MaxLevel, detail2.GetAchievementValue, detail2.Level, detail2.MaxLevel)
-      else
-        AddSideBySide(list, detail1.Name, detail1.GetAchievementValue, detail1.Level, detail1.MaxLevel, '', 0, 1);
-    end
-    else
-    begin
-      detail1 := COC1.Troops[i];
-      detail2 := COC2.LookUpTroop(detail1.Name);
-      if (detail2 <> nil) then
-        AddSideBySide(list2, detail1.Name, detail1.GetAchievementValue, detail1.Level, detail1.MaxLevel, detail2.GetAchievementValue, detail2.Level, detail2.MaxLevel)
-      else
-        AddSideBySide(list2, detail1.Name, detail1.GetAchievementValue, detail1.Level, detail1.MaxLevel, '', 0, 1);
-    end;
-  end;
+        if (rightPlayer <> nil) then
+          AddSideBySide(list, leftPlayer.Name, leftPlayer.GetAchievementValue, leftPlayer.Level, leftPlayer.MaxLevel, rightPlayer.GetAchievementValue, rightPlayer.Level, rightPlayer.MaxLevel)
+        else
+          AddSideBySide(list, leftPlayer.Name, leftPlayer.GetAchievementValue, leftPlayer.Level, leftPlayer.MaxLevel, '', 0, 1);
+    end);
 
   for i := 0 to COC1.Spells.count-1 do
   begin
