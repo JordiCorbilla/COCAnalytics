@@ -13406,7 +13406,7 @@ object Form1: TForm1
     Size.Width = 1734.000000000000000000
     Size.Height = 956.000000000000000000
     Size.PlatformDefault = False
-    TabIndex = 0
+    TabIndex = 1
     TabOrder = 8
     TabPosition = PlatformDefault
     Sizes = (
@@ -13418,7 +13418,7 @@ object Form1: TForm1
       CustomIcon = <
         item
         end>
-      IsSelected = True
+      IsSelected = False
       Size.Width = 67.000000000000000000
       Size.Height = 26.000000000000000000
       Size.PlatformDefault = False
@@ -13607,7 +13607,7 @@ object Form1: TForm1
       CustomIcon = <
         item
         end>
-      IsSelected = False
+      IsSelected = True
       Size.Width = 112.000000000000000000
       Size.Height = 26.000000000000000000
       Size.PlatformDefault = False

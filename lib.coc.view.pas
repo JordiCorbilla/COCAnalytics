@@ -35,6 +35,7 @@ uses
 type
   TDisplayAchievement = reference to procedure(list: TListBox; leftPlayer: IAchievement; rightPlayer : IAchievement);
   TDisplayDetail = reference to procedure(list: TListBox; leftPlayer: IDetail; rightPlayer : IDetail);
+  TDisplayBasic = reference to procedure(list: TListBox; mainLabel : string; textLeft: string; valueLeft, maxLeft: integer; textRight: string; valueRight, maxRight: integer);
 
   TView = class(TObject)
   private
@@ -47,6 +48,7 @@ type
     procedure DisplayTroops(village : string; display: TDisplayDetail);
     procedure DisplayHeroes(village : string; display: TDisplayDetail);
     procedure DisplaySpells(village : string; display: TDisplayDetail);
+    procedure DisplayBasic(display : TDisplayBasic);
     Constructor Create(left, right: TListBox; leftPlayer, rightPlayer: TCOC);
   end;
 
@@ -89,6 +91,11 @@ begin
       display(FLeft, achievementLeft, achievementRight);
     end;
   end;
+end;
+
+procedure TView.DisplayBasic(display: TDisplayBasic);
+begin
+  display(FLeft, 'Tag', FLeftPlayer.Basic.Tag, 0, 1, FRightPlayer.Basic.Tag, 0, 1);
 end;
 
 procedure TView.DisplayHeroes(village: string; display: TDisplayDetail);

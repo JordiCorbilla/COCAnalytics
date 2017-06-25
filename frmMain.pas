@@ -248,7 +248,11 @@ begin
   COC1.Load(jsonDocument1);
   COC2.Load(jsonDocument2);
 
-  AddSideBySide(list, 'Tag', COC1.Basic.Tag, 0, 1, COC2.Basic.Tag, 0, 1);
+  //Check if left side has more than right side
+  view := TView.Create(list, list2, COC1, COC2);
+
+  view.DisplayBasic(AddSideBySide);
+
   AddSideBySide(list, 'Name', COC1.Basic.Name, 0, 1, COC2.Basic.Name, 0, 1);
   AddSideBySide(list, 'TownHallLevel', COC1.Basic.TownHallLevel.ToString, COC1.Basic.TownHallLevel, COC1.Basic.TownHallLevel, COC2.Basic.TownHallLevel.ToString, COC2.Basic.TownHallLevel, COC2.Basic.TownHallLevel);
   AddSideBySide(list, 'ExpLevel', COC1.Basic.ExpLevel.ToString, COC1.Basic.ExpLevel, COC1.Basic.ExpLevel, COC2.Basic.ExpLevel.ToString, COC2.Basic.ExpLevel, COC2.Basic.ExpLevel);
@@ -265,8 +269,7 @@ begin
   AddSideBySide(list, 'DonationsReceived', COC1.Basic.DonationsReceived.ToString, COC1.Basic.DonationsReceived, COC1.Basic.DonationsReceived, COC2.Basic.DonationsReceived.ToString, COC2.Basic.DonationsReceived, COC2.Basic.DonationsReceived);
   AddSideBySide(list, 'VersusBattleWinCount', COC1.Basic.VersusBattleWinCount.ToString, COC1.Basic.VersusBattleWinCount, COC1.Basic.VersusBattleWinCount, COC2.Basic.VersusBattleWinCount.ToString, COC1.Basic.VersusBattleWinCount, COC1.Basic.VersusBattleWinCount);
 
-  //Check if left side has more than right side
-  view := TView.Create(list, list2, COC1, COC2);
+
   view.DisplayAchievements('home',
     procedure (list: TListBox; leftPlayer: IAchievement; rightPlayer : IAchievement)
     begin
