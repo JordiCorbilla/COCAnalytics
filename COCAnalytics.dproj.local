@@ -2,22 +2,24 @@
 <BorlandProject>
 	<Transactions>
     <Transaction>2017/05/28 22:00:16.000.688,=C:\Users\thund\OneDrive\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
-    <Transaction>2017/05/28 22:00:52.000.862,C:\Users\thund\OneDrive\Documents\Embarcadero\Studio\Projects\Unit1.fmx=C:\Users\thund\Source\Repos\COCAnalytics\frmMain.fmx</Transaction>
-    <Transaction>2017/05/28 22:00:52.000.862,C:\Users\thund\OneDrive\Documents\Embarcadero\Studio\Projects\Unit1.pas=C:\Users\thund\Source\Repos\COCAnalytics\frmMain.pas</Transaction>
-    <Transaction>2017/05/28 22:00:59.000.749,C:\Users\thund\OneDrive\Documents\Embarcadero\Studio\Projects\Project1.dproj=C:\Users\thund\Source\Repos\COCAnalytics\COCAnalytics.dproj</Transaction>
-    <Transaction>2017/05/28 22:08:28.000.254,=C:\Users\thund\Source\Repos\COCAnalytics\lib.coc.api.rest.pas</Transaction>
+    <Transaction>2017/05/28 22:00:52.000.862,C:\Users\thund\Source\Repos\COCAnalytics\frmMain.pas=C:\Users\thund\OneDrive\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2017/05/28 22:00:52.000.862,C:\Users\thund\Source\Repos\COCAnalytics\frmMain.fmx=C:\Users\thund\OneDrive\Documents\Embarcadero\Studio\Projects\Unit1.fmx</Transaction>
+    <Transaction>2017/05/28 22:00:59.000.749,C:\Users\thund\Source\Repos\COCAnalytics\COCAnalytics.dproj=C:\Users\thund\OneDrive\Documents\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
     <Transaction>2017/05/28 22:08:28.000.274,=C:\Users\thund\Source\Repos\COCAnalytics\lib.options.pas</Transaction>
-    <Transaction>2017/05/29 15:55:45.563,=C:\Users\thund\Source\Repos\COCAnalytics\Unit1.pas</Transaction>
-    <Transaction>2017/05/29 15:55:56.511,C:\Users\thund\Source\Repos\COCAnalytics\lib.coc.json.parse.pas=C:\Users\thund\Source\Repos\COCAnalytics\Unit1.pas</Transaction>
-    <Transaction>2017/05/29 19:26:16.627,=C:\Users\thund\Source\Repos\COCAnalytics\Unit1.pas</Transaction>
-    <Transaction>2017/05/29 19:26:25.976,C:\Users\thund\Source\Repos\COCAnalytics\lib.coc.detail.pas=C:\Users\thund\Source\Repos\COCAnalytics\Unit1.pas</Transaction>
-    <Transaction>2017/05/29 19:32:49.720,=C:\Users\thund\Source\Repos\COCAnalytics\Unit1.pas</Transaction>
-    <Transaction>2017/05/29 19:33:06.609,C:\Users\thund\Source\Repos\COCAnalytics\lib.coc.achievement.pas=C:\Users\thund\Source\Repos\COCAnalytics\Unit1.pas</Transaction>
-    <Transaction>2017/05/29 21:48:29.309,=C:\Users\thund\Source\Repos\COCAnalytics\Unit1.pas</Transaction>
-    <Transaction>2017/05/29 21:48:39.914,C:\Users\thund\Source\Repos\COCAnalytics\lib.coc.comparer.pas=C:\Users\thund\Source\Repos\COCAnalytics\Unit1.pas</Transaction>
-    <Transaction>2017/05/29 23:17:24.468,=C:\Users\thund\Source\Repos\COCAnalytics\Unit1.pas</Transaction>
-    <Transaction>2017/05/29 23:17:33.806,C:\Users\thund\Source\Repos\COCAnalytics\lib.coc.basic.pas=C:\Users\thund\Source\Repos\COCAnalytics\Unit1.pas</Transaction>
-    <Transaction>2017/05/31 23:33:28.694,=C:\Users\thund\Source\Repos\COCAnalytics\Unit1.pas</Transaction>
-    <Transaction>2017/05/31 23:33:38.236,C:\Users\thund\Source\Repos\COCAnalytics\lib.coc.json.mapper.pas=C:\Users\thund\Source\Repos\COCAnalytics\Unit1.pas</Transaction>
+    <Transaction>2017/05/28 22:08:28.000.254,=C:\Users\thund\Source\Repos\COCAnalytics\lib.coc.api.rest.pas</Transaction>
+    <Transaction>2017/05/29 15:55:45.000.563,=C:\Users\thund\Source\Repos\COCAnalytics\Unit1.pas</Transaction>
+    <Transaction>2017/05/29 15:55:56.000.511,C:\Users\thund\Source\Repos\COCAnalytics\Unit1.pas=C:\Users\thund\Source\Repos\COCAnalytics\lib.coc.json.parse.pas</Transaction>
+    <Transaction>2017/05/29 19:26:16.000.627,=C:\Users\thund\Source\Repos\COCAnalytics\Unit1.pas</Transaction>
+    <Transaction>2017/05/29 19:26:25.000.976,C:\Users\thund\Source\Repos\COCAnalytics\Unit1.pas=C:\Users\thund\Source\Repos\COCAnalytics\lib.coc.detail.pas</Transaction>
+    <Transaction>2017/05/29 19:32:49.000.720,=C:\Users\thund\Source\Repos\COCAnalytics\Unit1.pas</Transaction>
+    <Transaction>2017/05/29 19:33:06.000.609,C:\Users\thund\Source\Repos\COCAnalytics\Unit1.pas=C:\Users\thund\Source\Repos\COCAnalytics\lib.coc.achievement.pas</Transaction>
+    <Transaction>2017/05/29 21:48:29.000.309,=C:\Users\thund\Source\Repos\COCAnalytics\Unit1.pas</Transaction>
+    <Transaction>2017/05/29 21:48:39.000.914,C:\Users\thund\Source\Repos\COCAnalytics\Unit1.pas=C:\Users\thund\Source\Repos\COCAnalytics\lib.coc.comparer.pas</Transaction>
+    <Transaction>2017/05/29 23:17:24.000.468,=C:\Users\thund\Source\Repos\COCAnalytics\Unit1.pas</Transaction>
+    <Transaction>2017/05/29 23:17:33.000.806,C:\Users\thund\Source\Repos\COCAnalytics\Unit1.pas=C:\Users\thund\Source\Repos\COCAnalytics\lib.coc.basic.pas</Transaction>
+    <Transaction>2017/05/31 23:33:28.000.694,=C:\Users\thund\Source\Repos\COCAnalytics\Unit1.pas</Transaction>
+    <Transaction>2017/05/31 23:33:38.000.236,C:\Users\thund\Source\Repos\COCAnalytics\Unit1.pas=C:\Users\thund\Source\Repos\COCAnalytics\lib.coc.json.mapper.pas</Transaction>
+    <Transaction>2017/06/20 20:36:05.044,=C:\Users\thund\Source\Repos\COCAnalytics\Unit1.pas</Transaction>
+    <Transaction>2017/06/20 20:36:15.873,C:\Users\thund\Source\Repos\COCAnalytics\lib.coc.view.pas=C:\Users\thund\Source\Repos\COCAnalytics\Unit1.pas</Transaction>
   </Transactions>
 </BorlandProject>

@@ -82,6 +82,10 @@ type
     function GetVillage() : string;
   public
     function GetLabel() : string;
+    constructor Create();
+    class function New() : IAchievement;
+    function Add(Name : string; Stars : integer; Value : int64; Target : int64; Info : string; CompletionInfo : string; Village : string) : IAchievement;
+    function GetAchievementValue() : string;
   published
     property Name : string read GetName write SetName;
     property Stars : integer read GetStars write SetStars;
@@ -90,10 +94,6 @@ type
     property Info : string read GetInfo write SetInfo;
     property CompletionInfo : string read GetCompletionInfo write SetCompletionInfo;
     property Village : string read GetVillage write SetVillage;
-    constructor Create();
-    class function New() : IAchievement;
-    function Add(Name : string; Stars : integer; Value : int64; Target : int64; Info : string; CompletionInfo : string; Village : string) : IAchievement;
-    function GetAchievementValue() : string;
   end;
 
 implementation

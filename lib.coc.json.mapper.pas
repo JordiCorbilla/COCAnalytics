@@ -34,11 +34,11 @@ uses
 
 type
   IJsonMapper = interface
-    procedure Map(AObject : TObject; json: TJSONObject);
+    procedure Map(const refObject: TObject; const refJson: TJSONObject);
   end;
 
   TJsonMapper = class(TInterfacedObject, IJsonMapper)
-    procedure Map(AObject : TObject; json: TJSONObject);
+    procedure Map(const refObject: TObject; const refJson: TJSONObject);
     class function New() : IJsonMapper;
     function GetPropertyName(value : string) : string;
   end;
@@ -66,7 +66,7 @@ begin
     result := value;
 end;
 
-procedure TJsonMapper.Map(AObject: TObject; json: TJSONObject);
+procedure TJsonMapper.Map(const refObject: TObject; const refJson: TJSONObject);
 var
   propertyIndex: Integer;
   propertyCount: Integer;
@@ -78,45 +78,47 @@ var
 const
   TypeKinds: TTypeKinds = [tkEnumeration, tkString, tkLString, tkWString, tkUString, tkInteger, tkInt64];
 begin
-  propertyCount := GetPropList(AObject.ClassInfo, TypeKinds, nil);
+  propertyCount := GetPropList(refObject.ClassInfo, TypeKinds, nil);
   GetMem(propertyList, propertyCount * SizeOf(PPropInfo));
   try
-    GetPropList(AObject.ClassInfo, TypeKinds, propertyList);
+    GetPropList(refObject.ClassInfo, TypeKinds, propertyList);
     for propertyIndex := 0 to propertyCount - 1 do
     begin
       propertyInfo := propertyList^[propertyIndex];
       if Assigned(propertyInfo^.SetProc) then
-      case propertyInfo^.PropType^.Kind of
-        tkString, tkLString, tkUString, tkWString:
+      begin
+        case propertyInfo^.PropType^.Kind of
+          tkString, tkLString, tkUString, tkWString:
+            begin
+              value := GetPropertyName(propertyInfo.Name);
+              if (refJson.Get(value) <> nil) then
+              begin
+                value := (refJson.Get(value).JsonValue as TJSONString).Value;
+                SetStrProp(refObject, propertyInfo, value);
+              end;
+            end;
+          tkInteger:
           begin
             value := GetPropertyName(propertyInfo.Name);
-            if (json.Get(value) <> nil) then
+            if (refJson.Get(value) <> nil) then
             begin
-              value := (json.Get(value).JsonValue as TJSONString).Value;
-              SetStrProp(AObject, propertyInfo, value);
+              valueInt := (refJson.Get(value).JsonValue as TJSONNumber).AsInt;
+              SetOrdProp(refObject, propertyInfo, valueInt);
             end;
           end;
-        tkInteger:
-        begin
-          value := GetPropertyName(propertyInfo.Name);
-          if (json.Get(value) <> nil) then
+          tkInt64:
           begin
-            valueInt := (json.Get(value).JsonValue as TJSONNumber).AsInt;
-            SetOrdProp(AObject, propertyInfo, valueInt);
+            value := GetPropertyName(propertyInfo.Name);
+            if (refJson.Get(value) <> nil) then
+            begin
+              valueInt64 := (refJson.Get(value).JsonValue as TJSONNumber).AsInt64;
+              SetInt64Prop(refObject, propertyInfo, valueInt64);
+            end;
           end;
+          tkEnumeration:
+            if GetTypeData(propertyInfo^.PropType^)^.BaseType^ = TypeInfo(Boolean) then
+              SetOrdProp(refObject, propertyInfo, 0);
         end;
-        tkInt64:
-        begin
-          value := GetPropertyName(propertyInfo.Name);
-          if (json.Get(value) <> nil) then
-          begin
-            valueInt64 := (json.Get(value).JsonValue as TJSONNumber).AsInt64;
-            SetInt64Prop(AObject, propertyInfo, valueInt64);
-          end;
-        end;
-        tkEnumeration:
-          if GetTypeData(propertyInfo^.PropType^)^.BaseType^ = TypeInfo(Boolean) then
-            SetOrdProp(AObject, propertyInfo, 0);
       end;
     end;
   finally

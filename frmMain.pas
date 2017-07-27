@@ -253,23 +253,6 @@ begin
 
   view.DisplayBasic(AddSideBySide);
 
-  AddSideBySide(list, 'Name', COC1.Basic.Name, 0, 1, COC2.Basic.Name, 0, 1);
-  AddSideBySide(list, 'TownHallLevel', COC1.Basic.TownHallLevel.ToString, COC1.Basic.TownHallLevel, COC1.Basic.TownHallLevel, COC2.Basic.TownHallLevel.ToString, COC2.Basic.TownHallLevel, COC2.Basic.TownHallLevel);
-  AddSideBySide(list, 'ExpLevel', COC1.Basic.ExpLevel.ToString, COC1.Basic.ExpLevel, COC1.Basic.ExpLevel, COC2.Basic.ExpLevel.ToString, COC2.Basic.ExpLevel, COC2.Basic.ExpLevel);
-  AddSideBySide(list, 'Trophies', COC1.Basic.Trophies.ToString, COC1.Basic.Trophies, COC1.Basic.Trophies, COC2.Basic.Trophies.ToString, COC2.Basic.Trophies, COC2.Basic.Trophies);
-  AddSideBySide(list, 'BestTrophies', COC1.Basic.BestTrophies.ToString, COC1.Basic.Trophies, COC1.Basic.BestTrophies, COC2.Basic.BestTrophies.ToString, COC2.Basic.Trophies, COC2.Basic.BestTrophies);
-  AddSideBySide(list, 'WarStars', COC1.Basic.WarStars.ToString, COC1.Basic.WarStars, COC1.Basic.WarStars, COC2.Basic.WarStars.ToString, COC2.Basic.WarStars, COC2.Basic.WarStars);
-  AddSideBySide(list, 'AttackWins', COC1.Basic.AttackWins.ToString, COC1.Basic.AttackWins, COC1.Basic.AttackWins, COC2.Basic.AttackWins.ToString, COC2.Basic.AttackWins, COC2.Basic.AttackWins);
-  AddSideBySide(list, 'DefenseWins', COC1.Basic.DefenseWins.ToString, COC1.Basic.DefenseWins, COC1.Basic.DefenseWins, COC2.Basic.DefenseWins.ToString, COC2.Basic.DefenseWins, COC2.Basic.DefenseWins);
-  AddSideBySide(list, 'BuilderHallLevel', COC1.Basic.BuilderHallLevel.ToString, COC1.Basic.BuilderHallLevel, COC1.Basic.BuilderHallLevel, COC2.Basic.BuilderHallLevel.ToString, COC1.Basic.BuilderHallLevel, COC1.Basic.BuilderHallLevel);
-  AddSideBySide(list, 'VersusTrophies', COC1.Basic.VersusTrophies.ToString, COC1.Basic.VersusTrophies, COC1.Basic.VersusTrophies, COC2.Basic.VersusTrophies.ToString, COC2.Basic.VersusTrophies, COC2.Basic.VersusTrophies);
-  AddSideBySide(list, 'BestVersusTrophies', COC1.Basic.BestVersusTrophies.ToString, COC1.Basic.BestVersusTrophies, COC1.Basic.BestVersusTrophies, COC2.Basic.BestVersusTrophies.ToString, COC2.Basic.BestVersusTrophies, COC2.Basic.BestVersusTrophies);
-  AddSideBySide(list, 'Role', COC1.Basic.Role, 0, 1, COC2.Basic.Role, 0, 1);
-  AddSideBySide(list, 'Donations', COC1.Basic.Donations.ToString, COC1.Basic.Donations, COC1.Basic.Donations, COC2.Basic.Donations.ToString, COC2.Basic.Donations, COC2.Basic.Donations);
-  AddSideBySide(list, 'DonationsReceived', COC1.Basic.DonationsReceived.ToString, COC1.Basic.DonationsReceived, COC1.Basic.DonationsReceived, COC2.Basic.DonationsReceived.ToString, COC2.Basic.DonationsReceived, COC2.Basic.DonationsReceived);
-  AddSideBySide(list, 'VersusBattleWinCount', COC1.Basic.VersusBattleWinCount.ToString, COC1.Basic.VersusBattleWinCount, COC1.Basic.VersusBattleWinCount, COC2.Basic.VersusBattleWinCount.ToString, COC1.Basic.VersusBattleWinCount, COC1.Basic.VersusBattleWinCount);
-
-
   view.DisplayAchievements('home',
     procedure (list: TListBox; leftPlayer: IAchievement; rightPlayer : IAchievement)
     begin

@@ -54,6 +54,9 @@ type
 
 implementation
 
+uses
+  SysUtils;
+
 { TView }
 
 constructor TView.Create(left, right: TListBox; leftPlayer, rightPlayer: TCOC);
@@ -96,6 +99,21 @@ end;
 procedure TView.DisplayBasic(display: TDisplayBasic);
 begin
   display(FLeft, 'Tag', FLeftPlayer.Basic.Tag, 0, 1, FRightPlayer.Basic.Tag, 0, 1);
+  display(FLeft, 'Name', FLeftPlayer.Basic.Name, 0, 1, FRightPlayer.Basic.Name, 0, 1);
+  display(FLeft, 'TownHallLevel', FLeftPlayer.Basic.TownHallLevel.ToString, FLeftPlayer.Basic.TownHallLevel, FLeftPlayer.Basic.TownHallLevel, FRightPlayer.Basic.TownHallLevel.ToString, FRightPlayer.Basic.TownHallLevel, FRightPlayer.Basic.TownHallLevel);
+  display(FLeft, 'ExpLevel', FLeftPlayer.Basic.ExpLevel.ToString, FLeftPlayer.Basic.ExpLevel, FLeftPlayer.Basic.ExpLevel, FRightPlayer.Basic.ExpLevel.ToString, FRightPlayer.Basic.ExpLevel, FRightPlayer.Basic.ExpLevel);
+  display(FLeft, 'Trophies', FLeftPlayer.Basic.Trophies.ToString, FLeftPlayer.Basic.Trophies, FLeftPlayer.Basic.Trophies, FRightPlayer.Basic.Trophies.ToString, FRightPlayer.Basic.Trophies, FRightPlayer.Basic.Trophies);
+  display(FLeft, 'BestTrophies', FLeftPlayer.Basic.BestTrophies.ToString, FLeftPlayer.Basic.Trophies, FLeftPlayer.Basic.BestTrophies, FRightPlayer.Basic.BestTrophies.ToString, FRightPlayer.Basic.Trophies, FRightPlayer.Basic.BestTrophies);
+  display(FLeft, 'WarStars', FLeftPlayer.Basic.WarStars.ToString, FLeftPlayer.Basic.WarStars, FLeftPlayer.Basic.WarStars, FRightPlayer.Basic.WarStars.ToString, FRightPlayer.Basic.WarStars, FRightPlayer.Basic.WarStars);
+  display(FLeft, 'AttackWins', FLeftPlayer.Basic.AttackWins.ToString, FLeftPlayer.Basic.AttackWins, FLeftPlayer.Basic.AttackWins, FRightPlayer.Basic.AttackWins.ToString, FRightPlayer.Basic.AttackWins, FRightPlayer.Basic.AttackWins);
+  display(FLeft, 'DefenseWins', FLeftPlayer.Basic.DefenseWins.ToString, FLeftPlayer.Basic.DefenseWins, FLeftPlayer.Basic.DefenseWins, FRightPlayer.Basic.DefenseWins.ToString, FRightPlayer.Basic.DefenseWins, FRightPlayer.Basic.DefenseWins);
+  display(FLeft, 'BuilderHallLevel', FLeftPlayer.Basic.BuilderHallLevel.ToString, FLeftPlayer.Basic.BuilderHallLevel, FLeftPlayer.Basic.BuilderHallLevel, FRightPlayer.Basic.BuilderHallLevel.ToString, FLeftPlayer.Basic.BuilderHallLevel, FLeftPlayer.Basic.BuilderHallLevel);
+  display(FLeft, 'VersusTrophies', FLeftPlayer.Basic.VersusTrophies.ToString, FLeftPlayer.Basic.VersusTrophies, FLeftPlayer.Basic.VersusTrophies, FRightPlayer.Basic.VersusTrophies.ToString, FRightPlayer.Basic.VersusTrophies, FRightPlayer.Basic.VersusTrophies);
+  display(FLeft, 'BestVersusTrophies', FLeftPlayer.Basic.BestVersusTrophies.ToString, FLeftPlayer.Basic.BestVersusTrophies, FLeftPlayer.Basic.BestVersusTrophies, FRightPlayer.Basic.BestVersusTrophies.ToString, FRightPlayer.Basic.BestVersusTrophies, FRightPlayer.Basic.BestVersusTrophies);
+  display(FLeft, 'Role', FLeftPlayer.Basic.Role, 0, 1, FRightPlayer.Basic.Role, 0, 1);
+  display(FLeft, 'Donations', FLeftPlayer.Basic.Donations.ToString, FLeftPlayer.Basic.Donations, FLeftPlayer.Basic.Donations, FRightPlayer.Basic.Donations.ToString, FRightPlayer.Basic.Donations, FRightPlayer.Basic.Donations);
+  display(FLeft, 'DonationsReceived', FLeftPlayer.Basic.DonationsReceived.ToString, FLeftPlayer.Basic.DonationsReceived, FLeftPlayer.Basic.DonationsReceived, FRightPlayer.Basic.DonationsReceived.ToString, FRightPlayer.Basic.DonationsReceived, FRightPlayer.Basic.DonationsReceived);
+  display(FLeft, 'VersusBattleWinCount', FLeftPlayer.Basic.VersusBattleWinCount.ToString, FLeftPlayer.Basic.VersusBattleWinCount, FLeftPlayer.Basic.VersusBattleWinCount, FRightPlayer.Basic.VersusBattleWinCount.ToString, FLeftPlayer.Basic.VersusBattleWinCount, FLeftPlayer.Basic.VersusBattleWinCount);
 end;
 
 procedure TView.DisplayHeroes(village: string; display: TDisplayDetail);
