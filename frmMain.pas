@@ -89,6 +89,7 @@ type
     procedure AddProgressBar(list: TListBoxItem; value, limit1, limit2: integer);
     procedure AddLeftLabel(list : TListBoxItem; text : string; valueLeft, valueRight : integer; maxLeft, maxRight : integer);
     procedure AddRightLabel(list : TListBoxItem; text : string; valueLeft, valueRight : integer; maxLeft, maxRight : integer);
+    procedure AddTitle(list: TListBox; mainLabel: string);
   public
     document : string;
     items : array of array of TValue;
@@ -253,6 +254,9 @@ begin
 
   view.DisplayBasic(AddSideBySide);
 
+  AddTitle(list, 'Achievements');
+  AddTitle(list2, 'Achievements');
+
   view.DisplayAchievements('home',
     procedure (list: TListBox; leftPlayer: TAchievement; rightPlayer : TAchievement)
     begin
@@ -262,6 +266,9 @@ begin
           AddSideBySide(list, leftPlayer.Name, leftPlayer.GetAchievementValue, leftPlayer.Value, leftPlayer.Target, '', 0, 1);
     end);
 
+  AddTitle(list, 'Troops');
+  AddTitle(list2, 'Troops');
+
   view.DisplayTroops('home',
     procedure (list: TListBox; leftPlayer: TDetail; rightPlayer : TDetail)
     begin
@@ -270,6 +277,9 @@ begin
         else
           AddSideBySide(list, leftPlayer.Name, leftPlayer.GetAchievementValue, leftPlayer.Level, leftPlayer.MaxLevel, '', 0, 1);
     end);
+
+  AddTitle(list, 'Spells');
+  AddTitle(list2, 'Spells');
 
   for i := 0 to COC1.Spells.count-1 do
   begin
@@ -292,6 +302,9 @@ begin
         AddSideBySide(list2, detail1.Name, detail1.GetAchievementValue, detail1.Level, detail1.MaxLevel, '', 0, 1);
     end;
   end;
+
+  AddTitle(list, 'Heroes');
+  AddTitle(list2, 'Heroes');
 
   for i := 0 to COC1.Heroes.count-1 do
   begin
@@ -394,6 +407,21 @@ begin
   lab1.Align := TAlignLayout.Right;
 end;
 
+procedure TForm1.AddTitle(list: TListBox; mainLabel: string);
+var
+  l1: TListBoxItem;
+  lab1 : TLabel;
+begin
+  l1 := TListBoxItem.Create(list);
+  l1.Parent := list;
+
+  lab1 := TLabel.Create(l1);
+  lab1.Parent := l1;
+  lab1.Width := 400;
+  lab1.Text := mainLabel;
+  lab1.Align := TAlignLayout.Left;
+end;
+
 procedure TForm1.AddSideBySide(list: TListBox; mainLabel : string; textLeft: string; valueLeft, maxLeft: integer; textRight: string; valueRight, maxRight: integer);
 var
   l1: TListBoxItem;
@@ -401,6 +429,12 @@ var
 begin
   l1 := TListBoxItem.Create(list);
   l1.Parent := list;
+
+  lab1 := TLabel.Create(l1);
+  lab1.Parent := l1;
+  lab1.Width := 10;
+  lab1.Text := ' ';
+  lab1.Align := TAlignLayout.Left;
 
   lab1 := TLabel.Create(l1);
   lab1.StyledSettings := [TStyledSetting.Family, TStyledSetting.Size, TStyledSetting.Style];
