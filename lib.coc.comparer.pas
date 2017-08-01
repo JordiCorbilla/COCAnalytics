@@ -33,21 +33,21 @@ uses
   Contnrs, Generics.Collections, Generics.defaults, lib.coc.detail, lib.coc.achievement;
 
 type
-  TIDetailComparer = class(TComparer<IDetail>)
+  TIDetailComparer = class(TComparer<TDetail>)
   public
-    function Compare(const Left, Right: IDetail): Integer; override;
+    function Compare(const Left, Right: TDetail): Integer; override;
   end;
 
-  TIAchievementComparer = class(TComparer<IAchievement>)
+  TIAchievementComparer = class(TComparer<TAchievement>)
   public
-    function Compare(const Left, Right: IAchievement): Integer; override;
+    function Compare(const Left, Right: TAchievement): Integer; override;
   end;
 
 implementation
 
 { TIDetailComparer }
 
-function TIDetailComparer.Compare(const Left, Right: IDetail): Integer;
+function TIDetailComparer.Compare(const Left, Right: TDetail): Integer;
 var
   calcLeft : double;
   calcRight : double;
@@ -59,7 +59,7 @@ end;
 
 { TIAchievementComparer }
 
-function TIAchievementComparer.Compare(const Left, Right: IAchievement): Integer;
+function TIAchievementComparer.Compare(const Left, Right: TAchievement): Integer;
 var
   calcLeft : double;
   calcRight : double;

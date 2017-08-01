@@ -13693,6 +13693,8 @@ object Form1: TForm1
           StyleLookup = ''
           TabOrder = 0
           Text = 'Home Village'
+          ExplicitSize.cx = 92.000000000000000000
+          ExplicitSize.cy = 26.000000000000000000
           object ListBoxUser1: TListBox
             Align = Client
             Size.Width = 1734.000000000000000000
@@ -13718,6 +13720,8 @@ object Form1: TForm1
           StyleLookup = ''
           TabOrder = 0
           Text = 'Builder Base Village'
+          ExplicitSize.cx = 124.000000000000000000
+          ExplicitSize.cy = 26.000000000000000000
           object ListBoxBuilder: TListBox
             Align = Client
             Size.Width = 1734.000000000000000000

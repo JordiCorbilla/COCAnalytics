@@ -240,7 +240,7 @@ procedure TForm1.LoadDocument(jsonDocument1 : string; jsonDocument2 : string; li
 var
   COC1, COC2 : TCOC;
   i: Integer;
-  detail1, detail2 : IDetail;
+  detail1, detail2 : TDetail;
   view : TView;
 begin
   COC1 := TCOC.Create();
@@ -254,7 +254,7 @@ begin
   view.DisplayBasic(AddSideBySide);
 
   view.DisplayAchievements('home',
-    procedure (list: TListBox; leftPlayer: IAchievement; rightPlayer : IAchievement)
+    procedure (list: TListBox; leftPlayer: TAchievement; rightPlayer : TAchievement)
     begin
         if (rightPlayer <> nil) then
           AddSideBySide(list, leftPlayer.Name, leftPlayer.GetAchievementValue, leftPlayer.Value, leftPlayer.Target, rightPlayer.GetAchievementValue, rightPlayer.Value, rightPlayer.Target)
@@ -263,7 +263,7 @@ begin
     end);
 
   view.DisplayTroops('home',
-    procedure (list: TListBox; leftPlayer: IDetail; rightPlayer : IDetail)
+    procedure (list: TListBox; leftPlayer: TDetail; rightPlayer : TDetail)
     begin
         if (rightPlayer <> nil) then
           AddSideBySide(list, leftPlayer.Name, leftPlayer.GetAchievementValue, leftPlayer.Level, leftPlayer.MaxLevel, rightPlayer.GetAchievementValue, rightPlayer.Level, rightPlayer.MaxLevel)

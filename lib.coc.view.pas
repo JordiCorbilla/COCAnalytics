@@ -33,8 +33,8 @@ uses
   FMX.ListBox, lib.coc.achievement, lib.coc.json.parse, lib.coc.detail;
 
 type
-  TDisplayAchievement = reference to procedure(list: TListBox; leftPlayer: IAchievement; rightPlayer : IAchievement);
-  TDisplayDetail = reference to procedure(list: TListBox; leftPlayer: IDetail; rightPlayer : IDetail);
+  TDisplayAchievement = reference to procedure(list: TListBox; leftPlayer: TAchievement; rightPlayer : TAchievement);
+  TDisplayDetail = reference to procedure(list: TListBox; leftPlayer: TDetail; rightPlayer : TDetail);
   TDisplayBasic = reference to procedure(list: TListBox; mainLabel : string; textLeft: string; valueLeft, maxLeft: integer; textRight: string; valueRight, maxRight: integer);
 
   TView = class(TObject)
@@ -82,8 +82,8 @@ end;
 procedure TView.DisplayAchievements(village : string; display: TDisplayAchievement);
 var
   i : integer;
-  achievementLeft : IAchievement;
-  achievementRight : IAchievement;
+  achievementLeft : TAchievement;
+  achievementRight : TAchievement;
 begin
   for i := 0 to FLeftPlayer.Achievements.count-1 do
   begin
@@ -119,8 +119,8 @@ end;
 procedure TView.DisplayHeroes(village: string; display: TDisplayDetail);
 var
   i : integer;
-  achievementLeft : IDetail;
-  achievementRight : IDetail;
+  achievementLeft : TDetail;
+  achievementRight : TDetail;
 begin
   for i := 0 to FLeftPlayer.Heroes.count-1 do
   begin
@@ -136,8 +136,8 @@ end;
 procedure TView.DisplaySpells(village: string; display: TDisplayDetail);
 var
   i : integer;
-  achievementLeft : IDetail;
-  achievementRight : IDetail;
+  achievementLeft : TDetail;
+  achievementRight : TDetail;
 begin
   for i := 0 to FLeftPlayer.Spells.count-1 do
   begin
@@ -153,8 +153,8 @@ end;
 procedure TView.DisplayTroops(village: string; display: TDisplayDetail);
 var
   i : integer;
-  achievementLeft : IDetail;
-  achievementRight : IDetail;
+  achievementLeft : TDetail;
+  achievementRight : TDetail;
 begin
   for i := 0 to FLeftPlayer.Troops.count-1 do
   begin

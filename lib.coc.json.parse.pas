@@ -31,44 +31,40 @@ interface
 
 uses
   System.classes, SysUtils, lib.coc.detail, lib.coc.achievement, generics.collections, System.JSON, Data.DBXJSONCommon,
-  lib.coc.comparer, lib.coc.basic;
+  lib.coc.comparer, lib.coc.basic, lib.coc.json.mapper;
 
 type
   TCOC = Class(TObject)
   private
-    FSpells: TList<IDetail>;
-    FTroops: TList<IDetail>;
-    FHeroes: TList<IDetail>;
+    FSpells: TList<TDetail>;
+    FTroops: TList<TDetail>;
+    FHeroes: TList<TDetail>;
     IDetailComparer : TIDetailComparer;
     IAchievementComparer : TIAchievementComparer;
-    FAchievements: TList<IAchievement>;
+    FAchievements: TList<TAchievement>;
     FBasic: TBasic;
-    procedure SetAchievements(const Value: TList<IAchievement>);
-    procedure SetHeroes(const Value: TList<IDetail>);
-    procedure SetSpells(const Value: TList<IDetail>);
-    procedure SetTroops(const Value: TList<IDetail>);
+    procedure SetAchievements(const Value: TList<TAchievement>);
+    procedure SetHeroes(const Value: TList<TDetail>);
+    procedure SetSpells(const Value: TList<TDetail>);
+    procedure SetTroops(const Value: TList<TDetail>);
     procedure SetBasic(const Value: TBasic);
   public
-    property Achievements : TList<IAchievement> read FAchievements write SetAchievements;
-    property Troops : TList<IDetail> read FTroops write SetTroops;
-    property Heroes : TList<IDetail> read FHeroes write SetHeroes;
-    property Spells : TList<IDetail> read FSpells write SetSpells;
+    property Achievements : TList<TAchievement> read FAchievements write SetAchievements;
+    property Troops : TList<TDetail> read FTroops write SetTroops;
+    property Heroes : TList<TDetail> read FHeroes write SetHeroes;
+    property Spells : TList<TDetail> read FSpells write SetSpells;
     property Basic : TBasic read FBasic write SetBasic;
     Constructor Create();
     Destructor Destroy(); override;
     procedure Load(json : string);
-    procedure LoadDetail(list : TList<IDetail>; json: TJSONArray);
-    function LookUpAchievement(name : string) : IAchievement;
-    function LookUpTroop(name : string) : IDetail;
-    function LookUpHeroe(name : string) : IDetail;
-    function LookUpSpell(name : string) : IDetail;
+    function LookUpAchievement(name : string) : TAchievement;
+    function LookUpTroop(name : string) : TDetail;
+    function LookUpHeroe(name : string) : TDetail;
+    function LookUpSpell(name : string) : TDetail;
   End;
 
 
 implementation
-
-uses
-  lib.coc.json.mapper;
 
 { TCOC }
 
@@ -76,10 +72,10 @@ constructor TCOC.Create;
 begin
   IDetailComparer := TIDetailComparer.Create;
   IAchievementComparer := TIAchievementComparer.Create;
-  FSpells := TList<IDetail>.Create(IDetailComparer);
-  FTroops := TList<IDetail>.Create(IDetailComparer);
-  FHeroes := TList<IDetail>.Create(IDetailComparer);
-  FAchievements := TList<IAchievement>.Create(IAchievementComparer);
+  FSpells := TList<TDetail>.Create(IDetailComparer);
+  FTroops := TList<TDetail>.Create(IDetailComparer);
+  FHeroes := TList<TDetail>.Create(IDetailComparer);
+  FAchievements := TList<TAchievement>.Create(IAchievementComparer);
   FBasic := TBasic.Create;
 end;
 
@@ -92,10 +88,10 @@ begin
   inherited;
 end;
 
-function TCOC.LookUpAchievement(name: string): IAchievement;
+function TCOC.LookUpAchievement(name: string): TAchievement;
 var
   i: Integer;
-  pointer : IAChievement;
+  pointer : TAChievement;
 begin
   pointer := nil;
   for i := 0 to FAchievements.count-1 do
@@ -109,10 +105,10 @@ begin
   result := pointer;
 end;
 
-function TCOC.LookUpHeroe(name: string): IDetail;
+function TCOC.LookUpHeroe(name: string): TDetail;
 var
   i: Integer;
-  pointer : IDetail;
+  pointer : TDetail;
 begin
   pointer := nil;
   for i := 0 to FHeroes.count-1 do
@@ -126,10 +122,10 @@ begin
   result := pointer;
 end;
 
-function TCOC.LookUpSpell(name: string): IDetail;
+function TCOC.LookUpSpell(name: string): TDetail;
 var
   i: Integer;
-  pointer : IDetail;
+  pointer : TDetail;
 begin
   pointer := nil;
   for i := 0 to FSpells.count-1 do
@@ -143,10 +139,10 @@ begin
   result := pointer;
 end;
 
-function TCOC.LookUpTroop(name: string): IDetail;
+function TCOC.LookUpTroop(name: string): TDetail;
 var
   i: Integer;
-  pointer : IDetail;
+  pointer : TDetail;
 begin
   pointer := nil;
   for i := 0 to FTroops.count-1 do
@@ -171,7 +167,10 @@ var
   i : integer;
   temp: TJSONObject;
   AchievementDetail : TAchievement;
-  jsonMapper : IJSONMapper;
+  jsonBasic : IJSONMapper<TBasic>;
+  jsonAchievement : IJSONMapper<TAchievement>;
+  jsonDetail : IJSONMapper<TDetail>;
+  detail : TDetail;
 begin
   FSpells.Clear;
   FTroops.Clear;
@@ -180,60 +179,31 @@ begin
 
   stream := TJSONObject.ParseJSONValue(json) as TJSONObject;
   try
-    jsonMapper := TJsonMapper.New();
-    jsonMapper.Map(FBasic, stream);
+    jsonBasic := TJsonMapper<TBasic>.New();
+    jsonBasic.Map(FBasic, stream);
 
     achievements := stream.Get('achievements').JsonValue as TJSONArray;
-    size := achievements.Count;
-    for i := 0 to size - 1 do
-    begin
-      temp := achievements.Items[i] as TJSONObject;
-      AchievementDetail := TAchievement.Create();
-
-      jsonMapper := TJsonMapper.New();
-      jsonMapper.Map(AchievementDetail, temp);
-      FAchievements.Add(AchievementDetail);
-    end;
-    FAchievements.Sort;
+    jsonAchievement := TJsonMapper<TAchievement>.New();
+    jsonAchievement.MapArray(FAchievements, achievements);
 
     troops := stream.Get('troops').JsonValue as TJSONArray;
-    LoadDetail(FTroops, troops);
-    FTroops.Sort;
+    jsonDetail := TJSONMapper<TDetail>.New();
+    jsonDetail.MapArray(FTroops, troops);
 
     heroes := stream.Get('heroes').JsonValue as TJSONArray;
-    LoadDetail(FHeroes, heroes);
-    FHeroes.Sort;
+    jsonDetail := TJSONMapper<TDetail>.New();
+    jsonDetail.MapArray(FHeroes, heroes);
 
     spells := stream.Get('spells').JsonValue as TJSONArray;
-    LoadDetail(FSpells, spells);
-    FSpells.Sort;
+    jsonDetail := TJSONMapper<TDetail>.New();
+    jsonDetail.MapArray(FSpells, spells);
 
   finally
     stream.Free;
   end;
 end;
 
-procedure TCOC.LoadDetail(list: TList<IDetail>; json: TJSONArray);
-var
-  size : integer;
-  i : integer;
-  temp: TJSONObject;
-  Detail : IDetail;
-begin
-    size := json.Count;
-    for i := 0 to size - 1 do
-    begin
-      temp := json.Items[i] as TJSONObject;
-      Detail := TDetail.New();
-      Detail.Name := (temp.Get('name').JsonValue as TJSONString).Value;
-      Detail.Level := (temp.Get('level').JsonValue as TJSONNumber).AsInt64;
-      Detail.MaxLevel := (temp.Get('maxLevel').JsonValue as TJSONNumber).AsInt64;
-      Detail.Village := (temp.Get('village').JsonValue as TJSONString).Value;
-      list.Add(Detail);
-    end;
-end;
-
-procedure TCOC.SetAchievements(const Value: TList<IAchievement>);
+procedure TCOC.SetAchievements(const Value: TList<TAchievement>);
 begin
   FAchievements := Value;
 end;
@@ -243,17 +213,17 @@ begin
   FBasic := Value;
 end;
 
-procedure TCOC.SetHeroes(const Value: TList<IDetail>);
+procedure TCOC.SetHeroes(const Value: TList<TDetail>);
 begin
   FHeroes := Value;
 end;
 
-procedure TCOC.SetSpells(const Value: TList<IDetail>);
+procedure TCOC.SetSpells(const Value: TList<TDetail>);
 begin
   FSpells := Value;
 end;
 
-procedure TCOC.SetTroops(const Value: TList<IDetail>);
+procedure TCOC.SetTroops(const Value: TList<TDetail>);
 begin
   FTroops := Value;
 end;

@@ -62,11 +62,12 @@ type
     function GetMaxLevel() : integer;
     function GetName() : string;
     function GetVillage() : string;
-  public
+  published
     property Name : string read GetName write SetName;
     property Level : integer read GetLevel write SetLevel;
     property MaxLevel : integer read GetMaxLevel write SetMaxLevel;
     property Village : string read GetVillage write SetVillage;
+  public
     constructor Create();
     class function New() : IDetail;
     function Add(Name : string; Level: integer; MaxLevel : integer; Village : string) : IDetail;

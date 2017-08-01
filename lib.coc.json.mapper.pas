@@ -30,17 +30,26 @@ unit lib.coc.json.mapper;
 interface
 
 uses
-  System.JSON, Data.DBXJSONCommon;
+  System.JSON, Data.DBXJSONCommon, generics.collections, RTTI;
 
 type
-  IJsonMapper = interface
-    procedure Map(const refObject: TObject; const refJson: TJSONObject);
+  TContainerList<T:class, constructor> = class(TList<T>)
+  public
+    function New: T;
   end;
 
-  TJsonMapper = class(TInterfacedObject, IJsonMapper)
+  IJsonMapper<T: class> = interface
     procedure Map(const refObject: TObject; const refJson: TJSONObject);
-    class function New() : IJsonMapper;
-    function GetPropertyName(value : string) : string;
+    procedure MapArray(const refList: TList<T>; const refJson: TJSONArray);
+  end;
+
+  TJsonMapper<T: class> = class(TInterfacedObject, IJsonMapper<T>)
+  private
+    function GetPropertyName(value: string): string;
+  public
+    procedure Map(const refObject: TObject; const refJson: TJSONObject);
+    procedure MapArray(const refList: TList<T>; const refJson: TJSONArray);
+    class function New() : IJsonMapper<T>;
   end;
 
 implementation
@@ -50,7 +59,7 @@ uses
 
 { TJsonMapper }
 
-function TJsonMapper.GetPropertyName(value: string): string;
+function TJsonMapper<T>.GetPropertyName(value: string): string;
 var
   lowerText : string;
   restText : string;
@@ -66,7 +75,7 @@ begin
     result := value;
 end;
 
-procedure TJsonMapper.Map(const refObject: TObject; const refJson: TJSONObject);
+procedure TJsonMapper<T>.Map(const refObject: TObject; const refJson: TJSONObject);
 var
   propertyIndex: Integer;
   propertyCount: Integer;
@@ -87,37 +96,31 @@ begin
       propertyInfo := propertyList^[propertyIndex];
       if Assigned(propertyInfo^.SetProc) then
       begin
-        case propertyInfo^.PropType^.Kind of
-          tkString, tkLString, tkUString, tkWString:
-            begin
-              value := GetPropertyName(propertyInfo.Name);
-              if (refJson.Get(value) <> nil) then
+        value := GetPropertyName(propertyInfo.Name);
+        if (refJson.Get(value) <> nil) then
+        begin
+          case propertyInfo^.PropType^.Kind of
+            tkString, tkLString, tkUString, tkWString:
               begin
-                value := (refJson.Get(value).JsonValue as TJSONString).Value;
-                SetStrProp(refObject, propertyInfo, value);
+                  value := (refJson.Get(value).JsonValue as TJSONString).Value;
+                  SetStrProp(refObject, propertyInfo, value);
               end;
-            end;
-          tkInteger:
-          begin
-            value := GetPropertyName(propertyInfo.Name);
-            if (refJson.Get(value) <> nil) then
+            tkInteger:
             begin
-              valueInt := (refJson.Get(value).JsonValue as TJSONNumber).AsInt;
-              SetOrdProp(refObject, propertyInfo, valueInt);
+                valueInt := (refJson.Get(value).JsonValue as TJSONNumber).AsInt;
+                SetOrdProp(refObject, propertyInfo, valueInt);
+            end;
+            tkInt64:
+            begin
+                valueInt64 := (refJson.Get(value).JsonValue as TJSONNumber).AsInt64;
+                SetInt64Prop(refObject, propertyInfo, valueInt64);
+            end;
+            tkEnumeration:
+            begin
+              if GetTypeData(propertyInfo^.PropType^)^.BaseType^ = TypeInfo(Boolean) then
+                SetOrdProp(refObject, propertyInfo, 0);
             end;
           end;
-          tkInt64:
-          begin
-            value := GetPropertyName(propertyInfo.Name);
-            if (refJson.Get(value) <> nil) then
-            begin
-              valueInt64 := (refJson.Get(value).JsonValue as TJSONNumber).AsInt64;
-              SetInt64Prop(refObject, propertyInfo, valueInt64);
-            end;
-          end;
-          tkEnumeration:
-            if GetTypeData(propertyInfo^.PropType^)^.BaseType^ = TypeInfo(Boolean) then
-              SetOrdProp(refObject, propertyInfo, 0);
         end;
       end;
     end;
@@ -126,9 +129,35 @@ begin
   end;
 end;
 
-class function TJsonMapper.New: IJsonMapper;
+procedure TJsonMapper<T>.MapArray(const refList: TList<T>; const refJson: TJSONArray);
+var
+  size : integer;
+  i : integer;
+  detail : T;
+  temp: TJSONObject;
+  context: TRttiContext;
+begin
+  size := refJson.Count;
+  for i := 0 to size - 1 do
+  begin
+    temp := refJson.Items[i] as TJSONObject;
+    detail := context.GetType(TClass(T)).GetMethod('create').Invoke(TClass(T),[]).AsType<T>;
+    Map(detail, temp);
+    refList.Add(detail);
+  end;
+  refList.Sort;
+end;
+
+class function TJsonMapper<T>.New: IJsonMapper<T>;
 begin
   result := Create;
+end;
+
+{ TContainerList<T> }
+
+function TContainerList<T>.New: T;
+begin
+  result := T.Create;
 end;
 
 end.
