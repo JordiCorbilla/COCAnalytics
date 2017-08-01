@@ -92,6 +92,12 @@ begin
       achievementLeft := FLeftPlayer.Achievements[i];
       achievementRight := FRightPlayer.LookUpAchievement(achievementLeft.Name);
       display(FLeft, achievementLeft, achievementRight);
+    end
+    else
+    begin
+      achievementLeft := FLeftPlayer.Achievements[i];
+      achievementRight := FRightPlayer.LookUpAchievement(achievementLeft.Name);
+      display(FRight, achievementLeft, achievementRight);
     end;
   end;
 end;
@@ -129,6 +135,12 @@ begin
       achievementLeft := FLeftPlayer.Heroes[i];
       achievementRight := FRightPlayer.LookUpHeroe(achievementLeft.Name);
       display(FLeft, achievementLeft, achievementRight);
+    end
+    else
+    begin
+      achievementLeft := FLeftPlayer.Heroes[i];
+      achievementRight := FRightPlayer.LookUpHeroe(achievementLeft.Name);
+      display(FRight, achievementLeft, achievementRight);
     end;
   end;
 end;
@@ -146,6 +158,12 @@ begin
       achievementLeft := FLeftPlayer.Spells[i];
       achievementRight := FRightPlayer.LookUpSpell(achievementLeft.Name);
       display(FLeft, achievementLeft, achievementRight);
+    end
+    else
+    begin
+      achievementLeft := FLeftPlayer.Spells[i];
+      achievementRight := FRightPlayer.LookUpSpell(achievementLeft.Name);
+      display(FRight, achievementLeft, achievementRight);
     end;
   end;
 end;
@@ -163,6 +181,12 @@ begin
       achievementLeft := FLeftPlayer.Troops[i];
       achievementRight := FRightPlayer.LookUpTroop(achievementLeft.Name);
       display(FLeft, achievementLeft, achievementRight);
+    end
+    else
+    begin
+      achievementLeft := FLeftPlayer.Troops[i];
+      achievementRight := FRightPlayer.LookUpTroop(achievementLeft.Name);
+      display(FRight, achievementLeft, achievementRight);
     end;
   end;
 end;

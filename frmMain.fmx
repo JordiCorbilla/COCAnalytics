@@ -13623,7 +13623,7 @@ object Form1: TForm1
         Size.PlatformDefault = False
         TabOrder = 0
         object Button6: TButton
-          Position.X = 16.000000000000000000
+          Position.X = 8.000000000000000000
           Position.Y = 24.000000000000000000
           Size.Width = 129.000000000000000000
           Size.Height = 22.000000000000000000
@@ -13633,7 +13633,7 @@ object Form1: TForm1
           OnClick = Button6Click
         end
         object Label6: TLabel
-          Position.X = 160.000000000000000000
+          Position.X = 152.000000000000000000
           Position.Y = 26.000000000000000000
           Size.Width = 41.000000000000000000
           Size.Height = 17.000000000000000000
@@ -13644,7 +13644,7 @@ object Form1: TForm1
         object edtuser1: TEdit
           Touch.InteractiveGestures = [LongTap, DoubleTap]
           TabOrder = 2
-          Position.X = 208.000000000000000000
+          Position.X = 200.000000000000000000
           Position.Y = 23.000000000000000000
           Size.Width = 121.000000000000000000
           Size.Height = 22.000000000000000000

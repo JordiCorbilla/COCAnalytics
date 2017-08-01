@@ -46,5 +46,6 @@ uses
 begin
   Application.Initialize;
   Application.CreateForm(TForm1, Form1);
+  ReportMemoryLeaksOnShutdown := true;
   Application.Run;
 end.
