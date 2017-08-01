@@ -252,6 +252,8 @@ begin
   //Check if left side has more than right side
   view := TView.Create(list, list2, COC1, COC2);
 
+  AddTitle(list, 'Basic');
+
   view.DisplayBasic(AddSideBySide);
 
   AddTitle(list, 'Achievements');
@@ -279,7 +281,6 @@ begin
     end);
 
   AddTitle(list, 'Spells');
-  AddTitle(list2, 'Spells');
 
   for i := 0 to COC1.Spells.count-1 do
   begin
@@ -417,6 +418,12 @@ begin
 
   lab1 := TLabel.Create(l1);
   lab1.Parent := l1;
+  lab1.Width := 5;
+  lab1.Text := ' ';
+  lab1.Align := TAlignLayout.Left;
+
+  lab1 := TLabel.Create(l1);
+  lab1.Parent := l1;
   lab1.Width := 400;
   lab1.Text := mainLabel;
   lab1.Align := TAlignLayout.Left;
@@ -432,7 +439,7 @@ begin
 
   lab1 := TLabel.Create(l1);
   lab1.Parent := l1;
-  lab1.Width := 10;
+  lab1.Width := 15;
   lab1.Text := ' ';
   lab1.Align := TAlignLayout.Left;
 

@@ -58,7 +58,7 @@ type
     Destructor Destroy(); override;
     procedure Load(json : string);
     function LookUpAchievement(name : string) : TAchievement;
-    function LookUpTroop(name : string) : TDetail;
+    function LookUpTroop(name : string; village : string) : TDetail;
     function LookUpHeroe(name : string) : TDetail;
     function LookUpSpell(name : string) : TDetail;
   End;
@@ -139,7 +139,7 @@ begin
   result := pointer;
 end;
 
-function TCOC.LookUpTroop(name: string): TDetail;
+function TCOC.LookUpTroop(name: string; village : string): TDetail;
 var
   i: Integer;
   pointer : TDetail;
@@ -147,7 +147,7 @@ begin
   pointer := nil;
   for i := 0 to FTroops.count-1 do
   begin
-    if (FTroops[i].Name = name) then
+    if (FTroops[i].Name = name) and (FTroops[i].Village = village) then
     begin
       pointer := FTroops[i];
       break;

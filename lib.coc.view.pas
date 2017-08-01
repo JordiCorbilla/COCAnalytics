@@ -179,13 +179,13 @@ begin
     if FLeftPlayer.Troops[i].Village = village then
     begin
       achievementLeft := FLeftPlayer.Troops[i];
-      achievementRight := FRightPlayer.LookUpTroop(achievementLeft.Name);
+      achievementRight := FRightPlayer.LookUpTroop(achievementLeft.Name, FLeftPlayer.Troops[i].Village);
       display(FLeft, achievementLeft, achievementRight);
     end
     else
     begin
       achievementLeft := FLeftPlayer.Troops[i];
-      achievementRight := FRightPlayer.LookUpTroop(achievementLeft.Name);
+      achievementRight := FRightPlayer.LookUpTroop(achievementLeft.Name, FLeftPlayer.Troops[i].Village);
       display(FRight, achievementLeft, achievementRight);
     end;
   end;
