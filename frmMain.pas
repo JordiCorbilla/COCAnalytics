@@ -221,7 +221,7 @@ begin
   //Get the JSON value from COC API.
   if (edtuser1.Text = '') or (edtUser2.Text = '') then
   begin
-    showMessage('Please enter your COC User Hash tag -> #AAABBBCCC');
+    showMessage('Please enter your COC User Hash tag -> AAABBBCCC without the hash');
     exit;
   end;
   jsonResponse1 := TCOCApiRest.New.GetUserInfo(edtuser1.Text);
@@ -252,12 +252,12 @@ begin
   //Check if left side has more than right side
   view := TView.Create(list, list2, COC1, COC2);
 
-  AddTitle(list, 'Basic');
+  AddTitle(list, 'Basic ##################################################');
 
   view.DisplayBasic(AddSideBySide);
 
-  AddTitle(list, 'Achievements');
-  AddTitle(list2, 'Achievements');
+  AddTitle(list, 'Achievements ##################################################');
+  AddTitle(list2, 'Achievements ##################################################');
 
   view.DisplayAchievements('home',
     procedure (list: TListBox; leftPlayer: TAchievement; rightPlayer : TAchievement)
@@ -268,8 +268,8 @@ begin
           AddSideBySide(list, leftPlayer.Name, leftPlayer.GetAchievementValue, leftPlayer.Value, leftPlayer.Target, '', 0, 1);
     end);
 
-  AddTitle(list, 'Troops');
-  AddTitle(list2, 'Troops');
+  AddTitle(list, 'Troops ##################################################');
+  AddTitle(list2, 'Troops ##################################################');
 
   view.DisplayTroops('home',
     procedure (list: TListBox; leftPlayer: TDetail; rightPlayer : TDetail)
@@ -280,7 +280,7 @@ begin
           AddSideBySide(list, leftPlayer.Name, leftPlayer.GetAchievementValue, leftPlayer.Level, leftPlayer.MaxLevel, '', 0, 1);
     end);
 
-  AddTitle(list, 'Spells');
+  AddTitle(list, 'Spells ##################################################');
 
   for i := 0 to COC1.Spells.count-1 do
   begin
@@ -304,8 +304,8 @@ begin
     end;
   end;
 
-  AddTitle(list, 'Heroes');
-  AddTitle(list2, 'Heroes');
+  AddTitle(list, 'Heroes ##################################################');
+  AddTitle(list2, 'Heroes ##################################################');
 
   for i := 0 to COC1.Heroes.count-1 do
   begin
