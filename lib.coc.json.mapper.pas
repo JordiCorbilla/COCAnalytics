@@ -33,6 +33,16 @@ uses
   System.JSON, Data.DBXJSONCommon, generics.collections, RTTI;
 
 type
+  TObjectHelper = class helper for TObject
+  public
+    procedure Map(const refJson: TJSONObject);
+  end;
+
+//  TListHelper<T> = class helper for TList<T>
+//  public
+//    procedure MapArray(const refJson: TJSONArray);
+//  end;
+
   TContainerList<T:class, constructor> = class(TList<T>)
   public
     function New: T;
@@ -84,6 +94,7 @@ var
   value : string;
   valueInt : integer;
   valueInt64 : int64;
+  refPair : TJSONPair;
 const
   TypeKinds: TTypeKinds = [tkEnumeration, tkString, tkLString, tkWString, tkUString, tkInteger, tkInt64];
 begin
@@ -97,25 +108,26 @@ begin
       if Assigned(propertyInfo^.SetProc) then
       begin
         value := GetPropertyName(propertyInfo.Name);
-        if (refJson.Get(value) <> nil) then
+        refPair := refJson.Get(value);
+        if (refPair <> nil) then
         begin
           case propertyInfo^.PropType^.Kind of
             tkString, tkLString, tkUString, tkWString:
               begin
-                  value := (refJson.Get(value).JsonValue as TJSONString).Value;
+                  value := (refPair.JsonValue as TJSONString).Value;
                   SetStrProp(refObject, propertyInfo, value);
               end;
             tkInteger:
             begin
-                valueInt := (refJson.Get(value).JsonValue as TJSONNumber).AsInt;
+                valueInt := (refPair.JsonValue as TJSONNumber).AsInt;
                 SetOrdProp(refObject, propertyInfo, valueInt);
             end;
             tkInt64:
             begin
-                valueInt64 := (refJson.Get(value).JsonValue as TJSONNumber).AsInt64;
+                valueInt64 := (refPair.JsonValue as TJSONNumber).AsInt64;
                 SetInt64Prop(refObject, propertyInfo, valueInt64);
             end;
-            tkEnumeration:
+            tkEnumeration: //TODO
             begin
               if GetTypeData(propertyInfo^.PropType^)^.BaseType^ = TypeInfo(Boolean) then
                 SetOrdProp(refObject, propertyInfo, 0);
@@ -158,6 +170,16 @@ end;
 function TContainerList<T>.New: T;
 begin
   result := T.Create;
+end;
+
+{ TObjectHelper }
+
+procedure TObjectHelper.Map(const refJson: TJSONObject);
+var
+  mapper : IJsonMapper<TObject>;
+begin
+  mapper := TJsonMapper<TObject>.New();
+  mapper.Map(self, refJson);
 end;
 
 end.
